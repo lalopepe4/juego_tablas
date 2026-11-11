@@ -3,6 +3,7 @@ descripciones = "Docu/Ilustraciones/Descripciones"
 guia_estilo = "Docu/Ilustraciones/Descripciones/Guia_de_estilo_comun.md"
 salida = "Ilustraciones"
 revision = "Ilustraciones/revision"
+recortes = "Ilustraciones/recortes"
 
 [generacion]
 modelo = "qwen/qwen-image-2.1-turbo"

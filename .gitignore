@@ -9,6 +9,9 @@ __pycache__/
 # Copias ligeras para revision (se regeneran con scripts/preparar_revision.py)
 Ilustraciones/revision/
 
+# Recortes con transparencia (se regeneran con scripts/recortar_fondos.py)
+Ilustraciones/recortes/
+
 # Entornos virtuales de Python (cualquiera, no solo el del paquete)
 .venv/
 venv/

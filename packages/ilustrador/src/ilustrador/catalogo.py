@@ -41,6 +41,7 @@ class Proyecto:
     guia_estilo: Path
     salida: Path
     revision: Path
+    recortes: Path
     modelo: str
     timeout: int = 300
     revision_max: int = 768
@@ -101,6 +102,7 @@ def cargar_proyecto(
         ),
         salida=_resolver(raiz, cfg.get("salida", "Ilustraciones")),
         revision=_resolver(raiz, cfg.get("revision", "Ilustraciones/revision")),
+        recortes=_resolver(raiz, cfg.get("recortes", "Ilustraciones/recortes")),
         modelo=gen.get("modelo", "qwen/qwen-image-2.1-turbo"),
         timeout=int(gen.get("timeout", 300)),
         revision_max=int(gen.get("revision_max", 768)),

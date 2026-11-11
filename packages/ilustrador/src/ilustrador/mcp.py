@@ -13,6 +13,7 @@ from .errores import IlustracionError
 from .servicio import descripcion_compuesta
 from .servicio import generar_ilustracion as _generar_ilustracion
 from .servicio import preparar_revisiones as _preparar_revisiones
+from .servicio import recortar_fondos as _recortar_fondos
 
 mcp = FastMCP("Ilustrador")
 
@@ -98,6 +99,32 @@ def preparar_revision(nombre: str | None = None, force: bool = False) -> list[di
     proyecto, catalogo = _contexto()
     nombres = [nombre] if nombre else None
     return _preparar_revisiones(proyecto, catalogo, nombres, force=force)
+
+
+@mcp.tool
+def recortar_fondos(
+    nombre: str | None = None,
+    force: bool = False,
+    tolerancia: int = 24,
+    erosion: int = 1,
+) -> list[dict]:
+    """Recorta el fondo plano de las ilustraciones y deja PNG con transparencia.
+
+    Los activos con fondo = "none" (los escenarios) se saltan. El recorte es un
+    flood fill desde el borde, asi que los blancos que forman parte del dibujo
+    se conservan. Devuelve el PNG recortado y una copia de revision sobre
+    tablero, que es la que conviene adjuntar al chat para no agotar el contexto.
+    """
+    proyecto, catalogo = _contexto()
+    nombres = [nombre] if nombre else None
+    return _recortar_fondos(
+        proyecto,
+        catalogo,
+        nombres,
+        force=force,
+        tolerancia=tolerancia,
+        erosion=erosion,
+    )
 
 
 def main(proyecto: Path, catalogo: Path | None = None) -> None:

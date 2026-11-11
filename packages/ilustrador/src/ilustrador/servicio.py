@@ -11,6 +11,7 @@ from .catalogo import Catalogo, Proyecto
 from .cliente import ClienteOpenRouter
 from .errores import IlustracionError
 from .prompts import cargar_referencia, construir_prompt, extraer_bloque_estilo
+from .recorte import recortar_archivo
 from .revision import crear_revision
 
 
@@ -162,6 +163,84 @@ def preparar_revisiones(
                     "original": str(original),
                     "revision": str(destino),
                     "actualizada": True,
+                }
+            )
+
+    return resultados
+
+
+def recortar_fondos(
+    proyecto: Proyecto,
+    catalogo: Catalogo,
+    nombres: Sequence[str] | None = None,
+    *,
+    force: bool = False,
+    tolerancia: int = 24,
+    erosion: int = 1,
+    crear_revisiones: bool = True,
+) -> list[dict]:
+    """Recorta el fondo plano de los activos que lo declaran.
+
+    Los activos con ``fondo = "none"`` se saltan, salvo que se pidan por
+    nombre: en ese caso es un error, porque no hay nada que recortar.
+
+    La copia de revision se compone sobre un tablero para que se vea la
+    transparencia, y lleva el sufijo ``_recorte`` para no pisar la revision
+    del original.
+    """
+    explicitos = nombres is not None
+    nombres = list(nombres) if nombres else catalogo.nombres()
+    resultados: list[dict] = []
+
+    for nombre in nombres:
+        activo = catalogo.obtener(nombre)
+        if activo.fondo == "none":
+            if explicitos:
+                raise IlustracionError(
+                    f"{activo.nombre} no tiene fondo que recortar (fondo = none)."
+                )
+            continue
+
+        for original in listar_versiones(proyecto.salida, activo.nombre):
+            destino = proyecto.recortes / f"{original.stem}.png"
+            revision = proyecto.revision / f"{original.stem}_recorte.jpg"
+            al_dia = (
+                not force
+                and destino.is_file()
+                and destino.stat().st_mtime >= original.stat().st_mtime
+                and (
+                    not crear_revisiones
+                    or (
+                        revision.is_file()
+                        and revision.stat().st_mtime >= destino.stat().st_mtime
+                    )
+                )
+            )
+            if al_dia:
+                resultados.append(
+                    {
+                        "original": str(original),
+                        "recorte": str(destino),
+                        "revision": str(revision) if crear_revisiones else None,
+                        "recortado": False,
+                    }
+                )
+                continue
+
+            recortar_archivo(original, destino, tolerancia=tolerancia, erosion=erosion)
+            if crear_revisiones:
+                crear_revision(
+                    destino,
+                    revision,
+                    max_lado=proyecto.revision_max,
+                    calidad=proyecto.revision_calidad,
+                )
+            resultados.append(
+                {
+                    "original": str(original),
+                    "recorte": str(destino),
+                    "revision": str(revision) if crear_revisiones else None,
+                    "recortado": True,
                 }
             )
 

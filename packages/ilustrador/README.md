@@ -21,6 +21,22 @@ resultado = generar_ilustracion(proyecto, catalogo, "Heroe_Chispita")
 print(resultado.originales, resultado.revisiones)
 ```
 
+## Recorte de fondos
+
+Las ilustraciones de personajes y objetos se generan sobre un fondo liso
+precisamente para poder recortarlas. `recortar_fondos` convierte ese fondo en
+transparencia con un flood fill desde el borde, asi que los blancos y magentas
+que forman parte del dibujo se conservan (no estan conectados con el borde).
+
+```bash
+python3 scripts/recortar_fondos.py
+python3 scripts/recortar_fondos.py Heroe_Chispita --tolerancia 32 --erosion 2
+```
+
+Los PNG resultantes van a `Ilustraciones/recortes/`, configurable con la clave
+`recortes` de `[proyecto]` en el catalogo. Los activos con `fondo = "none"`
+(los escenarios) se saltan.
+
 ## Uso como MCP
 
 ```bash
