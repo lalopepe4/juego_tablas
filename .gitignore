@@ -9,8 +9,11 @@ __pycache__/
 # Copias ligeras para revision (se regeneran con scripts/preparar_revision.py)
 Ilustraciones/revision/
 
+# Entornos virtuales de Python (cualquiera, no solo el del paquete)
+.venv/
+venv/
+
 # Paquete ilustrador
-packages/ilustrador/.venv/
 packages/ilustrador/build/
 packages/ilustrador/dist/
 *.egg-info/
