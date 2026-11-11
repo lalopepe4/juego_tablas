@@ -1,0 +1,69 @@
+[proyecto]
+descripciones = "Docu/Ilustraciones/Descripciones"
+guia_estilo = "Docu/Ilustraciones/Descripciones/Guia_de_estilo_comun.md"
+salida = "Ilustraciones"
+revision = "Ilustraciones/revision"
+
+[generacion]
+modelo = "qwen/qwen-image-2.1-turbo"
+timeout = 300
+revision_max = 768
+revision_calidad = 82
+
+[[activos]]
+nombre = "Heroe_Chispita"
+categoria = "personaje"
+aspecto = "1:1"
+fondo = "white"
+
+[[activos]]
+nombre = "Heroe_Chispita_sorprendido"
+base = "Heroe_Chispita"
+descripcion = "Heroe_Chispita_sorprendido.md"
+
+[[activos]]
+nombre = "Heroe_Chispita_asustado"
+base = "Heroe_Chispita"
+descripcion = "Heroe_Chispita_asustado.md"
+
+[[activos]]
+nombre = "Monstruo_De_Sombras"
+categoria = "personaje"
+aspecto = "1:1"
+fondo = "white"
+
+[[activos]]
+nombre = "Monstruo_Secuaz"
+categoria = "personaje"
+aspecto = "1:1"
+fondo = "white"
+
+[[activos]]
+nombre = "Nube_De_multiplicar"
+categoria = "objeto"
+aspecto = "16:9"
+fondo = "white"
+
+[[activos]]
+nombre = "Botiquin_de_ayuda"
+categoria = "objeto"
+aspecto = "1:1"
+fondo = "white"
+
+[[activos]]
+nombre = "Fondo_del_modo_batalla"
+categoria = "escenario"
+aspecto = "16:9"
+fondo = "none"
+
+[[activos]]
+nombre = "Mapa_Reino_Unicornio_sin_monstruos"
+categoria = "escenario"
+aspecto = "16:9"
+fondo = "none"
+
+[[activos]]
+nombre = "Mapa_Reino_Unicornio_con_monstruos"
+categoria = "escenario"
+aspecto = "16:9"
+fondo = "none"

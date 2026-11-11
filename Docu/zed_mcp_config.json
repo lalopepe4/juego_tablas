@@ -1,0 +1,9 @@
+{
+  "context_servers": {
+    "ilustrador": {
+      "command": "/home/eduardo/Code/JuegoLucia/packages/ilustrador/.venv/bin/ilustrador-mcp",
+      "args": ["--proyecto", "/home/eduardo/Code/JuegoLucia"],
+      "env": {}
+    }
+  }
+}

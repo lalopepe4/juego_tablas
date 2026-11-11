@@ -1,0 +1,20 @@
+# Secretos: nunca commitear la API key
+.env
+.env.*
+
+# Basura de Python
+__pycache__/
+*.pyc
+
+# Copias ligeras para revision (se regeneran con scripts/preparar_revision.py)
+Ilustraciones/revision/
+
+# Paquete ilustrador
+packages/ilustrador/.venv/
+packages/ilustrador/build/
+packages/ilustrador/dist/
+*.egg-info/
+
+
+# Godot editor
+.godot/
