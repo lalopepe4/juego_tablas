@@ -11,7 +11,7 @@ ejemplo) se conservan, porque no estan conectados con el borde de la imagen.
 
 from __future__ import annotations
 
-from collections import Counter
+from collections import Counter, deque
 from pathlib import Path
 
 from PIL import Image, ImageChops, ImageFilter
@@ -75,20 +75,154 @@ def recortar_fondo(
     return resultado
 
 
+def recortar_margenes_transparentes(
+    img: Image.Image, *, margen: int = 0
+) -> Image.Image:
+    """Recorta el espacio transparente que sobra alrededor del dibujo.
+
+    ``margen`` conserva ese numero de pixeles transparentes alrededor del
+    contenido: un pequeno respiro evita que el filtrado del motor corte el
+    borde del sprite al escalarlo. Con ``margen = 0`` la imagen queda ajustada
+    al contenido.
+    """
+    if margen < 0:
+        raise IlustracionError(f"Margen invalido: {margen}")
+
+    original = img.convert("RGBA")
+    caja = original.getchannel("A").getbbox()
+    if caja is None:
+        return original
+
+    izquierda, arriba, derecha, abajo = caja
+    return original.crop(
+        (
+            max(0, izquierda - margen),
+            max(0, arriba - margen),
+            min(original.width, derecha + margen),
+            min(original.height, abajo + margen),
+        )
+    )
+
+
+def sangrar_color(img: Image.Image, *, pasos: int | None = None) -> Image.Image:
+    """Rellena el RGB de los pixeles transparentes con el color opaco mas cercano.
+
+    El canal alfa no se toca: los pixeles siguen siendo transparentes. El
+    relleno solo importa cuando el motor filtra el borde, porque evita que el
+    color del fondo (blanco o magenta) se mezcle con el dibujo y deje un halo.
+
+    ``pasos`` limita cuantas capas de pixeles se rellenan desde el borde. Con
+    ``None`` se rellenan todos los pixeles transparentes alcanzables, incluidos
+    los huecos internos (entre patas, brazos, etc.).
+    """
+    if pasos is not None and pasos < 0:
+        raise IlustracionError(f"Pasos invalidos: {pasos}")
+
+    original = img.convert("RGBA")
+    ancho, alto = original.size
+    datos = bytearray(original.tobytes())
+    visitado = bytearray(ancho * alto)
+    cola: deque[int] = deque()
+
+    # Los pixeles opacos ya tienen color; se encolan los que tocan transparencia
+    # para empezar a propagar desde el borde del dibujo.
+    for y in range(alto):
+        base = y * ancho
+        for x in range(ancho):
+            indice = base + x
+            i = indice * 4
+            if not datos[i + 3]:
+                continue
+            visitado[indice] = 1
+            if (
+                (x > 0 and not datos[i - 1])
+                or (x < ancho - 1 and not datos[i + 7])
+                or (y > 0 and not datos[i - 4 * ancho + 3])
+                or (y < alto - 1 and not datos[i + 4 * ancho + 3])
+            ):
+                cola.append(indice)
+
+    capa = 0
+    while cola:
+        if pasos is not None and capa >= pasos:
+            break
+        for _ in range(len(cola)):
+            indice = cola.popleft()
+            i = indice * 4
+            rojo, verde, azul = datos[i], datos[i + 1], datos[i + 2]
+            x = indice % ancho
+            y = indice // ancho
+            if x > 0:
+                _sangrar_vecino(datos, visitado, cola, indice - 1, rojo, verde, azul)
+            if x < ancho - 1:
+                _sangrar_vecino(datos, visitado, cola, indice + 1, rojo, verde, azul)
+            if y > 0:
+                _sangrar_vecino(
+                    datos, visitado, cola, indice - ancho, rojo, verde, azul
+                )
+            if y < alto - 1:
+                _sangrar_vecino(
+                    datos, visitado, cola, indice + ancho, rojo, verde, azul
+                )
+        capa += 1
+
+    return Image.frombytes("RGBA", (ancho, alto), bytes(datos))
+
+
+def _sangrar_vecino(
+    datos: bytearray,
+    visitado: bytearray,
+    cola: deque[int],
+    indice: int,
+    rojo: int,
+    verde: int,
+    azul: int,
+) -> None:
+    """Copia el color a un vecino transparente y lo encola."""
+    if visitado[indice]:
+        return
+    i = indice * 4
+    if datos[i + 3]:
+        return
+    datos[i] = rojo
+    datos[i + 1] = verde
+    datos[i + 2] = azul
+    visitado[indice] = 1
+    cola.append(indice)
+
+
 def recortar_archivo(
     origen: Path,
     destino: Path,
     *,
     tolerancia: int = 24,
     erosion: int = 1,
+    recortar_margenes: bool = True,
+    margen: int = 2,
+    sangrar: bool = True,
+    pasos_sangrado: int | None = None,
 ) -> Path:
-    """Recorta ``origen`` y guarda el PNG transparente en ``destino``."""
+    """Recorta ``origen`` y guarda el PNG transparente en ``destino``.
+
+    Ademas del fondo, elimina el espacio transparente sobrante alrededor del
+    dibujo salvo que ``recortar_margenes`` sea falso. Por defecto conserva 2
+    pixeles de respiro: el filtrado bilineal de Godot necesita al menos 1 para
+    mezclar el borde, y 2 dan margen para rotaciones y escalados.
+
+    ``sangrar`` rellena el RGB de los pixeles transparentes con el color opaco
+    mas cercano para evitar halos al filtrar; ``pasos_sangrado`` limita cuantas
+    capas se rellenan (``None`` rellena tambien los huecos internos).
+    """
     if not origen.is_file():
         raise IlustracionError(f"Imagen no encontrada: {origen}")
 
     destino.parent.mkdir(parents=True, exist_ok=True)
     with Image.open(origen) as img:
         resultado = recortar_fondo(img, tolerancia=tolerancia, erosion=erosion)
+        if recortar_margenes:
+            resultado = recortar_margenes_transparentes(resultado, margen=margen)
+        if sangrar:
+            resultado = sangrar_color(resultado, pasos=pasos_sangrado)
         resultado.save(destino, "PNG", optimize=True)
     return destino
 

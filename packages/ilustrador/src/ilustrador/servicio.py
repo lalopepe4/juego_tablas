@@ -177,6 +177,10 @@ def recortar_fondos(
     force: bool = False,
     tolerancia: int = 24,
     erosion: int = 1,
+    recortar_margenes: bool = True,
+    margen: int = 2,
+    sangrar: bool = True,
+    pasos_sangrado: int | None = None,
     crear_revisiones: bool = True,
 ) -> list[dict]:
     """Recorta el fondo plano de los activos que lo declaran.
@@ -184,9 +188,13 @@ def recortar_fondos(
     Los activos con ``fondo = "none"`` se saltan, salvo que se pidan por
     nombre: en ese caso es un error, porque no hay nada que recortar.
 
-    La copia de revision se compone sobre un tablero para que se vea la
-    transparencia, y lleva el sufijo ``_recorte`` para no pisar la revision
-    del original.
+    Tras quitar el fondo se elimina el espacio transparente sobrante alrededor
+    del dibujo (``recortar_margenes``), conservando ``margen`` pixeles de
+    respiro (2 por defecto, suficiente para el filtrado bilineal de Godot).
+    Despues, ``sangrar`` rellena el RGB de los pixeles transparentes con el
+    color opaco mas cercano para evitar halos al filtrar. La copia de revision
+    se compone sobre un tablero para que se vea la transparencia, y lleva el
+    sufijo ``_recorte`` para no pisar la revision del original.
     """
     explicitos = nombres is not None
     nombres = list(nombres) if nombres else catalogo.nombres()
@@ -227,7 +235,16 @@ def recortar_fondos(
                 )
                 continue
 
-            recortar_archivo(original, destino, tolerancia=tolerancia, erosion=erosion)
+            recortar_archivo(
+                original,
+                destino,
+                tolerancia=tolerancia,
+                erosion=erosion,
+                recortar_margenes=recortar_margenes,
+                margen=margen,
+                sangrar=sangrar,
+                pasos_sangrado=pasos_sangrado,
+            )
             if crear_revisiones:
                 crear_revision(
                     destino,

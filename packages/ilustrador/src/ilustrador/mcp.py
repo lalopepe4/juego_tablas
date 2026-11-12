@@ -107,13 +107,21 @@ def recortar_fondos(
     force: bool = False,
     tolerancia: int = 24,
     erosion: int = 1,
+    recortar_margenes: bool = True,
+    margen: int = 2,
+    sangrar: bool = True,
+    pasos_sangrado: int | None = None,
 ) -> list[dict]:
     """Recorta el fondo plano de las ilustraciones y deja PNG con transparencia.
 
     Los activos con fondo = "none" (los escenarios) se saltan. El recorte es un
     flood fill desde el borde, asi que los blancos que forman parte del dibujo
-    se conservan. Devuelve el PNG recortado y una copia de revision sobre
-    tablero, que es la que conviene adjuntar al chat para no agotar el contexto.
+    se conservan. Despues se elimina el espacio transparente sobrante alrededor
+    del dibujo, conservando ``margen`` pixeles de respiro (2 por defecto), y se
+    rellena el RGB de los pixeles transparentes con el color opaco mas cercano
+    (``sangrar``) para evitar halos al filtrar. Devuelve el PNG recortado y una
+    copia de revision sobre tablero, que es la que conviene adjuntar al chat
+    para no agotar el contexto.
     """
     proyecto, catalogo = _contexto()
     nombres = [nombre] if nombre else None
@@ -124,6 +132,10 @@ def recortar_fondos(
         force=force,
         tolerancia=tolerancia,
         erosion=erosion,
+        recortar_margenes=recortar_margenes,
+        margen=margen,
+        sangrar=sangrar,
+        pasos_sangrado=pasos_sangrado,
     )
 
 

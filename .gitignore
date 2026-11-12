@@ -12,6 +12,9 @@ Ilustraciones/revision/
 # Recortes con transparencia (se regeneran con scripts/recortar_fondos.py)
 Ilustraciones/recortes/
 
+# Imagenes descartadas (se conservan fuera del control de versiones)
+Ilustraciones/Borradores/
+
 # Entornos virtuales de Python (cualquiera, no solo el del paquete)
 .venv/
 venv/

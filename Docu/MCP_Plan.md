@@ -157,7 +157,7 @@ descripcion = "Heroe_Chispita_sorprendido.md"
 - [x] Transporte stdio verificado con el cliente MCP.
 - [x] Variantes base + delta (`Heroe_Chispita_sorprendido`).
 - [x] Generación real desde el MCP (v04 sorprendido).
-- [ ] Configurar el servidor en Zed y probar una generación real.
+- [x] Configurar el servidor en Zed y probar una generación real.
 
 ## Configuración de Zed
 

@@ -1,5 +1,9 @@
 # Botiquín de ayuda
 
+## Uso de la imagen de referencia
+
+La imagen de referencia sirve **solo como guía de estilo, paleta y materiales**. **No copies su teclado**: allí hay 8 botones en 2 filas de 4. La nueva ilustración debe tener exactamente **12 botones en 4 filas de 3**.
+
 ## Descripción para la IA de diseño
 
 Ilustración de **un único objeto 2D**: un **botiquín mágico con calculadora** para un videojuego infantil de aventuras en el Reino Unicornio. Chispita lo utiliza en combate para curarse introduciendo un resultado en el teclado integrado en su tapa.
@@ -10,7 +14,9 @@ La tapa frontal integra de forma ordenada y encantadora tres elementos:
 
 1. **Cabecera superior**: un emblema central redondo con una **cruz de curación amable** en color verde esmeralda/coral (de aspecto mágico infantil, no hospitalario realista), acompañado en una esquina por una pequeña pegatina decorativa de una **frambuesa rosada y una estrellita dorada**.
 2. **Pantalla superior**: justo debajo del emblema, una ventana rectangular horizontal de color aguamarina muy claro con borde redondeado, **completamente vacía y lisa** (sin cifras ni rayas).
-3. **Teclado inferior**: debajo de la pantalla, una cuadrícula limpia y ordenada de **doce botones grandes redondeados (4 filas de 3 botones)** en tonos pastel suaves, como una calculadora de juguete, **todos completamente lisos y en blanco sin ningún número ni símbolo dibujado**.
+3. **Teclado inferior**: debajo de la pantalla, una cuadrícula limpia y ordenada de **doce botones grandes redondeados (4 filas de 3 botones)** en tonos pastel suaves, como una calculadora de juguete, **todos completamente lisos y en blanco sin ningún número ni símbolo dibujado**. Asegúrate que hayan doce botones (cuatro filas de tres botones).
+
+**Verificación obligatoria:** cuenta los botones antes de terminar. Deben ser **exactamente 12**, distribuidos en **4 filas de 3**. No 8, no 9, no 10, no 16.
 
 ## Dirección artística y composición
 

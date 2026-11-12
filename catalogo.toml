@@ -7,7 +7,7 @@ recortes = "Ilustraciones/recortes"
 
 [generacion]
 modelo = "qwen/qwen-image-2.1-turbo"
-timeout = 300
+timeout = 450
 revision_max = 768
 revision_calidad = 82
 
@@ -35,6 +35,12 @@ fondo = "white"
 
 [[activos]]
 nombre = "Monstruo_Secuaz"
+categoria = "personaje"
+aspecto = "1:1"
+fondo = "white"
+
+[[activos]]
+nombre = "Monstruo_Chico"
 categoria = "personaje"
 aspecto = "1:1"
 fondo = "white"
