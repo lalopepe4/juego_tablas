@@ -16,6 +16,8 @@ const RUTA_GUARDADO := "user://progreso.cfg"
 var pueblos_liberados: Array[int] = []
 ## Fallos por multiplicacion. La clave es Pregunta.clave ("tabla x multiplicador").
 var fallos: Dictionary = {}
+## Ruta efectiva del archivo. Las pruebas la cambian para no tocar la partida.
+var ruta_guardado := RUTA_GUARDADO
 
 
 func _ready() -> void:
@@ -72,25 +74,59 @@ func guardar() -> void:
 	config.set_value("partida", "version", VERSION_PARTIDA)
 	config.set_value("partida", "pueblos_liberados", pueblos_liberados)
 	config.set_value("partida", "fallos", fallos)
-	var error := config.save(RUTA_GUARDADO)
+	var error := config.save(ruta_guardado)
 	if error != OK:
 		push_error(
-			"No se pudo guardar %s: %s" % [RUTA_GUARDADO, error_string(error)]
+			"No se pudo guardar %s: %s" % [ruta_guardado, error_string(error)]
 		)
 
 
 func cargar() -> void:
 	var config := ConfigFile.new()
-	if config.load(RUTA_GUARDADO) != OK:
+	if config.load(ruta_guardado) != OK:
 		return
-	var version: int = config.get_value("partida", "version", 0)
+
+	var version := 0
+	var version_guardada: Variant = config.get_value("partida", "version", 0)
+	if version_guardada is int or version_guardada is float:
+		version = int(version_guardada)
 	if version < VERSION_PARTIDA:
 		# Las tablas de los pueblos cambiaron: el avance viejo ya no significa
 		# lo mismo, asi que se empieza de cero como al pulsar "Limpiar Progreso".
 		reiniciar()
 		return
-	pueblos_liberados.assign(config.get_value("partida", "pueblos_liberados", []))
-	fallos.clear()
-	var guardados: Variant = config.get_value("partida", "fallos", {})
-	if guardados is Dictionary:
-		fallos = guardados.duplicate()
+
+	pueblos_liberados = _leer_pueblos(
+		config.get_value("partida", "pueblos_liberados", [])
+	)
+	fallos = _leer_fallos(config.get_value("partida", "fallos", {}))
+
+
+## Solo acepta ids de pueblo validos, sin duplicados y en el rango del juego.
+func _leer_pueblos(valor: Variant) -> Array[int]:
+	var pueblos: Array[int] = []
+	if not valor is Array:
+		return pueblos
+	for item in valor:
+		if not (item is int or (item is float and item == floorf(item))):
+			continue
+		var pueblo := int(item)
+		if pueblo < 0 or pueblo >= TOTAL_PUEBLOS or pueblos.has(pueblo):
+			continue
+		pueblos.append(pueblo)
+	return pueblos
+
+
+## Solo acepta claves de texto y contadores numericos no negativos.
+func _leer_fallos(valor: Variant) -> Dictionary:
+	var leidos: Dictionary = {}
+	if not valor is Dictionary:
+		return leidos
+	for clave in valor:
+		if not clave is String:
+			continue
+		var cantidad: Variant = valor[clave]
+		if not (cantidad is int or (cantidad is float and cantidad == floorf(cantidad))):
+			continue
+		leidos[clave] = maxi(int(cantidad), 0)
+	return leidos

@@ -62,6 +62,22 @@ confirmación antes de cerrar el juego.
 | `scripts/`       | Utilidades de apoyo del proyecto.                                         |
 | `catalogo.toml`  | Catálogo de activos ilustrados y sus variantes.                           |
 
+## Pruebas
+
+Las pruebas headless están en `juego/pruebas/` y cubren los modelos del juego
+(`GeneradorOpciones`, `Batalla`, `SelectorJefe` y `Progreso`) y la navegación
+entre pantallas. Para ejecutarlas:
+
+```sh
+./scripts/test_juego.sh
+```
+
+El script importa el proyecto, ejecuta las pruebas y hace un arranque de humo.
+Devuelve un código distinto de cero si algo falla. Si Godot no está en el
+`PATH`, define `GODOT=/ruta/a/godot`. El flujo de GitHub Actions
+(`.github/workflows/ci.yml`) ejecuta lo mismo en cada push a `main` y en cada
+pull request.
+
 ## Documentación
 
 - [Cómo jugar](Howto_Play.md) — guía paso a paso con capturas de pantalla de la

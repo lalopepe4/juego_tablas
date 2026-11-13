@@ -1,6 +1,6 @@
 # Plan de refactorización
 
-Estado: **Fase 2 completada**.
+Estado: **Fase 3 completada**.
 Última actualización: 2026-11-13.
 
 ## Objetivo
@@ -70,11 +70,10 @@ automáticas, sin cambiar el comportamiento visible del juego.
 
 ### Pendiente inmediato de la Fase 1
 
-- El APK y el `.idsig` siguen versionados aunque ya estén en `.gitignore`.
-  Cuando se decida dejar de seguirlos:
-  `git rm --cached juego/JuegoChispita.apk juego/JuegoChispita.apk.idsig`.
-- Godot generó `juego/scripts/_prueba_barajar.gd.uid`; conviene commitearlo
-  junto al script de prueba si se conserva.
+- [x] El APK y el `.idsig` ya no se versionan:
+      `git rm --cached juego/JuegoChispita.apk juego/JuegoChispita.apk.idsig`.
+      Siguen en disco e ignorados por `.gitignore`; queda pendiente el commit de la
+      eliminación del índice.
 
 ## Fase 2 — Arquitectura
 
@@ -133,19 +132,82 @@ automáticas, sin cambiar el comportamiento visible del juego.
 
 ### Pendiente inmediato de la Fase 2
 
-- Siguen pendientes los dos puntos de la Fase 1 (dejar de versionar el APK y
-  commitear `_prueba_barajar.gd.uid`).
-- Los nuevos scripts de `scripts/batalla/` tienen su `.uid` generado por Godot;
-  conviene commitearlos junto a los `.gd`.
+- Los `.uid` de `scripts/batalla/` ya están versionados. La eliminación del APK
+  del índice está hecha y pendiente de commit (ver Fase 1).
 
 ## Fase 3 — Calidad
 
-- [ ] Añadir pruebas headless de `GeneradorOpciones`, `Batalla`,
+- [x] Añadir pruebas headless de `GeneradorOpciones`, `Batalla`,
       `SelectorJefe` y `Progreso`.
-- [ ] Añadir un script `scripts/test_juego.sh` y un flujo de CI.
-- [ ] Validar los datos guardados al cargar (`pueblos_liberados`, `fallos`).
-- [ ] Manejar el botón atrás de Android.
-- [ ] Pedir confirmación antes de abandonar una batalla.
+- [x] Añadir un script `scripts/test_juego.sh` y un flujo de CI.
+- [x] Validar los datos guardados al cargar (`pueblos_liberados`, `fallos`).
+- [x] Manejar el botón atrás de Android.
+- [x] Pedir confirmación antes de abandonar una batalla.
+
+### Detalle de la Fase 3
+
+- `juego/pruebas/`: runner `ejecutar.gd`, base `prueba_base.gd` y cinco
+  suites (`prueba_generador_opciones.gd`, `prueba_batalla.gd`,
+  `prueba_selector_jefe.gd`, `prueba_progreso.gd` y
+  `prueba_navegacion.gd`). El runner imprime cada comprobación y sale con
+  código 1 si hay algún fallo; las suites usan semillas fijas y escriben sus
+  temporales en `OS.get_temp_dir()`.
+- `GeneradorOpciones`: selección de preguntas pendientes, generación de tres
+  opciones únicas y positivas, distribución de la respuesta correcta y
+  `_barajar`.
+- `Batalla` y `Personaje`: inicio, acierto y fallo, doble respuesta ignorada,
+  daño pendiente, victoria/derrota por vida, victoria sin preguntas, avisos de
+  `pregunta_changed`/`ganador_changed`, ataque, recorte de vida y curación.
+- `SelectorJefe`: diez preguntas sin duplicados, tablas y multiplicadores
+  válidos, reproducibilidad con la misma semilla, prioridad de las más
+  falladas, relleno aleatorio y desempates.
+- `Progreso`: tablas por pueblo, desbloqueo del jefe, idempotencia de
+  `liberar_pueblo`, acumulación de fallos, ida y vuelta del guardado,
+  reinicio, versión antigua, datos con tipos incorrectos o fuera de rango y
+  archivo inexistente.
+- `progreso.gd`: `ruta_guardado` configurable (las pruebas no tocan la partida
+  real) y `_leer_pueblos()`/`_leer_fallos()` validan ids, duplicados, tipos y
+  contadores no negativos antes de asignarlos.
+- `control_tiempo.gd`: `ruta_guardado` configurable y
+  `cerrar_alarma_si_visible()` para que el botón atrás cierre la alarma.
+- `main.gd`: escucha `NOTIFICATION_WM_GO_BACK_REQUEST` y delega en
+  `solicitar_atras()` de la pantalla actual; `project.godot` fija
+  `config/quit_on_go_back=false` para no salir por defecto.
+- Pantallas: la introducción cierra el juego, el mapa abre (o cierra) la
+  confirmación de salida y también cierra el aviso del jefe, las opciones
+  guardan y vuelven al mapa (o cierran su confirmación) y la batalla abre su
+  nueva confirmación.
+- `batalla.tscn`/`batalla.gd`: overlay `Confirmacion` con `PanelOscuro` y los
+  botones `Sí, salir`/`Seguir`; `Volver` ya no sale directo, sino que pide
+  confirmación, y el botón atrás la alterna. Si la batalla termina, el aviso
+  se oculta.
+- `scripts/test_juego.sh`: importa el proyecto (`--import`), ejecuta el runner
+  headless y hace un arranque de humo (`--quit-after 120`). Usa `GODOT` del
+  entorno o busca `godot`/`godot4` en el `PATH`.
+- `.github/workflows/ci.yml`: descarga Godot 4.7.2 y ejecuta el script en cada
+  push a `main` y en cada pull request.
+- `export_presets.cfg`: `exclude_filter="scripts/_*,pruebas/*"` deja fuera del
+  APK el código de pruebas.
+
+### Validación de la Fase 3
+
+- `./scripts/test_juego.sh`: 105 comprobaciones y 0 fallos, código de salida 0.
+- Copia limpia del proyecto sin `.godot`: el `--import` reconstruye la caché de
+  clases y las pruebas vuelven a pasar (mismo flujo que CI).
+- Comprobado que `quit(1)` devuelve código 1, para que CI detecte los fallos.
+- La suite de navegación simula `NOTIFICATION_WM_GO_BACK_REQUEST` sobre
+  `main.gd` y verifica la confirmación del mapa.
+- Diagnósticos del proyecto: sin errores ni avisos.
+
+### Pendiente inmediato de la Fase 3
+
+- La eliminación del APK del índice está hecha y pendiente de commit (ver Fase
+  1).
+- Los `.uid` de `juego/pruebas/` son nuevos; conviene commitearlos junto a las
+  suites.
+- El flujo de CI aún no se ha ejecutado en GitHub desde este entorno; conviene
+  vigilar la primera ejecución y ajustar `GODOT_VERSION` si cambiara la
+  versión del motor.
 
 ## Fase 4 — Producto
 
@@ -161,3 +223,7 @@ automáticas, sin cambiar el comportamiento visible del juego.
 - 2026-11-13: Fase 1 completada y validada en headless.
 - 2026-11-13: Fase 2 completada: módulos de batalla, tema compartido y menos
   duplicación en las escenas; validada en headless.
+- 2026-11-13: Fase 3 completada: pruebas headless, script de CI, validación del
+  guardado, botón atrás de Android y confirmación al abandonar la batalla.
+- 2026-11-13: se dejaron de versionar `JuegoChispita.apk` y su `.idsig`
+  (`git rm --cached`); siguen en disco e ignorados.

@@ -10,6 +10,8 @@ const MINUTOS_POR_DEFECTO := 20
 
 var activo := false
 var minutos := MINUTOS_POR_DEFECTO
+## Ruta efectiva del archivo. Las pruebas la cambian para no tocar la configuracion.
+var ruta_guardado := RUTA_GUARDADO
 
 var _transcurrido := 0.0
 var _alarma_visible := false
@@ -60,20 +62,28 @@ func _cerrar_alarma() -> void:
 	get_tree().paused = _pausa_previa
 
 
+## Cierra la alarma si esta visible. Devuelve true si la ha cerrado.
+func cerrar_alarma_si_visible() -> bool:
+	if not _alarma_visible:
+		return false
+	_cerrar_alarma()
+	return true
+
+
 func guardar() -> void:
 	var config := ConfigFile.new()
 	config.set_value("tiempo", "activo", activo)
 	config.set_value("tiempo", "minutos", minutos)
-	var error := config.save(RUTA_GUARDADO)
+	var error := config.save(ruta_guardado)
 	if error != OK:
 		push_error(
-			"No se pudo guardar %s: %s" % [RUTA_GUARDADO, error_string(error)]
+			"No se pudo guardar %s: %s" % [ruta_guardado, error_string(error)]
 		)
 
 
 func cargar() -> void:
 	var config := ConfigFile.new()
-	if config.load(RUTA_GUARDADO) != OK:
+	if config.load(ruta_guardado) != OK:
 		return
 	activo = config.get_value("tiempo", "activo", false)
 	minutos = clampi(

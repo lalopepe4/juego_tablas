@@ -14,3 +14,8 @@ func _ready() -> void:
 
 func _al_pulsar_continuar() -> void:
 	continuar_solicitada.emit()
+
+
+## Boton atras de Android: en la introduccion cierra el juego.
+func solicitar_atras() -> void:
+	get_tree().quit()

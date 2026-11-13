@@ -25,8 +25,16 @@ var _rng := RandomNumberGenerator.new()
 var _es_jefe := false
 var _botiquin_disponible := true
 var _pregunta_suspendida: Pregunta
+var _volver_antes := false
 
 @onready var _volver: Button = $Volver
+@onready var _confirmacion: Control = $Confirmacion
+@onready var _confirmar_salida: Button = (
+	$Confirmacion/Panel/Margen/Contenido/Botones/Si
+)
+@onready var _cancelar_salida: Button = (
+	$Confirmacion/Panel/Margen/Contenido/Botones/No
+)
 @onready var _sprite_heroe: TextureRect = $Lienzo/HeroeSprite
 @onready var _sprite_monstruo: TextureRect = $Lienzo/MonstruoSprite
 @onready var _barra_heroe: Control = $Lienzo/Heroe
@@ -46,6 +54,9 @@ func _ready() -> void:
 	# Volver se habilita cuando hay una pregunta esperando respuesta.
 	_volver.disabled = true
 	_volver.pressed.connect(_al_pulsar_volver)
+	_confirmacion.visible = false
+	_confirmar_salida.pressed.connect(_al_confirmar_salida)
+	_cancelar_salida.pressed.connect(_cerrar_confirmacion)
 	_rng.randomize()
 	if _es_jefe:
 		_pueblo = Pueblo.jefe(
@@ -165,6 +176,7 @@ func _al_cambiar_ganador(ganador: Personaje) -> void:
 		return
 
 	_volver.disabled = true
+	_confirmacion.visible = false
 	_bloquear_opciones()
 	_habilitar_botiquin(false)
 	_botiquin.ocultar_controles()
@@ -262,4 +274,30 @@ func _habilitar_botiquin(habilitado: bool) -> void:
 
 
 func _al_pulsar_volver() -> void:
+	_mostrar_confirmacion()
+
+
+## Boton atras de Android: cierra el aviso o pide confirmacion para salir.
+func solicitar_atras() -> void:
+	if _confirmacion.visible:
+		_cerrar_confirmacion()
+	else:
+		_mostrar_confirmacion()
+
+
+func _mostrar_confirmacion() -> void:
+	if _confirmacion.visible:
+		return
+	_volver_antes = _volver.disabled
+	_volver.disabled = true
+	_confirmacion.visible = true
+
+
+func _cerrar_confirmacion() -> void:
+	_confirmacion.visible = false
+	_volver.disabled = _volver_antes
+
+
+func _al_confirmar_salida() -> void:
+	_confirmacion.visible = false
 	volver_solicitada.emit()

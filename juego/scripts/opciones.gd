@@ -90,3 +90,11 @@ func _al_pulsar_volver() -> void:
 	_guardado_diferido.stop()
 	ControlTiempo.guardar()
 	volver_solicitada.emit()
+
+
+## Boton atras de Android: cierra la confirmacion o vuelve al mapa.
+func solicitar_atras() -> void:
+	if _confirmacion.visible:
+		_cerrar_confirmacion()
+	else:
+		_al_pulsar_volver()

@@ -9,9 +9,17 @@ const ESCENA_BATALLA := preload("res://scenes/batalla.tscn")
 
 @onready var _contenedor: Control = $Contenedor
 
+## Pantalla visible; cada una decide que hacer con el boton atras.
+var _pantalla: Node
+
 
 func _ready() -> void:
 	mostrar_introduccion()
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		_al_pulsar_atras()
 
 
 func mostrar_introduccion() -> void:
@@ -47,8 +55,18 @@ func _al_terminar_batalla(victoria: bool, pueblo_id: int) -> void:
 	mostrar_mapa()
 
 
+## Boton atras de Android: primero cierra la alarma de tiempo y despues deja
+## que la pantalla actual decida (volver, confirmar salida o cerrar el juego).
+func _al_pulsar_atras() -> void:
+	if ControlTiempo.cerrar_alarma_si_visible():
+		return
+	if _pantalla != null and _pantalla.has_method("solicitar_atras"):
+		_pantalla.solicitar_atras()
+
+
 func _cambiar(nodo: Node) -> void:
 	for hijo in _contenedor.get_children():
 		_contenedor.remove_child(hijo)
 		hijo.queue_free()
 	_contenedor.add_child(nodo)
+	_pantalla = nodo

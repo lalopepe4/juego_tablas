@@ -84,6 +84,16 @@ func _al_pulsar_opciones() -> void:
 	opciones_solicitada.emit()
 
 
+## Boton atras de Android: cierra el aviso abierto o pide confirmacion para salir.
+func solicitar_atras() -> void:
+	if _confirmacion_salir.visible:
+		_cerrar_confirmacion()
+	elif _aviso_jefe.visible:
+		_cerrar_aviso_jefe()
+	else:
+		_al_pulsar_salir()
+
+
 ## El boton de salir solo abre la confirmacion: cerrar el juego requiere
 ## pulsar "Si", asi una pulsacion accidental no cierra la partida.
 func _al_pulsar_salir() -> void:
