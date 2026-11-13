@@ -72,7 +72,11 @@ func guardar() -> void:
 	config.set_value("partida", "version", VERSION_PARTIDA)
 	config.set_value("partida", "pueblos_liberados", pueblos_liberados)
 	config.set_value("partida", "fallos", fallos)
-	config.save(RUTA_GUARDADO)
+	var error := config.save(RUTA_GUARDADO)
+	if error != OK:
+		push_error(
+			"No se pudo guardar %s: %s" % [RUTA_GUARDADO, error_string(error)]
+		)
 
 
 func cargar() -> void:

@@ -4,9 +4,9 @@ extends Control
 
 signal volver_solicitada
 
-const TAMANO_LIENZO := Vector2(1280.0, 720.0)
+## Retraso para no escribir el archivo de configuracion en cada tick del slider.
+const ESPERA_GUARDADO := 0.4
 
-@onready var _lienzo: Control = $Lienzo
 @onready var _activar: CheckButton = $Lienzo/Panel/Margen/Contenido/ControlTiempo/Activar
 @onready var _minutos: HSlider = $Lienzo/Panel/Margen/Contenido/ControlTiempo/Minutos
 @onready var _etiqueta_minutos: Label = (
@@ -23,13 +23,20 @@ const TAMANO_LIENZO := Vector2(1280.0, 720.0)
 	$Lienzo/Confirmacion/Panel/Margen/Contenido/Botones/No
 )
 
+var _guardado_diferido: Timer
+
 
 func _ready() -> void:
-	_ajustar_lienzo()
-	get_viewport().size_changed.connect(_ajustar_lienzo)
+	_minutos.min_value = ControlTiempo.MIN_MINUTOS
+	_minutos.max_value = ControlTiempo.MAX_MINUTOS
 	_activar.button_pressed = ControlTiempo.activo
 	_minutos.value = ControlTiempo.minutos
 	_actualizar_controles()
+	_guardado_diferido = Timer.new()
+	_guardado_diferido.one_shot = true
+	_guardado_diferido.wait_time = ESPERA_GUARDADO
+	_guardado_diferido.timeout.connect(ControlTiempo.guardar)
+	add_child(_guardado_diferido)
 	_activar.toggled.connect(_al_cambiar_activo)
 	_minutos.value_changed.connect(_al_cambiar_minutos)
 	_limpiar.pressed.connect(_al_pulsar_limpiar)
@@ -40,12 +47,9 @@ func _ready() -> void:
 	_mensaje.text = ""
 
 
-## Escala el lienzo para que quepa entero en la pantalla y lo centra.
-func _ajustar_lienzo() -> void:
-	var vista := get_viewport_rect().size
-	var escala := minf(vista.x / TAMANO_LIENZO.x, vista.y / TAMANO_LIENZO.y)
-	_lienzo.scale = Vector2(escala, escala)
-	_lienzo.position = (vista - TAMANO_LIENZO * escala) * 0.5
+func _exit_tree() -> void:
+	if _guardado_diferido != null and not _guardado_diferido.is_stopped():
+		ControlTiempo.guardar()
 
 
 func _actualizar_controles() -> void:
@@ -57,12 +61,14 @@ func _actualizar_controles() -> void:
 
 func _al_cambiar_activo(activo: bool) -> void:
 	ControlTiempo.configurar(activo, int(_minutos.value))
+	ControlTiempo.guardar()
 	_actualizar_controles()
 
 
 func _al_cambiar_minutos(valor: float) -> void:
 	ControlTiempo.configurar(_activar.button_pressed, int(valor))
 	_actualizar_controles()
+	_guardado_diferido.start()
 
 
 func _al_pulsar_limpiar() -> void:
@@ -81,4 +87,6 @@ func _al_confirmar_limpiar() -> void:
 
 
 func _al_pulsar_volver() -> void:
+	_guardado_diferido.stop()
+	ControlTiempo.guardar()
 	volver_solicitada.emit()

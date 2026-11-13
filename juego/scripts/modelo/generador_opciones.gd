@@ -21,7 +21,6 @@ static func seleccionar_pregunta(
 		rng.randi_range(0, no_respondidas.size() - 1)
 	]
 	pregunta.opciones = _generar_opciones(pregunta, rng, NUMERO_DE_OPCIONES)
-	pregunta.intentos += 1
 	return pregunta
 
 

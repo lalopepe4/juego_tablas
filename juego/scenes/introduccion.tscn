@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://scripts/introduccion.gd" id="1_intro"]
 [ext_resource type="Texture2D" uid="uid://ctombpmsqpae4" path="res://assets/escenarios/introduccion.png" id="2_imagen"]
 [ext_resource type="Texture2D" uid="uid://d2ph7a8mygd44" path="res://assets/escenarios/introduccion_borroso.png" id="3_fondo"]
+[ext_resource type="Script" path="res://scripts/ui/lienzo_escalado.gd" id="4_lienzo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_normal"]
 bg_color = Color(0.15, 0.55, 0.2, 0.78)
@@ -67,6 +68,8 @@ stretch_mode = 6
 layout_mode = 0
 offset_right = 1024.0
 offset_bottom = 1024.0
+script = ExtResource("4_lienzo")
+tamano = Vector2(1024, 1024)
 
 [node name="Imagen" type="TextureRect" parent="Lienzo"]
 layout_mode = 1
@@ -79,7 +82,7 @@ texture = ExtResource("2_imagen")
 expand_mode = 1
 stretch_mode = 0
 
-[node name="Continuar" type="Button" parent="."]
+[node name="Continuar" type="Button" parent="Lienzo"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0

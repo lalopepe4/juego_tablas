@@ -2,64 +2,8 @@
 
 [ext_resource type="Script" path="res://scripts/opciones.gd" id="1_opciones"]
 [ext_resource type="Texture2D" uid="uid://culbpp0w0m3bf" path="res://assets/escenarios/mapa_reino_unicornio_fondo_borroso.png" id="2_fondo"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
-bg_color = Color(0.1, 0.08, 0.16, 0.94)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.55, 0.45, 0.75, 0.9)
-corner_radius_top_left = 24
-corner_radius_top_right = 24
-corner_radius_bottom_right = 24
-corner_radius_bottom_left = 24
-shadow_color = Color(0, 0, 0, 0.4)
-shadow_size = 12
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_verde"]
-bg_color = Color(0.15, 0.55, 0.2, 0.95)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_verde_hover"]
-bg_color = Color(0.2, 0.65, 0.25, 1)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_verde_pressed"]
-bg_color = Color(0.1, 0.4, 0.15, 1)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rojo"]
-bg_color = Color(0.65, 0.18, 0.18, 0.95)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rojo_hover"]
-bg_color = Color(0.78, 0.24, 0.24, 1)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rojo_pressed"]
-bg_color = Color(0.5, 0.12, 0.12, 1)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_focus"]
+[ext_resource type="Script" path="res://scripts/ui/lienzo_escalado.gd" id="3_lienzo"]
+[ext_resource type="Theme" path="res://scenes/ui/tema.tres" id="4_tema"]
 
 [node name="Opciones" type="Control"]
 layout_mode = 3
@@ -68,6 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("4_tema")
 script = ExtResource("1_opciones")
 
 [node name="FondoExterior" type="TextureRect" parent="."]
@@ -86,6 +31,7 @@ stretch_mode = 6
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
+script = ExtResource("3_lienzo")
 
 [node name="Panel" type="PanelContainer" parent="Lienzo"]
 layout_mode = 1
@@ -100,7 +46,7 @@ offset_right = 380.0
 offset_bottom = 280.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+theme_type_variation = &"PanelOscuro"
 
 [node name="Margen" type="MarginContainer" parent="Lienzo/Panel"]
 layout_mode = 2
@@ -155,14 +101,8 @@ layout_mode = 2
 [node name="Limpiar" type="Button" parent="Lienzo/Panel/Margen/Contenido"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_type_variation = &"BotonRojo"
 theme_override_font_sizes/font_size = 32
-theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
-theme_override_styles/hover = SubResource("StyleBoxFlat_rojo_hover")
-theme_override_styles/normal = SubResource("StyleBoxFlat_rojo")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_rojo_pressed")
 text = "Limpiar Progreso"
 
 [node name="Mensaje" type="Label" parent="Lienzo/Panel/Margen/Contenido"]
@@ -175,14 +115,8 @@ horizontal_alignment = 1
 [node name="Volver" type="Button" parent="Lienzo/Panel/Margen/Contenido"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_type_variation = &"BotonVerde"
 theme_override_font_sizes/font_size = 32
-theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
-theme_override_styles/hover = SubResource("StyleBoxFlat_verde_hover")
-theme_override_styles/normal = SubResource("StyleBoxFlat_verde")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_verde_pressed")
 text = "Volver"
 
 [node name="Confirmacion" type="Control" parent="Lienzo"]
@@ -216,7 +150,7 @@ offset_right = 310.0
 offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+theme_type_variation = &"PanelOscuro"
 
 [node name="Margen" type="MarginContainer" parent="Lienzo/Confirmacion/Panel"]
 layout_mode = 2
@@ -253,25 +187,11 @@ alignment = 1
 [node name="Si" type="Button" parent="Lienzo/Confirmacion/Panel/Margen/Contenido/Botones"]
 custom_minimum_size = Vector2(220, 60)
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 28
-theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
-theme_override_styles/hover = SubResource("StyleBoxFlat_rojo_hover")
-theme_override_styles/normal = SubResource("StyleBoxFlat_rojo")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_rojo_pressed")
+theme_type_variation = &"BotonRojo"
 text = "Sí, borrar"
 
 [node name="No" type="Button" parent="Lienzo/Confirmacion/Panel/Margen/Contenido/Botones"]
 custom_minimum_size = Vector2(220, 60)
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 28
-theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
-theme_override_styles/hover = SubResource("StyleBoxFlat_verde_hover")
-theme_override_styles/normal = SubResource("StyleBoxFlat_verde")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_verde_pressed")
+theme_type_variation = &"BotonVerde"
 text = "Cancelar"

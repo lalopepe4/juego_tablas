@@ -35,12 +35,12 @@ func _process(delta: float) -> void:
 		_mostrar_alarma()
 
 
-## Guarda la configuracion y reinicia la cuenta del tiempo transcurrido.
+## Actualiza la configuracion y reinicia la cuenta del tiempo transcurrido.
+## No escribe en disco: la pantalla de opciones decide cuando guardar.
 func configurar(nuevo_activo: bool, nuevos_minutos: int) -> void:
 	activo = nuevo_activo
 	minutos = clampi(nuevos_minutos, MIN_MINUTOS, MAX_MINUTOS)
 	_transcurrido = 0.0
-	guardar()
 
 
 func _mostrar_alarma() -> void:
@@ -64,7 +64,11 @@ func guardar() -> void:
 	var config := ConfigFile.new()
 	config.set_value("tiempo", "activo", activo)
 	config.set_value("tiempo", "minutos", minutos)
-	config.save(RUTA_GUARDADO)
+	var error := config.save(RUTA_GUARDADO)
+	if error != OK:
+		push_error(
+			"No se pudo guardar %s: %s" % [RUTA_GUARDADO, error_string(error)]
+		)
 
 
 func cargar() -> void:

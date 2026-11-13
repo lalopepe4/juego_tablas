@@ -6,7 +6,6 @@ extends RefCounted
 var multiplicando: int
 var multiplicador: int
 var opciones: Array[String] = []
-var intentos := 0
 var respondida := false
 
 

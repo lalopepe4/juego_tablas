@@ -566,10 +566,14 @@ poses.
 
 ### 9.2. `batalla.gd`: estado de texturas
 
-**Estado actualizado:** `batalla.gd` ya carga un mapa de texturas para cada
-personaje y estado, cambia las poses desde las señales de batalla y mantiene
-`_actualizar_barras()` limitado a las barras. El estado idle de Chispita depende
-de su vida; los monstruos recuperan la pose base o herida según su vida.
+**Estado actualizado:** el mapa de texturas vive ahora en
+`juego/scripts/batalla/poses.gd` (`Poses`), junto a las texturas de los efectos
+y a `clave_enemigo()`. `batalla.gd` sigue cambiando las poses desde las señales
+de batalla y mantiene `_actualizar_barras()` limitado a las barras. El estado
+idle de Chispita depende de su vida; los monstruos recuperan la pose base o
+herida según su vida. Los tweens están en `scripts/batalla/animador.gd`, los
+sonidos en `scripts/batalla/sonidos.gd` y el teclado del botiquín en
+`scenes/ui/botiquin.tscn`.
 
 ```gdscript
 const TEXTURAS := {

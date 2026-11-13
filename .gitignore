@@ -27,3 +27,11 @@ packages/ilustrador/dist/
 
 # Godot editor
 .godot/
+
+# Artefactos de exportacion de Godot
+juego/*.apk
+juego/*.apk.idsig
+juego/*.pck
+
+# Temporales de revision
+.tmp_revision/

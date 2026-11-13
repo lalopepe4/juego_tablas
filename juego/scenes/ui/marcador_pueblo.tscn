@@ -1,0 +1,11 @@
+[gd_scene format=3]
+
+[node name="MarcadorPueblo" type="Button"]
+layout_mode = 0
+offset_right = 130.0
+offset_bottom = 160.0
+text = "Pueblo"
+flat = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true

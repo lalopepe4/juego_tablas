@@ -9,10 +9,6 @@ signal opciones_solicitada
 const ICONO_SECUAZ := preload("res://assets/personajes/monstruo_secuaz_frente.png")
 const ICONO_SOMBRAS := preload("res://assets/personajes/monstruo_de_sombras_frente.png")
 
-## Tamano de diseno del mapa. Los botones se colocaron sobre estas coordenadas.
-const TAMANO_LIENZO := Vector2(1280.0, 720.0)
-
-@onready var _lienzo: Control = $Lienzo
 @onready var _pueblos: Control = $Lienzo/Pueblos
 @onready var _opciones: Button = $Opciones
 @onready var _salir: Button = $Salir
@@ -24,8 +20,6 @@ const TAMANO_LIENZO := Vector2(1280.0, 720.0)
 
 
 func _ready() -> void:
-	_ajustar_lienzo()
-	get_viewport().size_changed.connect(_ajustar_lienzo)
 	_opciones.pressed.connect(_al_pulsar_opciones)
 	_salir.pressed.connect(_al_pulsar_salir)
 	_confirmar_salir.pressed.connect(_al_confirmar_salir)
@@ -40,16 +34,6 @@ func _ready() -> void:
 			ICONO_SOMBRAS if pueblo_id == Progreso.PUEBLO_JEFE else ICONO_SECUAZ
 		)
 	_actualizar_botones()
-
-
-## Escala el lienzo para que quepa entero en la pantalla y lo centra.
-## Asi el fondo y los botones conservan siempre la misma posicion relativa,
-## aunque la pantalla del movil no sea 16:9.
-func _ajustar_lienzo() -> void:
-	var vista := get_viewport_rect().size
-	var escala := minf(vista.x / TAMANO_LIENZO.x, vista.y / TAMANO_LIENZO.y)
-	_lienzo.scale = Vector2(escala, escala)
-	_lienzo.position = (vista - TAMANO_LIENZO * escala) * 0.5
 
 
 func _obtener_boton(pueblo_id: int) -> Button:

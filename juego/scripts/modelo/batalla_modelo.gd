@@ -35,7 +35,6 @@ var pregunta: Pregunta:
 		_pregunta = valor
 		pregunta_changed.emit(valor)
 
-var respuesta := ""
 var ultimo_acierto := false
 
 var _atacante_pendiente: Personaje = null
@@ -49,37 +48,28 @@ func _init(p_heroe: Personaje, p_enemigo: Personaje, p_pueblo: Pueblo) -> void:
 	enemigo = p_enemigo
 	pueblo = p_pueblo
 	_rng.randomize()
-	ganador_changed.connect(_al_cambiar_ganador)
 
 
 func iniciar() -> void:
 	heroe.vida = Personaje.VIDA_MAXIMA
 	enemigo.vida = Personaje.VIDA_MAXIMA
-	heroe.ataque = 10
-	enemigo.ataque = 10
 	for p in pueblo.preguntas:
 		p.respondida = false
-		p.intentos = 0
 	pregunta = GeneradorOpciones.seleccionar_pregunta(pueblo, _rng)
 
 
 func responder(opcion: String) -> void:
-	if pregunta == null or _atacante_pendiente != null:
+	if pregunta == null or _atacante_pendiente != null or _ganador != null:
 		return
 
-	respuesta = opcion
 	ultimo_acierto = pregunta.respuesta_literal == opcion
 	if ultimo_acierto:
 		pregunta.respondida = true
 		_atacante_pendiente = heroe
 		_defensor_pendiente = enemigo
-		heroe.mensaje = "La respuesta es %s." % opcion
 	else:
 		_atacante_pendiente = enemigo
 		_defensor_pendiente = heroe
-		enemigo.mensaje = (
-			"¡Ja! Has fallado. La respuesta era %s." % pregunta.respuesta_literal
-		)
 
 	respuesta_changed.emit(ultimo_acierto, _atacante_pendiente, _defensor_pendiente)
 
@@ -95,10 +85,8 @@ func aplicar_dano() -> void:
 
 
 ## Elige la siguiente pregunta o declara el ganador. La escena la llama cuando
-## terminan las animaciones de ataque y daño.
+## terminan las animaciones de ataque y daño, despues de aplicar_dano().
 func avanzar() -> void:
-	aplicar_dano()
-
 	if heroe.vida <= 0:
 		ganador = enemigo
 		return
@@ -111,9 +99,3 @@ func avanzar() -> void:
 		ganador = heroe
 		return
 	pregunta = siguiente
-
-
-func _al_cambiar_ganador(nuevo_ganador: Personaje) -> void:
-	if nuevo_ganador == null:
-		return
-	nuevo_ganador.mensaje = "¡He ganado la batalla!"
