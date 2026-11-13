@@ -27,6 +27,11 @@ DIRECTRIZ_FONDO = {
         "completamente blanco, uniforme, sin sombras proyectadas ni reflejos, "
         "para poder recortar la silueta con transparencia despues."
     ),
+    "transparent": (
+        "El personaje u objeto debe quedar aislado y completo sobre un fondo "
+        "completamente transparente, sin sombras proyectadas ni reflejos, "
+        "para usarlo directamente como sprite 2D."
+    ),
     "none": "",
 }
 

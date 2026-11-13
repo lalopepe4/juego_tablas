@@ -1,0 +1,118 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/control_tiempo.gd" id="1_tiempo"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.98, 0.94, 0.82, 0.98)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.45, 0.3, 0.15, 1)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+shadow_color = Color(0, 0, 0, 0.35)
+shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_boton"]
+bg_color = Color(0.15, 0.55, 0.2, 0.95)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_boton_hover"]
+bg_color = Color(0.2, 0.65, 0.25, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_boton_pressed"]
+bg_color = Color(0.1, 0.4, 0.15, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_focus"]
+
+[node name="ControlTiempo" type="CanvasLayer"]
+layer = 100
+script = ExtResource("1_tiempo")
+
+[node name="Alarma" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Fondo" type="ColorRect" parent="Alarma"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="Panel" type="PanelContainer" parent="Alarma"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -170.0
+offset_right = 320.0
+offset_bottom = 170.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="Margen" type="MarginContainer" parent="Alarma/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 32
+
+[node name="Contenido" type="VBoxContainer" parent="Alarma/Panel/Margen"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Titulo" type="Label" parent="Alarma/Panel/Margen/Contenido"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.12, 0.25, 1)
+theme_override_font_sizes/font_size = 44
+text = "¡Hora de descansar!"
+horizontal_alignment = 1
+
+[node name="Mensaje" type="Label" parent="Alarma/Panel/Margen/Contenido"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.25, 0.18, 0.3, 1)
+theme_override_font_sizes/font_size = 30
+text = "¡Has estado jugando 20 minutos!
+Es hora de descansar un poco."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Entendido" type="Button" parent="Alarma/Panel/Margen/Contenido"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+theme_override_styles/hover = SubResource("StyleBoxFlat_boton_hover")
+theme_override_styles/normal = SubResource("StyleBoxFlat_boton")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_boton_pressed")
+text = "Entendido"

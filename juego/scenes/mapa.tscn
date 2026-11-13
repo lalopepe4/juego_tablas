@@ -1,9 +1,50 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3 uid="uid://bpk3j3wdqu2vp"]
 
-[ext_resource type="Script" path="res://scripts/mapa.gd" id="1_mapa"]
-[ext_resource type="Texture2D" path="res://assets/escenarios/mapa_reino_unicornio_sin_monstruos.png" id="2_fondo"]
+[ext_resource type="Script" uid="uid://dcbevvq37px7d" path="res://scripts/mapa.gd" id="1_mapa"]
+[ext_resource type="Texture2D" uid="uid://de480pt1trdd3" path="res://assets/escenarios/mapa_reino_unicornio_sin_monstruos.png" id="2_fondo"]
+[ext_resource type="Theme" path="res://scenes/ui/tema_pueblo.tres" id="3_tema"]
+[ext_resource type="Texture2D" uid="uid://culbpp0w0m3bf" path="res://assets/escenarios/mapa_reino_unicornio_fondo_borroso.png" id="4_fondo_borroso"]
+[ext_resource type="Texture2D" uid="uid://dl6ov6t87ira8" path="res://assets/ui/engranaje.svg" id="5_engranaje"]
 
-[node name="Mapa" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_engranaje_normal"]
+bg_color = Color(0.1, 0.08, 0.15, 0.45)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.35)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_engranaje_pressed"]
+bg_color = Color(0.05, 0.04, 0.08, 0.75)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.55)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_engranaje_hover"]
+bg_color = Color(0.15, 0.12, 0.2, 0.65)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.55)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_focus"]
+
+[node name="Mapa" type="Control" unique_id=1538395269]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,7 +53,24 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_mapa")
 
-[node name="Fondo" type="TextureRect" parent="."]
+[node name="FondoExterior" type="TextureRect" parent="." unique_id=1155056844]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_fondo_borroso")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Lienzo" type="Control" parent="." unique_id=1210348011]
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="Fondo" type="TextureRect" parent="Lienzo" unique_id=1954233575]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,7 +81,8 @@ texture = ExtResource("2_fondo")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Titulo" type="Label" parent="."]
+[node name="Titulo" type="Label" parent="Lienzo" unique_id=1226121451]
+visible = false
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -35,18 +94,147 @@ theme_override_font_sizes/font_size = 40
 text = "Reino Unicornio"
 horizontal_alignment = 1
 
-[node name="Pueblos" type="HBoxContainer" parent="."]
+[node name="Pueblos" type="Control" parent="Lienzo" unique_id=1763298849]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -600.0
-offset_top = -80.0
-offset_right = 600.0
-offset_bottom = 80.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 8
-alignment = 1
+theme = ExtResource("3_tema")
+
+[node name="Pueblo1" type="Button" parent="Lienzo/Pueblos" unique_id=1677727552]
+layout_mode = 0
+offset_left = 400.0
+offset_top = 469.0
+offset_right = 530.0
+offset_bottom = 629.0
+text = "Pueblo 1"
+flat = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Pueblo2" type="Button" parent="Lienzo/Pueblos" unique_id=1433523330]
+layout_mode = 0
+offset_left = 556.0
+offset_top = 461.0
+offset_right = 686.0
+offset_bottom = 621.0
+text = "Pueblo 2"
+flat = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Pueblo3" type="Button" parent="Lienzo/Pueblos" unique_id=1293214211]
+layout_mode = 0
+offset_left = 793.0
+offset_top = 467.0
+offset_right = 923.0
+offset_bottom = 627.0
+text = "Pueblo 3"
+flat = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Pueblo4" type="Button" parent="Lienzo/Pueblos" unique_id=830598452]
+layout_mode = 0
+offset_left = 980.0
+offset_top = 433.0
+offset_right = 1110.0
+offset_bottom = 593.0
+text = "Pueblo 4"
+flat = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Pueblo5" type="Button" parent="Lienzo/Pueblos" unique_id=1172456802]
+layout_mode = 0
+offset_left = 637.0
+offset_top = 283.0
+offset_right = 767.0
+offset_bottom = 443.0
+text = "Pueblo 5"
+flat = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Pueblo6" type="Button" parent="Lienzo/Pueblos" unique_id=1841129382]
+layout_mode = 0
+offset_left = 427.0
+offset_top = 275.0
+offset_right = 557.0
+offset_bottom = 435.0
+text = "Pueblo 6"
+flat = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Pueblo7" type="Button" parent="Lienzo/Pueblos" unique_id=1422049399]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 144.0
+offset_right = 450.0
+offset_bottom = 304.0
+text = "Pueblo 7"
+flat = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Pueblo8" type="Button" parent="Lienzo/Pueblos" unique_id=908518392]
+layout_mode = 0
+offset_left = 488.0
+offset_top = 97.0
+offset_right = 618.0
+offset_bottom = 257.0
+text = "Pueblo 8"
+flat = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Pueblo9" type="Button" parent="Lienzo/Pueblos" unique_id=2096231635]
+layout_mode = 0
+offset_left = 768.0
+offset_top = 101.0
+offset_right = 898.0
+offset_bottom = 261.0
+text = "Pueblo 9"
+flat = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Pueblo10" type="Button" parent="Lienzo/Pueblos" unique_id=956863204]
+layout_mode = 0
+offset_left = 976.0
+offset_top = 112.0
+offset_right = 1106.0
+offset_bottom = 272.0
+text = "Pueblo 10"
+flat = true
+icon_alignment = 1
+vertical_icon_alignment = 0
+expand_icon = true
+
+[node name="Opciones" type="Button" parent="." unique_id=1209366424]
+layout_mode = 1
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 88.0
+offset_bottom = 88.0
+tooltip_text = "Opciones"
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_engranaje_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_engranaje_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_engranaje_hover")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+icon = ExtResource("5_engranaje")
+icon_alignment = 1
+expand_icon = true

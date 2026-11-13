@@ -1,21 +1,24 @@
 # Plan de animaciones e ilustraciones de batalla
 
+> **Estado actualizado: 12-11-2026.** En `Ilustraciones/` hay 37 PNG: las siete bases elegidas, 27 poses (nueve por personaje, incluidos `asustado`, `frente` y `derrotado`) y los tres efectos obligatorios. Las copias ligeras de revisión se inspeccionaron; se preservan los recortes ya existentes y se integraron en `juego/assets/` las poses de batalla y los tres efectos. Los retratos `frente` y el efecto opcional `Aura_Concentracion` quedan fuera. Las versiones descartadas están en `Ilustraciones/Borradores/`.
+>
+> En Godot están conectadas las poses y los efectos con `Tween`; `MonstruoSprite.flip_h` ya está activo. También están implementados el botiquín-calculadora y los diez marcadores editables del mapa. La escena arranca sin errores de script en modo headless; quedan la calibración visual en ejecución y las pruebas de combate completas.
+
 ## Objetivo
 
-Dotar a la batalla de una colección coherente de poses y efectos para que el
-flujo de señales ya implementado se vea animado:
+Completar la batalla con poses coherentes y efectos visuales conectados a sus
+señales. El flujo objetivo es:
 
-1. Personajes entrando desde las esquinas.
-2. Nube de multiplicar entrando desde arriba.
-3. Personaje concentrado mientras se piensa la respuesta.
-4. Personaje satisfecho al acertar.
-5. Ataque del ganador de la pregunta.
-6. Sorpresa y daño del perdedor.
-7. Celebración del ganador.
-8. Derrota del perdedor (queda para una fase posterior).
+1. Personajes entran desde las esquinas.
+2. Nube de multiplicar entra desde arriba.
+3. Personajes se muestran concentrados mientras se piensa la respuesta.
+4. El atacante se muestra satisfecho y luego atacando.
+5. El defensor reacciona sorprendido y recibe daño.
+6. El ganador celebra; el perdedor usa la pose `derrotado` antes de salir.
 
-El plan también fija una **orientación y un encuadre comunes** para que los
-sprites no salten ni cambien de escala al intercambiar texturas.
+El plan fija también una **orientación y un encuadre comunes** para evitar saltos
+al intercambiar texturas. Las poses `frente` son retratos frontales aparte, no
+parte de la orientación canónica de batalla.
 
 ---
 
@@ -27,10 +30,13 @@ Todas las ilustraciones de personajes se generan en **vista lateral de juego**
 (tres cuartos) con el **cuerpo y los ojos mirando hacia la derecha**.
 
 - **Chispita** se coloca a la izquierda de la batalla y se usa tal cual.
-- **Los monstruos** se colocan a la derecha y se **voltean horizontalmente** en
-  Godot con `TextureRect.flip_h = true`.
-- Verificado: `TextureRect` de Godot 4.7 sí tiene `flip_h`; no hace falta
-  cambiar los nodos a `Sprite2D` ni usar `scale.x = -1`.
+- **Los monstruos** se colocan a la derecha y deben voltearse horizontalmente
+  con `TextureRect.flip_h = true`.
+- `TextureRect` admite `flip_h`; no hace falta cambiar los nodos a `Sprite2D` ni
+  usar `scale.x = -1`. `MonstruoSprite.flip_h = true` ya está activado en
+  `juego/scenes/batalla.tscn`.
+- Excepción: las variantes `*_frente` miran al espectador y se reservan para
+  retratos, menús o mapa.
 
 Ventajas:
 
@@ -48,24 +54,22 @@ Ventajas:
 
 ### 1.2. Lienzo y escala
 
-Para el juego se conserva el **lienzo cuadrado original de 1024 × 1024 px con
-fondo transparente**, sin recortar los márgenes del dibujo.
+Se conserva la **resolución nativa** devuelta por `qwen/qwen-image-3-pro`; no se
+fuerza resolución ni se redimensionan los originales. Las 37 imágenes actuales
+en `Ilustraciones/` tienen fondo blanco. Los recortes transparentes existentes
+se preservaron; las poses de batalla y efectos integrados conservan su lienzo de
+1024 × 1024.
 
-Motivo: el recorte ajustado al contenido cambia el tamaño y el aspecto de cada
-pose. En la escena actual todos los personajes se dibujan en un `TextureRect`
-de 240 × 400 y, al cambiar de textura, el personaje puede saltar o cambiar de
-tamaño. Además, ahora mismo la jerarquía visual está invertida:
+La escena usa actualmente un `TextureRect` de 240 × 400 para Chispita y uno de
+193 × 329 para el monstruo. Al intercambiar lienzos cuadrados completos, la
+escala visible puede variar; hay que calibrarla en Godot después de importar las
+imágenes.
 
-| Personaje           | Recorte actual | Altura aproximada en el `TextureRect` 240 × 400 |
-| ------------------- | -------------- | ----------------------------------------------- |
-| Chispita            | 600 × 868      | ~347 px                                         |
-| Chispita asustado   | 606 × 858      | ~340 px                                         |
-| Monstruo de Sombras | 889 × 988      | ~267 px                                         |
-| Monstruo Secuaz     | 511 × 865      | ~400 px                                         |
-
-El jefe final se ve más pequeño que Chispita y el secuaz se ve más grande que
-el jefe. Con el lienzo completo se conserva la proporción real de cada dibujo
-dentro del encuadre y el jefe puede verse claramente más grande.
+| Elemento                       | Estado actual                           |
+| ------------------------------ | --------------------------------------- |
+| Originales en `Ilustraciones/` | Resolución nativa, fondo blanco         |
+| `Ilustraciones/recortes/`      | Recortes existentes, lienzo 1024 × 1024 |
+| Escala de los `TextureRect`    | Pendiente de revisión visual en Godot   |
 
 Reglas de composición para todas las imágenes:
 
@@ -78,8 +82,8 @@ Reglas de composición para todas las imágenes:
   manos extendidas.
 - Sin texto, letras, números, signos matemáticos, logotipos ni marcas de agua.
 
-**Decisión confirmada:** se usa el lienzo completo de 1024 × 1024 para los
-personajes.
+**Decisión confirmada:** se usa el lienzo completo con la resolución nativa
+del modelo para los personajes.
 
 ### 1.3. Referencias: el campo `base` no envía la imagen
 
@@ -113,15 +117,18 @@ Sufijos de estado acordados:
 - `_sorprendido`
 - `_herido`
 - `_celebrando`
-- `_derrotado` (opcional)
-- `_frente` (retrato opcional)
+- `_asustado`
+- `_derrotado`
+- `_frente` (retrato)
 
 ---
 
 ## 2. Revisión de las descripciones actuales
 
-Antes de generar variantes hay que corregir las bases. Si no, el error se
-repite en todas las poses.
+La revisión de bases ya se realizó y el usuario eligió las versiones que son
+ahora la fuente de verdad: `Heroe_Chispita_v01.png`,
+`Monstruo_De_Sombras_v01.png` y `Monstruo_Secuaz_v01.png`. Las poses se
+engendraron usando explícitamente la base correspondiente como referencia.
 
 Regla común para todas las descripciones:
 
@@ -134,56 +141,31 @@ Regla común para todas las descripciones:
 
 ### 2.1. Chispita
 
-- `Heroe_Chispita.md`: la imagen v01 ya mira a la derecha. Se conserva.
-  Actualizar la descripción para fijar explícitamente:
-    - cuerpo y ojos hacia la derecha;
-    - misma línea de suelo y encuadre;
-    - vista lateral de juego.
-- `Heroe_Chispita_asustado.md`: la imagen v01 también mira a la derecha. Se
-  conserva. Añadir la misma nota de orientación y encuadre.
-- `Heroe_Chispita_sorprendido.md`: la descripción existe, pero no hay imagen.
-  Revisarla y generarla con la nueva convención.
+- La base `Heroe_Chispita_v01.png` está elegida y la descripción de orientación
+  existe.
+- Están generadas y revisadas visualmente las poses `asustado`, `atacando`,
+  `celebrando`, `concentrado`, `derrotado`, `frente`, `herido`, `satisfecho` y
+  `sorprendido`. Las poses de batalla están copiadas e integradas; `frente` no se
+  usa en la escena.
+- Falta comprobar en ejecución que el tamaño y la posición se mantengan al
+  intercambiar las texturas.
 
 ### 2.2. Monstruo de Sombras
 
-La imagen v01 no cumple del todo el brief:
-
-- Está mirando al frente, no de lado hacia el contrincante.
-- Tiene **garras afiladas**, y la descripción dice expresamente que no las
-  tiene.
-- La sonrisa es muy dentada y el gesto resulta más agresivo que teatral.
-- La corona es más recargada que la “corona dorada sencilla” descrita.
-
-Acción: regenerar como `Monstruo_De_Sombras_v02` con:
-
-- vista lateral de juego mirando a la derecha;
-- silueta de humo redondeada y compacta;
-- sin orejas, sin garras afiladas y sin dientes agresivos;
-- sonrisa pícara y teatral, nunca terrorífica;
-- corona dorada sencilla con una gema violeta, ligeramente ladeada;
-- paleta carbón, azul noche y violeta luminoso.
-
-La v01 se conserva como historial y como posible referencia de paleta, pero la
-v02 será la base aprobada para las variantes.
+La base elegida es `Monstruo_De_Sombras_v01.png` (antes `v02.png`). Mantiene la
+identidad y la paleta de sombra; las variantes de batalla se revisaron en sus
+copias ligeras y están integradas. También se generó `Monstruo_De_Sombras_frente`
+para retrato, pero no se copia hasta que exista una pantalla que lo use. La
+elección del usuario tiene prioridad; no regenerar la base sin aprobar primero
+una alternativa. Falta comprobar el encuadre en Godot.
 
 ### 2.3. Monstruo Secuaz
 
-La imagen v01 tampoco cumple del todo:
-
-- Está de costado, pero mirando al frente.
-- Tiene cejas de enfado y colmillos, y la descripción pide una expresión
-  juguetona y pícara, nunca enfadada.
-- Su violeta es mucho más brillante que el carbón del jefe; deben parecer de la
-  misma familia.
-
-Acción: regenerar como `Monstruo_Secuaz_v02` con:
-
-- vista lateral de juego mirando a la derecha;
-- cuerpo de gota rechoncho, sin orejas, sin piernas y con cola de humo;
-- cejas arqueadas y sonrisa juguetona, sin ceño de enfado;
-- colmillos simpáticos, no agresivos;
-- mechón rizado violeta brillante;
-- paleta más cercana al carbón y azul noche del jefe, con acentos violeta.
+La base aprobada es `Monstruo_Secuaz_v01.png` (antes `v03.png`). Se
+conservaron las características de secuaz flotante y su paleta. Las nueve poses
+previstas se revisaron en sus copias ligeras; las poses de batalla y derrota
+están integradas. La vista frontal no se usa en esta escena. Falta comprobar que
+el secuaz no cambie de escala al intercambiar texturas en Godot.
 
 ### 2.4. Monstruo Chico
 
@@ -197,47 +179,49 @@ adelante.
 
 ### 3.1. Bases
 
-| Activo                    | Acción                             | Prioridad |
-| ------------------------- | ---------------------------------- | --------- |
-| `Heroe_Chispita`          | Conservar v01; revisar descripción | —         |
-| `Heroe_Chispita_asustado` | Conservar v01; revisar descripción | —         |
-| `Monstruo_De_Sombras`     | Regenerar v02                      | Alta      |
-| `Monstruo_Secuaz`         | Regenerar v02                      | Alta      |
+| Activo                                 | Versión activa      | Estado                                |
+| -------------------------------------- | ------------------- | ------------------------------------- |
+| `Heroe_Chispita`                       | `v01`               | Elegida                               |
+| `Monstruo_De_Sombras`                  | `v01` (antes `v02`) | Elegida; revisar orientación de poses |
+| `Monstruo_Secuaz`                      | `v01` (antes `v03`) | Elegida                               |
+| `Botiquin_de_ayuda`, fondo, mapa, nube | `v01`               | Elegidas                              |
+
+Las versiones sustituidas se conservaron en `Ilustraciones/Borradores/`.
 
 ### 3.2. Poses de batalla
 
-| Estado                 | Chispita                     | Monstruo de Sombras               | Monstruo Secuaz               |
-| ---------------------- | ---------------------------- | --------------------------------- | ----------------------------- |
-| `concentrado`          | `Heroe_Chispita_concentrado` | `Monstruo_De_Sombras_concentrado` | `Monstruo_Secuaz_concentrado` |
-| `satisfecho`           | `Heroe_Chispita_satisfecho`  | `Monstruo_De_Sombras_satisfecho`  | `Monstruo_Secuaz_satisfecho`  |
-| `atacando`             | `Heroe_Chispita_atacando`    | `Monstruo_De_Sombras_atacando`    | `Monstruo_Secuaz_atacando`    |
-| `sorprendido`          | `Heroe_Chispita_sorprendido` | `Monstruo_De_Sombras_sorprendido` | `Monstruo_Secuaz_sorprendido` |
-| `herido`               | `Heroe_Chispita_herido`      | `Monstruo_De_Sombras_herido`      | `Monstruo_Secuaz_herido`      |
-| `celebrando`           | `Heroe_Chispita_celebrando`  | `Monstruo_De_Sombras_celebrando`  | `Monstruo_Secuaz_celebrando`  |
-| `derrotado` (opcional) | `Heroe_Chispita_derrotado`   | `Monstruo_De_Sombras_derrotado`   | `Monstruo_Secuaz_derrotado`   |
+| Estado        | Chispita                     | Monstruo de Sombras               | Monstruo Secuaz               |
+| ------------- | ---------------------------- | --------------------------------- | ----------------------------- |
+| `asustado`    | `Heroe_Chispita_asustado`    | `Monstruo_De_Sombras_asustado`    | `Monstruo_Secuaz_asustado`    |
+| `concentrado` | `Heroe_Chispita_concentrado` | `Monstruo_De_Sombras_concentrado` | `Monstruo_Secuaz_concentrado` |
+| `satisfecho`  | `Heroe_Chispita_satisfecho`  | `Monstruo_De_Sombras_satisfecho`  | `Monstruo_Secuaz_satisfecho`  |
+| `atacando`    | `Heroe_Chispita_atacando`    | `Monstruo_De_Sombras_atacando`    | `Monstruo_Secuaz_atacando`    |
+| `sorprendido` | `Heroe_Chispita_sorprendido` | `Monstruo_De_Sombras_sorprendido` | `Monstruo_Secuaz_sorprendido` |
+| `herido`      | `Heroe_Chispita_herido`      | `Monstruo_De_Sombras_herido`      | `Monstruo_Secuaz_herido`      |
+| `celebrando`  | `Heroe_Chispita_celebrando`  | `Monstruo_De_Sombras_celebrando`  | `Monstruo_Secuaz_celebrando`  |
+| `derrotado`   | `Heroe_Chispita_derrotado`   | `Monstruo_De_Sombras_derrotado`   | `Monstruo_Secuaz_derrotado`   |
+| `frente`      | `Heroe_Chispita_frente`      | `Monstruo_De_Sombras_frente`      | `Monstruo_Secuaz_frente`      |
 
-Total de esta fase: 18 poses (6 estados × 3 personajes) + 4 efectos = 22
-imágenes. Las 3 poses de derrota y los retratos de frente quedan para una fase
-posterior.
+Las 27 poses están generadas como `v01` (nueve por personaje: siete estados,
+`derrotado` y `frente`). Los tres efectos obligatorios también están generados.
+`Aura_Concentracion` sigue siendo opcional y no se ha generado.
 
-> `asustado` se mantiene solo para Chispita como idle de vida baja. Los
-> monstruos pueden usar `herido` mientras esperan la siguiente pregunta.
+### 3.3. Retratos de frente
 
-### 3.3. Retratos de frente (fase posterior)
+Los tres retratos están generados. Se reservan para menús, mapa o pantallas de
+victoria; no deben reemplazar las poses laterales de batalla.
 
-Para menús, mapa o pantallas de victoria. No se usan en la batalla y quedan
-fuera de esta fase.
-
-| Activo                       | Base                  | Uso             |
-| ---------------------------- | --------------------- | --------------- |
-| `Heroe_Chispita_frente`      | `Heroe_Chispita`      | Retrato frontal |
-| `Monstruo_De_Sombras_frente` | `Monstruo_De_Sombras` | Retrato frontal |
-| `Monstruo_Secuaz_frente`     | `Monstruo_Secuaz`     | Retrato frontal |
+| Activo                       | Base                  | Estado         |
+| ---------------------------- | --------------------- | -------------- |
+| `Heroe_Chispita_frente`      | `Heroe_Chispita`      | `v01` generado |
+| `Monstruo_De_Sombras_frente` | `Monstruo_De_Sombras` | `v01` generado |
+| `Monstruo_Secuaz_frente`     | `Monstruo_Secuaz`     | `v01` generado |
 
 ### 3.4. Efectos de ataque (incluidos en esta fase)
 
-Una sola imagen por efecto, animada por código con `Tween`. Se generan en esta
-fase:
+Una sola imagen por efecto, animada por código con `Tween`. Las tres imágenes
+obligatorias están generadas como `v01`, revisadas, recortadas, copiadas a
+`juego/assets/objetos/` y conectadas en la escena de batalla.
 
 | Activo               | Uso                                                  |
 | -------------------- | ---------------------------------------------------- |
@@ -263,27 +247,11 @@ Revisar:
 - `Docu/Ilustraciones/Descripciones/Monstruo_De_Sombras.md`
 - `Docu/Ilustraciones/Descripciones/Monstruo_Secuaz.md`
 
-Crear, para cada personaje y estado de la matriz:
-
-- `Heroe_Chispita_concentrado.md`
-- `Heroe_Chispita_satisfecho.md`
-- `Heroe_Chispita_atacando.md`
-- `Heroe_Chispita_herido.md`
-- `Heroe_Chispita_celebrando.md`
-- `Monstruo_De_Sombras_*.md`
-- `Monstruo_Secuaz_*.md`
-
-Crear en esta fase, para los efectos:
-
-- `Ataque_Chispita.md`
-- `Ataque_Sombra.md`
-- `Impacto.md`
-- `Aura_Concentracion.md` (opcional)
-
-Crear en la fase posterior:
-
-- `*_derrotado.md`
-- `*_frente.md`
+Ya están creadas las descripciones de las 27 poses (`asustado`, los seis estados
+de batalla, `derrotado` y `frente`) y registradas en `catalogo.toml`. También
+existen las descripciones de `Ataque_Chispita`, `Ataque_Sombra`, `Impacto` y
+`Aura_Concentracion`. Las seis descripciones `frente` y `derrotado` se añadieron
+en la fase posterior y ahora están completas.
 
 ### 4.2. Plantilla para una variante
 
@@ -396,21 +364,13 @@ Reglas:
 
 ## 6. Creación de las ilustraciones
 
-### 6.1. Prueba piloto obligatoria
+### 6.1. Prueba piloto y generación
 
-Antes de generar el lote completo:
-
-1. Generar `Heroe_Chispita_atacando` usando `Heroe_Chispita_v01.png` como
-   referencia.
-2. Revisar la copia ligera `Ilustraciones/revision/Heroe_Chispita_atacando_v01.jpg`.
-3. Comprobar:
-    - orientación hacia la derecha;
-    - mismo personaje, colores y proporciones;
-    - mismo tamaño y línea de suelo;
-    - cuerno completo y con margen;
-    - sin texto ni números.
-4. Si el resultado convence, continuar. Si no, ajustar la descripción o la
-   referencia y repetir solo esa imagen.
+El piloto `Heroe_Chispita_atacando_v01.png` se generó desde
+`Heroe_Chispita_v01.png`. También se generaron las 27 poses y los tres efectos
+obligatorios con `qwen/qwen-image-3-pro`, pasando referencias explícitas para
+las variantes de personaje. Las copias ligeras de todas las imágenes se
+revisaron antes de integrar las poses de batalla y los efectos.
 
 ### 6.2. Comandos
 
@@ -439,20 +399,21 @@ python3 scripts/generar_ilustraciones.py Monstruo_De_Sombras_atacando \
 
 Sustituir `v02` por la versión que se apruebe.
 
-### 6.3. Lotes recomendados
+### 6.3. Estado y próximos lotes
 
-1. Bases corregidas: `Monstruo_De_Sombras`, `Monstruo_Secuaz`.
-2. Piloto: `Heroe_Chispita_atacando`.
-3. Chispita: `concentrado`, `satisfecho`, `sorprendido`, `herido`,
-   `celebrando`.
-4. Monstruo de Sombras: los seis estados.
-5. Monstruo Secuaz: los seis estados.
-6. Efectos: `Ataque_Chispita`, `Ataque_Sombra`, `Impacto` y, si se aprueba,
-   `Aura_Concentracion`.
-7. Fase posterior: `derrotado` y retratos de frente.
+1. Bases seleccionadas y normalizadas a `v01`: completado.
+2. Piloto `Heroe_Chispita_atacando`: generado.
+3. Poses de los tres personajes, incluidos `asustado`, `derrotado` y `frente`:
+   generadas como `v01`.
+4. Efectos obligatorios `Ataque_Chispita`, `Ataque_Sombra` e `Impacto`:
+   generados como `v01`.
+5. **Siguiente:** revisar las previsualizaciones de recorte ya existentes, confirmar
+   cuáles cumplen el brief y regenerar solo los que necesiten corrección.
+6. Copiar únicamente los recortes aprobados a `juego/assets/`, conectar texturas y
+   efectos a la escena y validar en Godot.
+7. `Aura_Concentracion` queda opcional.
 
-Revisar cada lote antes de pasar al siguiente. No generar las 22 imágenes de
-golpe sin haber aprobado el piloto.
+No integrar una ilustración que no haya pasado la revisión visual.
 
 ### 6.4. Criterios de revisión
 
@@ -467,29 +428,32 @@ golpe sin haber aprobado el piloto.
 
 ### 6.5. Resolución y calidad
 
-Recomendación: **no bajar la resolución de los personajes**.
+Recomendación: **no forzar resolución ni redimensionar**.
 
-- El modelo `qwen/qwen-image-2.1-turbo` ya es una variante rápida.
-- El endpoint rechaza `resolution` combinado con `aspect_ratio`; el pipeline
-  siempre envía `aspect_ratio` desde el catálogo. Usar `--resolution` exigiría
-  tocar el cliente y perder el control del aspecto 1:1.
+- El modelo de producción es `qwen/qwen-image-3-pro`.
+- Se usa la resolución nativa que devuelva el modelo en cada generación
+  (768 × 768 o 1024 × 1024 según el proveedor). El pipeline no envía
+  `resolution` salvo que se pida explícitamente con `--resolution`, y no
+  reescala la imagen después.
+- El piloto de `Heroe_Chispita_atacando` conserva bien la identidad, el
+  encuadre y el margen con la salida nativa.
 - `revision_max` y `revision_calidad` solo afectan a la copia ligera de revisión,
   no a la generación ni a la calidad del original.
 - El cuello de botella real es la latencia del modelo y la revisión humana, no
-  el tamaño del PNG. Bajar de 2K a 1K ahorraría poco y añadiría riesgo de
-  inconsistencias.
+  el tamaño del PNG.
 
-Si se quiere medir, se puede hacer una prueba con el piloto y comparar tiempos,
-pero la decisión por defecto es mantener la resolución actual. Para las copias
-de revisión se puede bajar `revision_max` a 512 si el contexto o el disco pesan,
-sin afectar al juego.
+Para las copias de revisión se puede bajar `revision_max` a 512 si el contexto
+o el disco pesan, sin afectar al juego.
 
 ---
 
-## 7. Recorte
+### 7. Recorte
 
-Los originales generados tienen fondo blanco. El recorte convierte ese fondo en
-transparencia y guarda el PNG en `Ilustraciones/recortes/`.
+Los originales generados tienen fondo blanco. Ya hay PNG recortados en
+`Ilustraciones/recortes/` y sus copias de revisión sobre tablero en
+`Ilustraciones/revision/`. Se revisaron visualmente las copias ligeras antes de
+integrarlas; no borrar ni regenerar archivos existentes sin detectar un problema
+concreto.
 
 Para el juego se recomienda **no recortar los márgenes**:
 
@@ -526,6 +490,13 @@ python3 scripts/recortar_fondos.py Heroe_Chispita_atacando \
 
 ## 8. Copia a `juego/assets/`
 
+**Estado actualizado:** se revisaron visualmente las copias ligeras de todos los
+recortes (`Ilustraciones/revision/*_recorte.jpg`); los PNG recortados tienen el
+lienzo original de 1024 × 1024. Se copiaron las 23 poses que faltaban (incluido
+`derrotado`) y los tres efectos a `juego/assets/`; Chispita asustada ya estaba
+allí. Los retratos `frente` se dejan fuera porque la batalla no los usa. El
+README enumera los estados y efectos integrados.
+
 Copiar la versión aprobada del recorte al asset del juego, sin el sufijo de
 versión y en minúsculas:
 
@@ -546,28 +517,33 @@ Mapa de nombres:
 | `Heroe_Chispita_sorprendido`      | `juego/assets/personajes/heroe_chispita_sorprendido.png`      |
 | `Heroe_Chispita_herido`           | `juego/assets/personajes/heroe_chispita_herido.png`           |
 | `Heroe_Chispita_celebrando`       | `juego/assets/personajes/heroe_chispita_celebrando.png`       |
+| `Heroe_Chispita_derrotado`        | `juego/assets/personajes/heroe_chispita_derrotado.png`        |
 | `Monstruo_De_Sombras`             | `juego/assets/personajes/monstruo_de_sombras.png`             |
+| `Monstruo_De_Sombras_asustado`    | `juego/assets/personajes/monstruo_de_sombras_asustado.png`    |
 | `Monstruo_De_Sombras_concentrado` | `juego/assets/personajes/monstruo_de_sombras_concentrado.png` |
 | `Monstruo_De_Sombras_satisfecho`  | `juego/assets/personajes/monstruo_de_sombras_satisfecho.png`  |
 | `Monstruo_De_Sombras_atacando`    | `juego/assets/personajes/monstruo_de_sombras_atacando.png`    |
 | `Monstruo_De_Sombras_sorprendido` | `juego/assets/personajes/monstruo_de_sombras_sorprendido.png` |
 | `Monstruo_De_Sombras_herido`      | `juego/assets/personajes/monstruo_de_sombras_herido.png`      |
 | `Monstruo_De_Sombras_celebrando`  | `juego/assets/personajes/monstruo_de_sombras_celebrando.png`  |
+| `Monstruo_De_Sombras_derrotado`   | `juego/assets/personajes/monstruo_de_sombras_derrotado.png`   |
 | `Monstruo_Secuaz`                 | `juego/assets/personajes/monstruo_secuaz.png`                 |
+| `Monstruo_Secuaz_asustado`        | `juego/assets/personajes/monstruo_secuaz_asustado.png`        |
 | `Monstruo_Secuaz_concentrado`     | `juego/assets/personajes/monstruo_secuaz_concentrado.png`     |
 | `Monstruo_Secuaz_satisfecho`      | `juego/assets/personajes/monstruo_secuaz_satisfecho.png`      |
 | `Monstruo_Secuaz_atacando`        | `juego/assets/personajes/monstruo_secuaz_atacando.png`        |
 | `Monstruo_Secuaz_sorprendido`     | `juego/assets/personajes/monstruo_secuaz_sorprendido.png`     |
 | `Monstruo_Secuaz_herido`          | `juego/assets/personajes/monstruo_secuaz_herido.png`          |
 | `Monstruo_Secuaz_celebrando`      | `juego/assets/personajes/monstruo_secuaz_celebrando.png`      |
+| `Monstruo_Secuaz_derrotado`       | `juego/assets/personajes/monstruo_secuaz_derrotado.png`       |
 
 Después de copiar, abrir Godot para que reimporte los PNG (o ejecutar una
-importación headless). Actualizar `juego/assets/README.md` con la lista de
-nombres nuevos.
+importación headless). **Hecho:** los PNG se importaron con Godot headless y
+`juego/assets/README.md` ya enumera las texturas.
 
-Para las imágenes opcionales (`derrotado`, `frente` y efectos), seguir el mismo
-patrón: `juego/assets/personajes/<nombre_en_minusculas>.png` para los retratos y
-`juego/assets/objetos/<nombre_en_minusculas>.png` para los efectos.
+Los tres efectos se guardan en `juego/assets/objetos/` como
+`ataque_chispita.png`, `ataque_sombra.png` e `impacto.png`. El retrato opcional
+`frente` sigue fuera de `juego/assets/` hasta que se conecte a un menú o ficha.
 
 ---
 
@@ -575,8 +551,12 @@ patrón: `juego/assets/personajes/<nombre_en_minusculas>.png` para los retratos 
 
 ### 9.1. Escena `batalla.tscn`
 
-- Activar `flip_h = true` en `MonstruoSprite`, porque todas las ilustraciones
-  miran a la derecha y el enemigo está a la derecha.
+**Estado actualizado:** la escena conserva los `TextureRect` de 240 × 400 para
+Chispita y 193 × 329 para el monstruo; `MonstruoSprite.flip_h` ya está activo.
+Se añadieron los nodos de efecto para los dos ataques y el impacto. Falta revisar
+a mano en ejecución si los tamaños y las posiciones funcionan bien con todas las
+poses.
+
 - Ajustar el tamaño del `TextureRect` de los personajes si el lienzo completo
   cambia el tamaño visual. La primera prueba piloto servirá para calibrar:
     - mantener 240 × 400 con `STRETCH_KEEP_ASPECT_CENTERED`, o
@@ -586,7 +566,10 @@ patrón: `juego/assets/personajes/<nombre_en_minusculas>.png` para los retratos 
 
 ### 9.2. `batalla.gd`: estado de texturas
 
-Añadir un mapa de texturas por personaje y estado:
+**Estado actualizado:** `batalla.gd` ya carga un mapa de texturas para cada
+personaje y estado, cambia las poses desde las señales de batalla y mantiene
+`_actualizar_barras()` limitado a las barras. El estado idle de Chispita depende
+de su vida; los monstruos recuperan la pose base o herida según su vida.
 
 ```gdscript
 const TEXTURAS := {
@@ -635,25 +618,48 @@ func _poner_pose(lado: String, estado: String) -> void:
     - Perdedor: `derrotado` si existe; si no, `herido`. Después sale de la
       pantalla.
     - Ganador: `celebrando` al llegar al centro.
-- La nube, las barras, el botiquín y los tiempos actuales se mantienen.
+- La nube y las barras mantienen su flujo actual. El botiquín-calculadora y sus animaciones se detallan en 9.6.
 
 ### 9.4. Efectos incluidos
 
-Los efectos de ataque e impacto se integran en esta fase:
+Las imágenes `Ataque_Chispita_v01.png`, `Ataque_Sombra_v01.png` e
+`Impacto_v01.png` están recortadas, copiadas y conectadas a nodos `TextureRect`.
+Los ataques viajan entre personajes con `Tween`; el impacto aparece al aplicar
+daño. Falta comprobar visualmente su tamaño y sincronización en ejecución.
 
-- Añadir nodos `TextureRect` para `AtaqueHeroe`, `AtaqueEnemigo` e `Impacto`.
-- Animar con `Tween`: aparecer, avanzar hacia el contrincante, escalar, rotar y
-  desvanecerse.
-- El impacto se reproduce en el momento de `aplicar_dano()`.
-- No es necesario generar una secuencia de frames; una sola imagen por efecto
-  es suficiente.
+- Los nodos `TextureRect` `AtaqueHeroe`, `AtaqueEnemigo` e `Impacto` ya están en
+  `batalla.tscn`.
+- Los ataques aparecen, avanzan hacia el contrincante y se desvanecen con `Tween`;
+  el impacto se reproduce al aplicar el daño.
+- Una sola imagen por efecto es suficiente; no se genera una secuencia de frames.
 
 ### 9.5. Mapa
 
-`mapa.gd` usa las texturas base de los monstruos. Si las nuevas bases miran a la
-derecha, los iconos del mapa también mirarán a la derecha. Es aceptable. Si se
-generan los retratos `*_frente`, se pueden usar en el mapa o en menús para que
-los personajes miren al espectador.
+`mapa.tscn` contiene diez botones independientes, cada uno con su imagen y el
+nombre del pueblo. Sus posiciones iniciales son provisionales y se ajustan a mano
+en el editor sobre las casas; los nueve primeros usan el icono del secuaz y el
+décimo el Monstruo de Sombras. Al liberar un pueblo, el botón queda deshabilitado
+y su imagen se oculta. Pulsar cualquier pueblo ocupado solicita la batalla con
+su `pueblo_id`.
+
+Los retratos `*_frente` siguen pendientes de copiar y conectar al mapa o a los
+menús; no son necesarios para estos marcadores.
+
+### 9.6. Botiquín-calculadora
+
+El botiquín se abre solo si está disponible. Al abrirlo, `Batalla.pregunta` se
+suspende (queda en `null`), se ocultan la nube y las opciones, y el botón con la
+ilustración crece y se desplaza al centro. Sobre la pantalla ilustrada aparecen
+la suma con `=` y un teclado de los dígitos 0–9, `OK` y `Borrar`.
+
+- Cada dígito se concatena a la respuesta mostrada en la pantalla.
+- `OK` devuelve el botiquín a su tamaño y esquina iniciales. Solo una suma
+  correcta cura hasta 30 puntos y consume el botiquín; una incorrecta no daña a
+  Chispita y permite volver a intentarlo.
+- `Borrar` vacía la respuesta y cierra el botiquín sin consumirlo.
+- Al cerrarlo se restaura la misma pregunta suspendida y vuelve a aparecer la
+  nube. Chispita recupera la pose `concentrado`; al restaurar la pregunta, ambos
+  personajes vuelven a esa pose.
 
 ---
 
@@ -671,7 +677,7 @@ los personajes miren al espectador.
 
 ### 10.2. Validación en Godot
 
-- [ ] `godot --headless --path juego --quit-after 180 res://scenes/batalla.tscn`
+- [x] `godot --headless --path juego --quit-after 180 res://scenes/batalla.tscn`
       arranca sin errores de script.
 - [ ] El enemigo se ve volteado y mira a Chispita.
 - [ ] Al cambiar de pose no hay saltos de posición ni de escala.
@@ -679,7 +685,11 @@ los personajes miren al espectador.
       se reproduce en orden.
 - [ ] La celebración del ganador y la salida del perdedor funcionan.
 - [ ] Las barras de vida siguen actualizándose.
-- [ ] El botiquín sigue funcionando.
+- [ ] El botiquín anima al centro, muestra `suma = respuesta`, acepta dígitos y
+      `OK`/`Borrar`, y restaura la misma nube al cerrarse.
+- [ ] Al resolver correctamente el botiquín, Chispita recupera vida hasta el
+      máximo y el objeto queda consumido; una respuesta incorrecta no cura.
+- [ ] Los diez botones del mapa inician su pueblo y ocultan el icono al liberarlo.
 - [ ] Simulación headless de victoria y derrota (como la usada para validar la
       lógica de la batalla).
 
@@ -687,15 +697,15 @@ los personajes miren al espectador.
 
 ## 11. Riesgos y mitigaciones
 
-| Riesgo                                               | Mitigación                                                                                    |
-| ---------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| La IA cambia el personaje entre poses                | Usar siempre la base aprobada como `--ref` y revisar cada lote                                |
-| El personaje cambia de tamaño o se desplaza          | Mantener el lienzo completo, la misma línea de suelo y la misma escala; calibrar en el piloto |
-| Los monstruos siguen saliendo con garras o enfadados | Corregir las bases v02 antes de generar variantes y repetir las descripciones en cada delta   |
-| El jefe se ve más pequeño que el secuaz              | Usar el lienzo completo y comprobar la jerarquía visual en la escena                          |
-| Demasiadas imágenes y coste alto                     | Piloto, lotes pequeños, `n=1`, opcionales al final                                            |
-| El volteo del enemigo afecta a las animaciones       | Usar `TextureRect.flip_h`, que no toca `scale` ni `position`                                  |
-| El recorte deja halos                                | Ajustar `--tolerancia`, `--erosion` o `--sangrado`                                            |
+| Riesgo                                                     | Mitigación                                                                                    |
+| ---------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| La IA cambia el personaje entre poses                      | Usar siempre la base aprobada como `--ref` y revisar cada lote                                |
+| El personaje cambia de tamaño o se desplaza                | Mantener el lienzo completo, la misma línea de suelo y la misma escala; calibrar en el piloto |
+| Las poses no respetan la orientación lateral de la batalla | Revisar las variantes contra las bases v01 aprobadas antes de recortar e integrar             |
+| El jefe se ve más pequeño que el secuaz                    | Usar el lienzo completo y comprobar la jerarquía visual en la escena                          |
+| Demasiadas imágenes y coste alto                           | Piloto completado; lotes de `n=1`; revisar antes de regenerar                                 |
+| El volteo del enemigo afecta a las animaciones             | Usar `TextureRect.flip_h`, que no toca `scale` ni `position`                                  |
+| El recorte deja halos                                      | Ajustar `--tolerancia`, `--erosion` o `--sangrado`                                            |
 
 ---
 
@@ -703,34 +713,46 @@ los personajes miren al espectador.
 
 Confirmadas:
 
-1. Todos los personajes miran a la derecha y el enemigo se voltea con `flip_h`.
-2. Se usa el lienzo completo de 1024 × 1024 sin recorte de márgenes.
-3. Los efectos `Ataque_Chispita`, `Ataque_Sombra` e `Impacto` se incluyen en
-   esta fase. `Aura_Concentracion` es opcional.
-4. `derrotado` y los retratos de frente quedan para una fase posterior.
-5. Se mantiene la resolución de generación actual; no se baja para acelerar.
+1. Las bases activas son las siete imágenes elegidas y normalizadas a `v01`.
+2. Las variantes de batalla se diseñan mirando a la derecha; `frente` es una
+   orientación de retrato separada. `MonstruoSprite.flip_h` está activado en la
+   escena para que el enemigo mire hacia Chispita.
+3. El modelo de producción es `qwen/qwen-image-3-pro`, con resolución nativa y
+   referencia explícita de la base para cada pose.
+4. Están generadas 27 poses (`siete estados + derrotado + frente` para cada
+   personaje) y los tres efectos obligatorios. `Aura_Concentracion` sigue siendo
+   opcional.
+5. Hay PNG en `Ilustraciones/recortes/` y revisiones `_recorte.jpg` en
+   `Ilustraciones/revision/`, pese a la instrucción anterior de mantenerlas
+   vacías. Se preservan estos archivos existentes; no vaciar las carpetas sin
+   confirmación.
 
 Pendiente:
 
-- Calibrar el tamaño visual de los sprites en la escena después del piloto.
+- Revisar la escena en ejecución y probar ataques, victoria/derrota y botiquín;
+  calibrar tamaños, posiciones y sincronización de poses/efectos.
 
 ---
 
 ## 13. Checklist de ejecución
 
-- [ ] Revisar las descripciones base y fijar la orientación a la derecha.
-- [ ] Regenerar `Monstruo_De_Sombras` v02 sin garras ni gesto agresivo.
-- [ ] Regenerar `Monstruo_Secuaz` v02 con expresión juguetona.
-- [ ] Generar el piloto `Heroe_Chispita_atacando` y aprobarlo.
-- [ ] Crear las descripciones de las 18 variantes.
-- [ ] Añadir las entradas al `catalogo.toml`.
-- [ ] Generar las variantes por lotes y revisar las copias ligeras.
-- [ ] Generar los efectos `Ataque_Chispita`, `Ataque_Sombra` e `Impacto`.
-- [ ] Recortar con `--sin-recorte-margenes`.
-- [ ] Copiar los recortes aprobados a `juego/assets/personajes/`.
-- [ ] Añadir `flip_h = true` al monstruo en `batalla.tscn`.
-- [ ] Implementar `_poner_pose()` y la secuencia de estados en `batalla.gd`.
-- [ ] Ajustar el tamaño de los `TextureRect` si hace falta.
-- [ ] Validar en Godot y con la simulación headless.
-- [ ] Actualizar `juego/assets/README.md`.
-- [ ] Dejar `derrotado` y los retratos de frente para la fase posterior.
+- [x] Revisar y elegir las siete bases activas; normalizarlas a `v01`.
+- [x] Crear las descripciones y entradas del catálogo para los estados.
+- [x] Generar las 27 poses de los tres personajes con referencias explícitas.
+- [x] Generar `Heroe_Chispita_frente` y las tres poses `derrotado`.
+- [x] Generar los efectos obligatorios `Ataque_Chispita`, `Ataque_Sombra` e `Impacto`.
+- [x] Revisar visualmente las copias de revisión de las poses y los efectos; corregir
+      solo resultados que no cumplan el brief.
+- [x] Confirmar que los recortes conservan el lienzo 1024 × 1024, sin eliminar márgenes.
+- [x] Copiar las poses de batalla y efectos a `juego/assets/` y actualizar el README.
+- [x] Activar `flip_h = true` en `batalla.tscn`.
+- [x] Implementar el mapa de texturas y conectar los estados a las señales en
+      `batalla.gd`.
+- [x] Integrar los efectos con `Tween`.
+- [ ] Calibrar tamaños/posiciones y probar el flujo de combate, victoria/derrota
+      y botiquín en ejecución.
+- [x] Implementar la interfaz-calculadora del botiquín y suspender/restaurar la
+      pregunta de batalla al abrir/cerrar.
+- [x] Crear diez marcadores de mapa ajustables a mano; ocultar el icono al liberar
+      el pueblo y mantener la transición a batalla.
+- [ ] Decidir si se genera el efecto opcional `Aura_Concentracion`.

@@ -41,8 +41,8 @@ def main() -> None:
     parser.add_argument(
         "--resolution",
         default=None,
-        choices=["1K", "2K"],
-        help="Omitir por defecto: el endpoint ya devuelve 2K y evita errores con aspect_ratio",
+        choices=["512", "768", "1K", "1.5K", "2K", "4K"],
+        help="Omitir para usar la resolucion nativa del modelo",
     )
     parser.add_argument(
         "--aspect", default=None, help="Fuerza una relacion de aspecto para todos"
@@ -50,8 +50,20 @@ def main() -> None:
     parser.add_argument(
         "--bg",
         default="auto",
-        choices=["auto", "white", "magenta", "none"],
+        choices=["auto", "white", "magenta", "transparent", "none"],
         help="Fondo para recortar despues (auto: el del catalogo)",
+    )
+    parser.add_argument(
+        "--background",
+        default=None,
+        choices=["auto", "transparent", "opaque"],
+        help="Fondo nativo de la API (transparent requiere PNG/WebP)",
+    )
+    parser.add_argument(
+        "--output-format",
+        default=None,
+        choices=["png", "jpeg", "webp", "svg", "gif"],
+        help="Formato de salida solicitado a la API",
     )
     parser.add_argument("--n", type=int, default=1, help="Imagenes por prompt (1-6)")
     parser.add_argument("--seed", type=int, default=None)
@@ -96,6 +108,8 @@ def main() -> None:
                 referencias=args.ref,
                 n=args.n,
                 resolution=args.resolution,
+                background=args.background,
+                output_format=args.output_format,
                 crear_revisiones=not args.no_revision,
             )
 

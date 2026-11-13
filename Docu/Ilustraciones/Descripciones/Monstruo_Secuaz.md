@@ -12,7 +12,7 @@ El secuaz es una criatura de sombra compacta con forma de gota o bolita regordet
 
 **Sin piernas ni pies:** el cuerpo se estrecha hacia abajo y termina en una **cola de humo vaporosa y deshilachada**, de modo que el secuaz parece flotar ligeramente. No dibujar patas, pezuñas, zapatos ni base sólida.
 
-Aparece de cuerpo entero, **flotando ligeramente** en guardia, en **vista lateral de tres cuartos mirando hacia la izquierda** (orientado hacia el lado donde estará Chispita en la batalla), inflando el pecho de forma cómica y amistosa, sin armas de ningún tipo.
+Aparece de cuerpo entero, **flotando ligeramente** en guardia, en **vista lateral de juego con el cuerpo y los ojos mirando hacia la derecha**, inflando el pecho de forma cómica y amistosa, sin armas de ningún tipo.
 
 **Expresión:** sonrisa traviesa y pícara, con un par de colmillitos simpáticos y las cejas arqueadas hacia arriba. Debe verse juguetón y seguro de sí mismo, **nunca asustado, triste ni enfadado**.
 
@@ -23,3 +23,18 @@ Aparece de cuerpo entero, **flotando ligeramente** en guardia, en **vista latera
 - Aspecto coherente con el Monstruo de la Sombra, pero claramente menor y más simple.
 - Evitar chispas o fragmentos de humo desconectados de la silueta principal.
 - Sin escenario, sin texto, números, logotipos ni marcas de agua.
+
+## Orientación y encuadre
+
+- **Vista lateral de juego**, con el cuerpo y los ojos mirando hacia la derecha.
+- Misma escala, misma línea de suelo y mismo encuadre que la imagen de referencia.
+- La ilustración siempre se dibuja hacia la derecha; el juego voltea horizontalmente al enemigo con `flip_h`.
+
+## Correcciones obligatorias
+
+- **Sin orejas.**
+- **Sin garras afiladas.**
+- **Sin dientes agresivos:** colmillos simpáticos, no afilados.
+- **Sin ceño de enfado:** cejas arqueadas y relajadas, sonrisa juguetona.
+- **Paleta más cercana al carbón y azul noche del jefe**, con acentos violeta.
+- **Nada terrorífico, agresivo ni violento:** es un villano de cuento infantil.

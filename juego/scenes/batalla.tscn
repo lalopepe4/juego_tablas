@@ -1,14 +1,57 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene format=3 uid="uid://b2cnhh6ul5re2"]
 
-[ext_resource type="Script" path="res://scripts/batalla.gd" id="1_batalla"]
+[ext_resource type="Script" uid="uid://b34s85dojsfk5" path="res://scripts/batalla.gd" id="1_batalla"]
 [ext_resource type="PackedScene" path="res://scenes/ui/barra_vida.tscn" id="2_barra"]
-[ext_resource type="Texture2D" path="res://assets/escenarios/fondo_del_modo_batalla.png" id="3_fondo"]
-[ext_resource type="Texture2D" path="res://assets/personajes/heroe_chispita.png" id="4_heroe"]
-[ext_resource type="Texture2D" path="res://assets/personajes/monstruo_secuaz.png" id="5_monstruo"]
-[ext_resource type="Texture2D" path="res://assets/objetos/nube_de_multiplicar.png" id="6_nube"]
-[ext_resource type="Texture2D" path="res://assets/objetos/botiquin_de_ayuda.png" id="7_botiquin"]
+[ext_resource type="Texture2D" uid="uid://dcviqflbd8ety" path="res://assets/escenarios/fondo_del_modo_batalla.png" id="3_fondo"]
+[ext_resource type="Texture2D" uid="uid://yay2b5fltdht" path="res://assets/personajes/heroe_chispita.png" id="4_heroe"]
+[ext_resource type="Texture2D" uid="uid://datlea07kcaad" path="res://assets/personajes/monstruo_secuaz.png" id="5_monstruo"]
+[ext_resource type="Texture2D" uid="uid://co53a7qbyavyg" path="res://assets/objetos/nube_de_multiplicar.png" id="6_nube"]
+[ext_resource type="Texture2D" uid="uid://dl3mmlgrbgmv" path="res://assets/objetos/botiquin_de_ayuda.png" id="7_botiquin"]
+[ext_resource type="Texture2D" uid="uid://vqwqrwuanr2h" path="res://assets/objetos/ataque_chispita.png" id="8_ataque_heroe"]
+[ext_resource type="Texture2D" uid="uid://d0m2si32amdq8" path="res://assets/objetos/ataque_sombra.png" id="9_ataque_enemigo"]
+[ext_resource type="Texture2D" uid="uid://jj2mcyw3226u" path="res://assets/objetos/impacto.png" id="10_impacto"]
+[ext_resource type="Texture2D" uid="uid://b8cyo56q3pv4e" path="res://assets/escenarios/fondo_del_modo_batalla_borroso.png" id="11_fondo_borroso"]
+[ext_resource type="Texture2D" uid="uid://diy17tkytki8e" path="res://assets/ui/flecha_volver.svg" id="12_flecha"]
 
-[node name="Batalla" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_volver_normal"]
+bg_color = Color(0.1, 0.08, 0.15, 0.45)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.35)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_volver_hover"]
+bg_color = Color(0.15, 0.12, 0.2, 0.65)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.55)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_volver_pressed"]
+bg_color = Color(0.05, 0.04, 0.08, 0.75)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.55)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_focus"]
+
+[node name="Batalla" type="Control" unique_id=859789243]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,8 +59,27 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_batalla")
+metadata/_edit_vertical_guides_ = [300.0, 980.0]
 
-[node name="Fondo" type="TextureRect" parent="."]
+[node name="FondoExterior" type="TextureRect" parent="." unique_id=838453636]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("11_fondo_borroso")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Lienzo" type="Control" parent="." unique_id=1209403409]
+clip_contents = true
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="Fondo" type="TextureRect" parent="Lienzo" unique_id=793525206]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,34 +90,68 @@ texture = ExtResource("3_fondo")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="HeroeSprite" type="TextureRect" parent="."]
+[node name="HeroeSprite" type="TextureRect" parent="Lienzo" unique_id=606527186]
 layout_mode = 0
-offset_left = 40.0
-offset_top = 120.0
-offset_right = 280.0
-offset_bottom = 520.0
+offset_left = -68.0
+offset_top = 215.0
+offset_right = 345.0
+offset_bottom = 636.0
 texture = ExtResource("4_heroe")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="MonstruoSprite" type="TextureRect" parent="."]
+[node name="MonstruoSprite" type="TextureRect" parent="Lienzo" unique_id=324330433]
 layout_mode = 0
-offset_left = 1000.0
-offset_top = 120.0
-offset_right = 1240.0
-offset_bottom = 520.0
+offset_left = 889.0
+offset_top = 232.0
+offset_right = 1277.0
+offset_bottom = 640.0
 texture = ExtResource("5_monstruo")
 expand_mode = 1
 stretch_mode = 5
+flip_h = true
 
-[node name="Heroe" parent="." instance=ExtResource("2_barra")]
+[node name="AtaqueHeroe" type="TextureRect" parent="Lienzo" unique_id=1290702200]
+visible = false
+z_index = 10
+layout_mode = 0
+offset_right = 160.0
+offset_bottom = 160.0
+mouse_filter = 2
+texture = ExtResource("8_ataque_heroe")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="AtaqueEnemigo" type="TextureRect" parent="Lienzo" unique_id=1965225521]
+visible = false
+z_index = 10
+layout_mode = 0
+offset_right = 160.0
+offset_bottom = 160.0
+mouse_filter = 2
+texture = ExtResource("9_ataque_enemigo")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Impacto" type="TextureRect" parent="Lienzo" unique_id=1429586828]
+visible = false
+z_index = 11
+layout_mode = 0
+offset_right = 190.0
+offset_bottom = 190.0
+mouse_filter = 2
+texture = ExtResource("10_impacto")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Heroe" parent="Lienzo" unique_id=662330964 instance=ExtResource("2_barra")]
 layout_mode = 0
 offset_left = 40.0
 offset_top = 30.0
 offset_right = 360.0
 offset_bottom = 78.0
 
-[node name="Monstruo" parent="." instance=ExtResource("2_barra")]
+[node name="Monstruo" parent="Lienzo" unique_id=177927012 instance=ExtResource("2_barra")]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -66,25 +162,26 @@ offset_right = -40.0
 offset_bottom = 78.0
 grow_horizontal = 0
 
-[node name="Nube" type="TextureRect" parent="."]
+[node name="Nube" type="TextureRect" parent="Lienzo" unique_id=801075156]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -360.0
-offset_top = -270.0
-offset_right = 360.0
-offset_bottom = 134.0
+offset_left = -398.0
+offset_top = -311.0
+offset_right = 412.0
+offset_bottom = 141.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("6_nube")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Pregunta" type="Label" parent="Nube"]
+[node name="Pregunta" type="Label" parent="Lienzo/Nube" unique_id=1131298485]
 layout_mode = 1
+anchors_preset = -1
 anchor_left = 0.183
 anchor_top = 0.299
 anchor_right = 0.83
@@ -97,7 +194,7 @@ text = "7 × 8"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Opciones" type="HBoxContainer" parent="."]
+[node name="Opciones" type="HBoxContainer" parent="Lienzo" unique_id=818297089]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -106,62 +203,219 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -231.0
 offset_top = 7.0
-offset_right = 234.0
+offset_right = 231.0
 offset_bottom = 71.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 24
 alignment = 1
 
-[node name="Opcion1" type="Button" parent="Opciones"]
-layout_mode = 2
+[node name="Opcion1" type="Button" parent="Lienzo/Opciones" unique_id=1743947736]
 custom_minimum_size = Vector2(138, 64)
+layout_mode = 2
 theme_override_colors/font_color = Color(0.15, 0.1, 0.2, 1)
-theme_override_colors/font_hover_color = Color(0.05, 0.05, 0.1, 1)
 theme_override_colors/font_pressed_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0.05, 0.05, 0.1, 1)
 theme_override_colors/font_disabled_color = Color(0.4, 0.4, 0.4, 1)
 theme_override_font_sizes/font_size = 32
-flat = true
 text = "56"
+flat = true
 
-[node name="Opcion2" type="Button" parent="Opciones"]
-layout_mode = 2
+[node name="Opcion2" type="Button" parent="Lienzo/Opciones" unique_id=1205298471]
 custom_minimum_size = Vector2(138, 64)
+layout_mode = 2
 theme_override_colors/font_color = Color(0.15, 0.1, 0.2, 1)
-theme_override_colors/font_hover_color = Color(0.05, 0.05, 0.1, 1)
 theme_override_colors/font_pressed_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0.05, 0.05, 0.1, 1)
 theme_override_colors/font_disabled_color = Color(0.4, 0.4, 0.4, 1)
 theme_override_font_sizes/font_size = 32
-flat = true
 text = "54"
+flat = true
 
-[node name="Opcion3" type="Button" parent="Opciones"]
-layout_mode = 2
+[node name="Opcion3" type="Button" parent="Lienzo/Opciones" unique_id=1215122348]
 custom_minimum_size = Vector2(138, 64)
+layout_mode = 2
 theme_override_colors/font_color = Color(0.15, 0.1, 0.2, 1)
-theme_override_colors/font_hover_color = Color(0.05, 0.05, 0.1, 1)
 theme_override_colors/font_pressed_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0.05, 0.05, 0.1, 1)
 theme_override_colors/font_disabled_color = Color(0.4, 0.4, 0.4, 1)
 theme_override_font_sizes/font_size = 32
-flat = true
 text = "64"
+flat = true
 
-[node name="Botiquin" type="Button" parent="."]
+[node name="Botiquin" type="TextureRect" parent="Lienzo" unique_id=2008365782]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 591.0
+offset_right = 95.0
+offset_bottom = 688.0
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+texture = ExtResource("7_botiquin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Pantalla" type="Label" parent="Lienzo/Botiquin" unique_id=2010079716]
+visible = false
 layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 40.0
-offset_top = -110.0
-offset_right = 240.0
-offset_bottom = -50.0
-grow_vertical = 0
-text = "Botiquín"
-icon = ExtResource("7_botiquin")
-expand_icon = true
-icon_max_width = 40
+anchors_preset = -1
+anchor_left = 0.305
+anchor_top = 0.305
+anchor_right = 0.688
+anchor_bottom = 0.452
+theme_override_colors/font_color = Color(0.12, 0.24, 0.23, 1)
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
 
-[node name="Mensaje" type="Label" parent="."]
+[node name="Teclado" type="GridContainer" parent="Lienzo/Botiquin" unique_id=760479115]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.305
+anchor_top = 0.478
+anchor_right = 0.688
+anchor_bottom = 0.778
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 5
+columns = 3
+
+[node name="Digito1" type="Button" parent="Lienzo/Botiquin/Teclado" unique_id=1946367219]
+custom_minimum_size = Vector2(70, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.1, 0.2, 1)
+theme_override_colors/font_pressed_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_disabled_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 22
+text = "1"
+flat = true
+
+[node name="Digito2" type="Button" parent="Lienzo/Botiquin/Teclado" unique_id=819104875]
+custom_minimum_size = Vector2(70, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.1, 0.2, 1)
+theme_override_colors/font_pressed_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_disabled_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 22
+text = "2"
+flat = true
+
+[node name="Digito3" type="Button" parent="Lienzo/Botiquin/Teclado" unique_id=142691491]
+custom_minimum_size = Vector2(70, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.1, 0.2, 1)
+theme_override_colors/font_pressed_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_disabled_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 22
+text = "3"
+flat = true
+
+[node name="Digito4" type="Button" parent="Lienzo/Botiquin/Teclado" unique_id=2117713302]
+custom_minimum_size = Vector2(70, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.1, 0.2, 1)
+theme_override_colors/font_pressed_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_disabled_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 22
+text = "4"
+flat = true
+
+[node name="Digito5" type="Button" parent="Lienzo/Botiquin/Teclado" unique_id=205633435]
+custom_minimum_size = Vector2(70, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.1, 0.2, 1)
+theme_override_colors/font_pressed_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_disabled_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 22
+text = "5"
+flat = true
+
+[node name="Digito6" type="Button" parent="Lienzo/Botiquin/Teclado" unique_id=633437501]
+custom_minimum_size = Vector2(70, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.1, 0.2, 1)
+theme_override_colors/font_pressed_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_disabled_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 22
+text = "6"
+flat = true
+
+[node name="Digito7" type="Button" parent="Lienzo/Botiquin/Teclado" unique_id=2004102611]
+custom_minimum_size = Vector2(70, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.1, 0.2, 1)
+theme_override_colors/font_pressed_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_disabled_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 22
+text = "7"
+flat = true
+
+[node name="Digito8" type="Button" parent="Lienzo/Botiquin/Teclado" unique_id=829642696]
+custom_minimum_size = Vector2(70, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.1, 0.2, 1)
+theme_override_colors/font_pressed_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_disabled_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 22
+text = "8"
+flat = true
+
+[node name="Digito9" type="Button" parent="Lienzo/Botiquin/Teclado" unique_id=1741447795]
+custom_minimum_size = Vector2(70, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.1, 0.2, 1)
+theme_override_colors/font_pressed_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_disabled_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 22
+text = "9"
+flat = true
+
+[node name="Borrar" type="Button" parent="Lienzo/Botiquin/Teclado" unique_id=1294245569]
+custom_minimum_size = Vector2(70, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.1, 0.2, 1)
+theme_override_colors/font_pressed_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_disabled_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 17
+text = "Borrar"
+flat = true
+
+[node name="Digito0" type="Button" parent="Lienzo/Botiquin/Teclado" unique_id=1344825374]
+custom_minimum_size = Vector2(70, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.1, 0.2, 1)
+theme_override_colors/font_pressed_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_disabled_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 22
+text = "0"
+flat = true
+
+[node name="Confirmar" type="Button" parent="Lienzo/Botiquin/Teclado" unique_id=1393773381]
+custom_minimum_size = Vector2(70, 42)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.1, 0.2, 1)
+theme_override_colors/font_pressed_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_hover_color = Color(0.05, 0.05, 0.1, 1)
+theme_override_colors/font_disabled_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 20
+text = "OK"
+flat = true
+
+[node name="Mensaje" type="Label" parent="Lienzo" unique_id=192399188]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -176,37 +430,25 @@ theme_override_colors/font_outline_color = Color(0.1, 0.05, 0.15, 1)
 theme_override_constants/outline_size = 6
 horizontal_alignment = 1
 
-[node name="BotiquinPanel" type="PanelContainer" parent="."]
-visible = false
+[node name="Volver" type="Button" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -220.0
-offset_top = -110.0
-offset_right = 220.0
-offset_bottom = 110.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBox" type="VBoxContainer" parent="BotiquinPanel"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="Suma" type="Label" parent="BotiquinPanel/VBox"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 36
-text = "123 + 456"
-horizontal_alignment = 1
-
-[node name="Respuesta" type="LineEdit" parent="BotiquinPanel/VBox"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-alignment = 1
-placeholder_text = "resultado"
-
-[node name="Confirmar" type="Button" parent="BotiquinPanel/VBox"]
-layout_mode = 2
-text = "Abrir botiquín"
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -88.0
+offset_top = -88.0
+offset_right = -24.0
+offset_bottom = -24.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_default_cursor_shape = 2
+tooltip_text = "Volver al mapa"
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+theme_override_styles/hover = SubResource("StyleBoxFlat_volver_hover")
+theme_override_styles/normal = SubResource("StyleBoxFlat_volver_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_volver_pressed")
+icon = ExtResource("12_flecha")
+expand_icon = true
+icon_alignment = 1

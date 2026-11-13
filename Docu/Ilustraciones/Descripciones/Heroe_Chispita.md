@@ -8,6 +8,13 @@ Chispita tiene el cuerpo pequeño, compacto y robusto, cuatro patas cortas y ág
 
 Aparece de cuerpo entero en **vista lateral de juego hacia la derecha** (con la cara ligeramente girada en tres cuartos para que se aprecien ambos ojos y su expresión simpática), en una pose dinámica y amistosa, listo para lanzar magia y ayudar al reino.
 
+## Orientación y encuadre
+
+- **Vista lateral de juego**, con el cuerpo y los ojos mirando hacia la derecha.
+- La cara puede girarse ligeramente en tres cuartos para que se aprecien ambos ojos, pero la dirección del cuerpo y de la mirada es hacia la derecha.
+- Misma escala, misma línea de suelo y mismo encuadre que la imagen de referencia.
+- La ilustración siempre se dibuja hacia la derecha; el juego voltea horizontalmente al enemigo con `flip_h`.
+
 ## Dirección artística y composición
 
 - Mostrar **únicamente una figura de cuerpo entero**, centrada y con margen amplio alrededor; no hacer hoja de múltiples poses ni viñetas.

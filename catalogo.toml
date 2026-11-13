@@ -6,7 +6,7 @@ revision = "Ilustraciones/revision"
 recortes = "Ilustraciones/recortes"
 
 [generacion]
-modelo = "qwen/qwen-image-2.1-turbo"
+modelo = "qwen/qwen-image-3-pro"
 timeout = 450
 revision_max = 768
 revision_calidad = 82
@@ -28,16 +28,56 @@ base = "Heroe_Chispita"
 descripcion = "Heroe_Chispita_asustado.md"
 
 [[activos]]
+nombre = "Heroe_Chispita_frente"
+base = "Heroe_Chispita"
+descripcion = "Heroe_Chispita_frente.md"
+
+[[activos]]
+nombre = "Heroe_Chispita_derrotado"
+base = "Heroe_Chispita"
+descripcion = "Heroe_Chispita_derrotado.md"
+
+[[activos]]
 nombre = "Monstruo_De_Sombras"
 categoria = "personaje"
 aspecto = "1:1"
 fondo = "white"
 
 [[activos]]
+nombre = "Monstruo_De_Sombras_asustado"
+base = "Monstruo_De_Sombras"
+descripcion = "Monstruo_De_Sombras_asustado.md"
+
+[[activos]]
+nombre = "Monstruo_De_Sombras_frente"
+base = "Monstruo_De_Sombras"
+descripcion = "Monstruo_De_Sombras_frente.md"
+
+[[activos]]
+nombre = "Monstruo_De_Sombras_derrotado"
+base = "Monstruo_De_Sombras"
+descripcion = "Monstruo_De_Sombras_derrotado.md"
+
+[[activos]]
 nombre = "Monstruo_Secuaz"
 categoria = "personaje"
 aspecto = "1:1"
 fondo = "white"
+
+[[activos]]
+nombre = "Monstruo_Secuaz_asustado"
+base = "Monstruo_Secuaz"
+descripcion = "Monstruo_Secuaz_asustado.md"
+
+[[activos]]
+nombre = "Monstruo_Secuaz_frente"
+base = "Monstruo_Secuaz"
+descripcion = "Monstruo_Secuaz_frente.md"
+
+[[activos]]
+nombre = "Monstruo_Secuaz_derrotado"
+base = "Monstruo_Secuaz"
+descripcion = "Monstruo_Secuaz_derrotado.md"
 
 [[activos]]
 nombre = "Monstruo_Chico"
@@ -74,3 +114,120 @@ nombre = "Mapa_Reino_Unicornio_con_monstruos"
 categoria = "escenario"
 aspecto = "16:9"
 fondo = "none"
+
+# Poses de batalla (fase de animaciones)
+
+[[activos]]
+nombre = "Heroe_Chispita_concentrado"
+base = "Heroe_Chispita"
+descripcion = "Heroe_Chispita_concentrado.md"
+
+[[activos]]
+nombre = "Heroe_Chispita_satisfecho"
+base = "Heroe_Chispita"
+descripcion = "Heroe_Chispita_satisfecho.md"
+
+[[activos]]
+nombre = "Heroe_Chispita_atacando"
+base = "Heroe_Chispita"
+descripcion = "Heroe_Chispita_atacando.md"
+
+[[activos]]
+nombre = "Heroe_Chispita_herido"
+base = "Heroe_Chispita"
+descripcion = "Heroe_Chispita_herido.md"
+
+[[activos]]
+nombre = "Heroe_Chispita_celebrando"
+base = "Heroe_Chispita"
+descripcion = "Heroe_Chispita_celebrando.md"
+
+[[activos]]
+nombre = "Monstruo_De_Sombras_concentrado"
+base = "Monstruo_De_Sombras"
+descripcion = "Monstruo_De_Sombras_concentrado.md"
+
+[[activos]]
+nombre = "Monstruo_De_Sombras_satisfecho"
+base = "Monstruo_De_Sombras"
+descripcion = "Monstruo_De_Sombras_satisfecho.md"
+
+[[activos]]
+nombre = "Monstruo_De_Sombras_atacando"
+base = "Monstruo_De_Sombras"
+descripcion = "Monstruo_De_Sombras_atacando.md"
+
+[[activos]]
+nombre = "Monstruo_De_Sombras_sorprendido"
+base = "Monstruo_De_Sombras"
+descripcion = "Monstruo_De_Sombras_sorprendido.md"
+
+[[activos]]
+nombre = "Monstruo_De_Sombras_herido"
+base = "Monstruo_De_Sombras"
+descripcion = "Monstruo_De_Sombras_herido.md"
+
+[[activos]]
+nombre = "Monstruo_De_Sombras_celebrando"
+base = "Monstruo_De_Sombras"
+descripcion = "Monstruo_De_Sombras_celebrando.md"
+
+[[activos]]
+nombre = "Monstruo_Secuaz_concentrado"
+base = "Monstruo_Secuaz"
+descripcion = "Monstruo_Secuaz_concentrado.md"
+
+[[activos]]
+nombre = "Monstruo_Secuaz_satisfecho"
+base = "Monstruo_Secuaz"
+descripcion = "Monstruo_Secuaz_satisfecho.md"
+
+[[activos]]
+nombre = "Monstruo_Secuaz_atacando"
+base = "Monstruo_Secuaz"
+descripcion = "Monstruo_Secuaz_atacando.md"
+
+[[activos]]
+nombre = "Monstruo_Secuaz_sorprendido"
+base = "Monstruo_Secuaz"
+descripcion = "Monstruo_Secuaz_sorprendido.md"
+
+[[activos]]
+nombre = "Monstruo_Secuaz_herido"
+base = "Monstruo_Secuaz"
+descripcion = "Monstruo_Secuaz_herido.md"
+
+[[activos]]
+nombre = "Monstruo_Secuaz_celebrando"
+base = "Monstruo_Secuaz"
+descripcion = "Monstruo_Secuaz_celebrando.md"
+
+# Efectos de ataque
+
+[[activos]]
+nombre = "Ataque_Chispita"
+categoria = "objeto"
+aspecto = "1:1"
+fondo = "white"
+descripcion = "Ataque_Chispita.md"
+
+[[activos]]
+nombre = "Ataque_Sombra"
+categoria = "objeto"
+aspecto = "1:1"
+fondo = "white"
+descripcion = "Ataque_Sombra.md"
+
+[[activos]]
+nombre = "Impacto"
+categoria = "objeto"
+aspecto = "1:1"
+fondo = "white"
+descripcion = "Impacto.md"
+
+[[activos]]
+nombre = "Aura_Concentracion"
+categoria = "objeto"
+aspecto = "1:1"
+fondo = "white"
+descripcion = "Aura_Concentracion.md"

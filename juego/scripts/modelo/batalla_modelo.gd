@@ -30,8 +30,8 @@ var pregunta: Pregunta:
 	get:
 		return _pregunta
 	set(valor):
-		if _pregunta == valor:
-			return
+		# Una pregunta fallada puede volver a salir con el mismo objeto, pero
+		# con opciones regeneradas; la escena debe volver a mostrarla igualmente.
 		_pregunta = valor
 		pregunta_changed.emit(valor)
 

@@ -1,0 +1,277 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/opciones.gd" id="1_opciones"]
+[ext_resource type="Texture2D" uid="uid://culbpp0w0m3bf" path="res://assets/escenarios/mapa_reino_unicornio_fondo_borroso.png" id="2_fondo"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.1, 0.08, 0.16, 0.94)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.55, 0.45, 0.75, 0.9)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_verde"]
+bg_color = Color(0.15, 0.55, 0.2, 0.95)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_verde_hover"]
+bg_color = Color(0.2, 0.65, 0.25, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_verde_pressed"]
+bg_color = Color(0.1, 0.4, 0.15, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rojo"]
+bg_color = Color(0.65, 0.18, 0.18, 0.95)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rojo_hover"]
+bg_color = Color(0.78, 0.24, 0.24, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rojo_pressed"]
+bg_color = Color(0.5, 0.12, 0.12, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_focus"]
+
+[node name="Opciones" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_opciones")
+
+[node name="FondoExterior" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_fondo")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Lienzo" type="Control" parent="."]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="Panel" type="PanelContainer" parent="Lienzo"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -380.0
+offset_top = -280.0
+offset_right = 380.0
+offset_bottom = 280.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="Margen" type="MarginContainer" parent="Lienzo/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 36
+theme_override_constants/margin_right = 48
+theme_override_constants/margin_bottom = 36
+
+[node name="Contenido" type="VBoxContainer" parent="Lienzo/Panel/Margen"]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="Titulo" type="Label" parent="Lienzo/Panel/Margen/Contenido"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.95, 0.8, 1)
+theme_override_font_sizes/font_size = 52
+text = "Opciones"
+horizontal_alignment = 1
+
+[node name="ControlTiempo" type="VBoxContainer" parent="Lienzo/Panel/Margen/Contenido"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Activar" type="CheckButton" parent="Lienzo/Panel/Margen/Contenido/ControlTiempo"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.92, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
+text = "Control de tiempo"
+
+[node name="Minutos" type="HSlider" parent="Lienzo/Panel/Margen/Contenido/ControlTiempo"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+min_value = 15.0
+max_value = 30.0
+step = 1.0
+value = 20.0
+
+[node name="EtiquetaMinutos" type="Label" parent="Lienzo/Panel/Margen/Contenido/ControlTiempo"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.92, 1, 1)
+theme_override_font_sizes/font_size = 28
+text = "20 minutos"
+horizontal_alignment = 1
+
+[node name="Separador" type="HSeparator" parent="Lienzo/Panel/Margen/Contenido"]
+layout_mode = 2
+
+[node name="Limpiar" type="Button" parent="Lienzo/Panel/Margen/Contenido"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+theme_override_styles/hover = SubResource("StyleBoxFlat_rojo_hover")
+theme_override_styles/normal = SubResource("StyleBoxFlat_rojo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_rojo_pressed")
+text = "Limpiar Progreso"
+
+[node name="Mensaje" type="Label" parent="Lienzo/Panel/Margen/Contenido"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.95, 0.6, 1)
+theme_override_font_sizes/font_size = 24
+text = ""
+horizontal_alignment = 1
+
+[node name="Volver" type="Button" parent="Lienzo/Panel/Margen/Contenido"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+theme_override_styles/hover = SubResource("StyleBoxFlat_verde_hover")
+theme_override_styles/normal = SubResource("StyleBoxFlat_verde")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_verde_pressed")
+text = "Volver"
+
+[node name="Confirmacion" type="Control" parent="Lienzo"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Fondo" type="ColorRect" parent="Lienzo/Confirmacion"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="Panel" type="PanelContainer" parent="Lienzo/Confirmacion"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -310.0
+offset_top = -150.0
+offset_right = 310.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="Margen" type="MarginContainer" parent="Lienzo/Confirmacion/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 28
+
+[node name="Contenido" type="VBoxContainer" parent="Lienzo/Confirmacion/Panel/Margen"]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="Titulo" type="Label" parent="Lienzo/Confirmacion/Panel/Margen/Contenido"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.95, 0.8, 1)
+theme_override_font_sizes/font_size = 40
+text = "¿Borrar el progreso?"
+horizontal_alignment = 1
+
+[node name="Mensaje" type="Label" parent="Lienzo/Confirmacion/Panel/Margen/Contenido"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.92, 1, 1)
+theme_override_font_sizes/font_size = 26
+text = "Se perderán todos los pueblos liberados."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Botones" type="HBoxContainer" parent="Lienzo/Confirmacion/Panel/Margen/Contenido"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Si" type="Button" parent="Lienzo/Confirmacion/Panel/Margen/Contenido/Botones"]
+custom_minimum_size = Vector2(220, 60)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+theme_override_styles/hover = SubResource("StyleBoxFlat_rojo_hover")
+theme_override_styles/normal = SubResource("StyleBoxFlat_rojo")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_rojo_pressed")
+text = "Sí, borrar"
+
+[node name="No" type="Button" parent="Lienzo/Confirmacion/Panel/Margen/Contenido/Botones"]
+custom_minimum_size = Vector2(220, 60)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+theme_override_styles/hover = SubResource("StyleBoxFlat_verde_hover")
+theme_override_styles/normal = SubResource("StyleBoxFlat_verde")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_verde_pressed")
+text = "Cancelar"

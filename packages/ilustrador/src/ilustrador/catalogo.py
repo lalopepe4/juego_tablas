@@ -26,6 +26,7 @@ class Activo:
     fondo: str = "white"
     descripcion: str | None = None
     base: str | None = None
+    resolution: str | None = None
 
     @property
     def archivo_descripcion(self) -> str:
@@ -155,6 +156,7 @@ def cargar_proyecto(
             "aspecto",
             base.aspecto if base else ("16:9" if categoria == "escenario" else "1:1"),
         )
+        resolution = item.get("resolution", base.resolution if base else None)
 
         return Activo(
             nombre=nombre,
@@ -163,6 +165,7 @@ def cargar_proyecto(
             fondo=fondo,
             descripcion=item.get("descripcion"),
             base=base_nombre,
+            resolution=resolution,
         )
 
     activos = {nombre: resolver(nombre) for nombre in por_nombre}

@@ -1,27 +1,43 @@
 extends Control
 
-## Punto de entrada: alterna entre el mapa del reino y el modo batalla.
+## Punto de entrada: introduccion, mapa del reino y modo batalla.
 
+const ESCENA_INTRODUCCION := preload("res://scenes/introduccion.tscn")
 const ESCENA_MAPA := preload("res://scenes/mapa.tscn")
+const ESCENA_OPCIONES := preload("res://scenes/opciones.tscn")
 const ESCENA_BATALLA := preload("res://scenes/batalla.tscn")
 
 @onready var _contenedor: Control = $Contenedor
 
 
 func _ready() -> void:
-	mostrar_mapa()
+	mostrar_introduccion()
+
+
+func mostrar_introduccion() -> void:
+	var introduccion := ESCENA_INTRODUCCION.instantiate()
+	introduccion.continuar_solicitada.connect(mostrar_mapa)
+	_cambiar(introduccion)
 
 
 func mostrar_mapa() -> void:
 	var mapa := ESCENA_MAPA.instantiate()
 	mapa.batalla_solicitada.connect(_iniciar_batalla)
+	mapa.opciones_solicitada.connect(mostrar_opciones)
 	_cambiar(mapa)
+
+
+func mostrar_opciones() -> void:
+	var opciones := ESCENA_OPCIONES.instantiate()
+	opciones.volver_solicitada.connect(mostrar_mapa)
+	_cambiar(opciones)
 
 
 func _iniciar_batalla(pueblo_id: int) -> void:
 	var batalla := ESCENA_BATALLA.instantiate()
 	batalla.pueblo_id = pueblo_id
 	batalla.batalla_terminada.connect(_al_terminar_batalla)
+	batalla.volver_solicitada.connect(mostrar_mapa)
 	_cambiar(batalla)
 
 

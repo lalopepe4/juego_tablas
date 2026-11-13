@@ -72,6 +72,8 @@ def generar_ilustracion(
     seed: int | None = None,
     referencias: list[str] | None = None,
     n: int = 1,
+    background: str | None = None,
+    output_format: str | None = None,
 ) -> dict:
     """Genera una ilustracion y devuelve originales, revisiones y coste.
 
@@ -89,6 +91,8 @@ def generar_ilustracion(
         seed=seed,
         referencias=referencias or (),
         n=n,
+        background=background,
+        output_format=output_format,
     )
     return resultado.como_dict()
 

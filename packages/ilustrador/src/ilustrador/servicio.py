@@ -69,6 +69,8 @@ def generar_ilustracion(
     referencias: Sequence[str | Path] = (),
     n: int = 1,
     resolution: str | None = None,
+    background: str | None = None,
+    output_format: str | None = None,
     crear_revisiones: bool = True,
     cliente: ClienteOpenRouter | None = None,
 ) -> ResultadoGeneracion:
@@ -77,6 +79,7 @@ def generar_ilustracion(
     modelo = modelo or proyecto.modelo
     fondo = fondo or activo.fondo
     aspecto = aspecto or activo.aspecto
+    resolution = resolution or activo.resolution
 
     descripcion = descripcion_compuesta(proyecto, catalogo, nombre)
     estilo = extraer_bloque_estilo(proyecto.guia_estilo)
@@ -95,6 +98,8 @@ def generar_ilustracion(
         n=n,
         seed=seed,
         referencias=refs,
+        background=background,
+        output_format=output_format,
     )
 
     resultado = ResultadoGeneracion(

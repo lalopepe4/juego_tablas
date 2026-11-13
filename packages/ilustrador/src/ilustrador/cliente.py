@@ -89,6 +89,8 @@ class ClienteOpenRouter:
         n: int = 1,
         seed: int | None = None,
         referencias: list[dict] | None = None,
+        background: str | None = None,
+        output_format: str | None = None,
     ) -> RespuestaImagen:
         cuerpo: dict = {"model": modelo, "prompt": prompt, "n": n}
         # El endpoint de qwen-image rechaza resolution combinada con aspect_ratio.
@@ -100,6 +102,10 @@ class ClienteOpenRouter:
             cuerpo["seed"] = seed
         if referencias:
             cuerpo["input_references"] = referencias
+        if background:
+            cuerpo["background"] = background
+        if output_format:
+            cuerpo["output_format"] = output_format
 
         peticion = urllib.request.Request(
             self.api_url,
