@@ -58,6 +58,18 @@ func iniciar() -> void:
 	pregunta = GeneradorOpciones.seleccionar_pregunta(pueblo, _rng)
 
 
+func total_preguntas() -> int:
+	return pueblo.preguntas.size()
+
+
+func preguntas_respondidas() -> int:
+	var respondidas := 0
+	for p in pueblo.preguntas:
+		if p.respondida:
+			respondidas += 1
+	return respondidas
+
+
 func responder(opcion: String) -> void:
 	if pregunta == null or _atacante_pendiente != null or _ganador != null:
 		return

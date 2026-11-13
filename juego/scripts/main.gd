@@ -41,16 +41,17 @@ func mostrar_opciones() -> void:
 	_cambiar(opciones)
 
 
-func _iniciar_batalla(pueblo_id: int) -> void:
+func _iniciar_batalla(pueblo_id: int, repaso := false) -> void:
 	var batalla := ESCENA_BATALLA.instantiate()
 	batalla.pueblo_id = pueblo_id
+	batalla.repaso = repaso
 	batalla.batalla_terminada.connect(_al_terminar_batalla)
 	batalla.volver_solicitada.connect(mostrar_mapa)
 	_cambiar(batalla)
 
 
-func _al_terminar_batalla(victoria: bool, pueblo_id: int) -> void:
-	if victoria:
+func _al_terminar_batalla(victoria: bool, pueblo_id: int, repaso: bool) -> void:
+	if victoria and not repaso:
 		Progreso.liberar_pueblo(pueblo_id)
 	mostrar_mapa()
 

@@ -1,58 +1,9 @@
-[gd_resource type="Theme" load_steps=12 format=3]
+[gd_resource type="Theme" format=3 uid="uid://bar1bsc0cqpw"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_verde_normal"]
-bg_color = Color(0.15, 0.55, 0.2, 0.95)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
+[ext_resource type="Texture2D" path="res://assets/ui/interruptor_apagado.svg" id="1_apagado"]
+[ext_resource type="Texture2D" path="res://assets/ui/interruptor_encendido.svg" id="2_encendido"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_verde_hover"]
-bg_color = Color(0.2, 0.65, 0.25, 1)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_verde_pressed"]
-bg_color = Color(0.1, 0.4, 0.15, 1)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rojo_normal"]
-bg_color = Color(0.65, 0.18, 0.18, 0.95)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rojo_hover"]
-bg_color = Color(0.78, 0.24, 0.24, 1)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rojo_pressed"]
-bg_color = Color(0.5, 0.12, 0.12, 1)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_redondo_normal"]
-bg_color = Color(0.1, 0.08, 0.15, 0.45)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(1, 1, 1, 0.35)
-corner_radius_top_left = 32
-corner_radius_top_right = 32
-corner_radius_bottom_right = 32
-corner_radius_bottom_left = 32
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_focus"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_redondo_hover"]
 bg_color = Color(0.15, 0.12, 0.2, 0.65)
@@ -61,6 +12,18 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 border_color = Color(1, 1, 1, 0.55)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_redondo_normal"]
+bg_color = Color(0.1, 0.08, 0.15, 0.45)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.35)
 corner_radius_top_left = 32
 corner_radius_top_right = 32
 corner_radius_bottom_right = 32
@@ -78,6 +41,48 @@ corner_radius_top_right = 32
 corner_radius_bottom_right = 32
 corner_radius_bottom_left = 32
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rojo_hover"]
+bg_color = Color(0.78, 0.24, 0.24, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rojo_normal"]
+bg_color = Color(0.65, 0.18, 0.18, 0.95)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rojo_pressed"]
+bg_color = Color(0.5, 0.12, 0.12, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_verde_hover"]
+bg_color = Color(0.2, 0.65, 0.25, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_verde_normal"]
+bg_color = Color(0.15, 0.55, 0.2, 0.95)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_verde_pressed"]
+bg_color = Color(0.1, 0.4, 0.15, 1)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
 bg_color = Color(0.1, 0.08, 0.16, 0.94)
 border_width_left = 3
@@ -92,18 +97,12 @@ corner_radius_bottom_left = 24
 shadow_color = Color(0, 0, 0, 0.4)
 shadow_size = 12
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_focus"]
-
 [resource]
-BotonVerde/base_type = &"Button"
-BotonVerde/colors/font_color = Color(1, 1, 1, 1)
-BotonVerde/colors/font_hover_color = Color(1, 1, 1, 1)
-BotonVerde/colors/font_pressed_color = Color(1, 1, 1, 1)
-BotonVerde/font_sizes/font_size = 28
-BotonVerde/styles/focus = SubResource("StyleBoxEmpty_focus")
-BotonVerde/styles/hover = SubResource("StyleBoxFlat_verde_hover")
-BotonVerde/styles/normal = SubResource("StyleBoxFlat_verde_normal")
-BotonVerde/styles/pressed = SubResource("StyleBoxFlat_verde_pressed")
+BotonRedondo/base_type = &"Button"
+BotonRedondo/styles/focus = SubResource("StyleBoxEmpty_focus")
+BotonRedondo/styles/hover = SubResource("StyleBoxFlat_redondo_hover")
+BotonRedondo/styles/normal = SubResource("StyleBoxFlat_redondo_normal")
+BotonRedondo/styles/pressed = SubResource("StyleBoxFlat_redondo_pressed")
 BotonRojo/base_type = &"Button"
 BotonRojo/colors/font_color = Color(1, 1, 1, 1)
 BotonRojo/colors/font_hover_color = Color(1, 1, 1, 1)
@@ -113,11 +112,32 @@ BotonRojo/styles/focus = SubResource("StyleBoxEmpty_focus")
 BotonRojo/styles/hover = SubResource("StyleBoxFlat_rojo_hover")
 BotonRojo/styles/normal = SubResource("StyleBoxFlat_rojo_normal")
 BotonRojo/styles/pressed = SubResource("StyleBoxFlat_rojo_pressed")
-BotonRedondo/base_type = &"Button"
-BotonRedondo/styles/focus = SubResource("StyleBoxEmpty_focus")
-BotonRedondo/styles/hover = SubResource("StyleBoxFlat_redondo_hover")
-BotonRedondo/styles/normal = SubResource("StyleBoxFlat_redondo_normal")
-BotonRedondo/styles/pressed = SubResource("StyleBoxFlat_redondo_pressed")
+BotonVerde/base_type = &"Button"
+BotonVerde/colors/font_color = Color(1, 1, 1, 1)
+BotonVerde/colors/font_hover_color = Color(1, 1, 1, 1)
+BotonVerde/colors/font_pressed_color = Color(1, 1, 1, 1)
+BotonVerde/font_sizes/font_size = 28
+BotonVerde/styles/focus = SubResource("StyleBoxEmpty_focus")
+BotonVerde/styles/hover = SubResource("StyleBoxFlat_verde_hover")
+BotonVerde/styles/normal = SubResource("StyleBoxFlat_verde_normal")
+BotonVerde/styles/pressed = SubResource("StyleBoxFlat_verde_pressed")
+OpcionAjuste/base_type = &"CheckButton"
+OpcionAjuste/colors/font_color = Color(0.95, 0.92, 1, 1)
+OpcionAjuste/colors/font_focus_color = Color(1, 1, 1, 1)
+OpcionAjuste/colors/font_hover_color = Color(1, 1, 1, 1)
+OpcionAjuste/colors/font_pressed_color = Color(1, 1, 1, 1)
+OpcionAjuste/constants/h_separation = 8
+OpcionAjuste/font_sizes/font_size = 32
+OpcionAjuste/icons/checked = ExtResource("2_encendido")
+OpcionAjuste/icons/checked_disabled = ExtResource("2_encendido")
+OpcionAjuste/icons/unchecked = ExtResource("1_apagado")
+OpcionAjuste/icons/unchecked_disabled = ExtResource("1_apagado")
+OpcionRespuesta/base_type = &"Button"
+OpcionRespuesta/colors/font_color = Color(0.15, 0.1, 0.2, 1)
+OpcionRespuesta/colors/font_disabled_color = Color(0.4, 0.4, 0.4, 1)
+OpcionRespuesta/colors/font_hover_color = Color(0.05, 0.05, 0.1, 1)
+OpcionRespuesta/colors/font_pressed_color = Color(0.05, 0.05, 0.1, 1)
+OpcionRespuesta/font_sizes/font_size = 32
 PanelOscuro/base_type = &"PanelContainer"
 PanelOscuro/styles/panel = SubResource("StyleBoxFlat_panel")
 TeclaBotiquin/base_type = &"Button"
@@ -126,9 +146,3 @@ TeclaBotiquin/colors/font_disabled_color = Color(0.4, 0.4, 0.4, 1)
 TeclaBotiquin/colors/font_hover_color = Color(0.05, 0.05, 0.1, 1)
 TeclaBotiquin/colors/font_pressed_color = Color(0.05, 0.05, 0.1, 1)
 TeclaBotiquin/font_sizes/font_size = 22
-OpcionRespuesta/base_type = &"Button"
-OpcionRespuesta/colors/font_color = Color(0.15, 0.1, 0.2, 1)
-OpcionRespuesta/colors/font_disabled_color = Color(0.4, 0.4, 0.4, 1)
-OpcionRespuesta/colors/font_hover_color = Color(0.05, 0.05, 0.1, 1)
-OpcionRespuesta/colors/font_pressed_color = Color(0.05, 0.05, 0.1, 1)
-OpcionRespuesta/font_sizes/font_size = 32

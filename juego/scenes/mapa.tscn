@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dl6ov6t87ira8" path="res://assets/ui/engranaje.svg" id="5_engranaje"]
 [ext_resource type="Texture2D" uid="uid://cad5kydk2m3t7" path="res://assets/ui/salir.svg" id="6_salir"]
 [ext_resource type="Texture2D" uid="uid://c1y8hydj4643b" path="res://assets/personajes/monstruo_de_sombras_frente.png" id="7_sombras"]
-[ext_resource type="Script" path="res://scripts/ui/lienzo_escalado.gd" id="8_lienzo"]
+[ext_resource type="Script" uid="uid://cnaxtuajrrgvh" path="res://scripts/ui/lienzo_escalado.gd" id="8_lienzo"]
 [ext_resource type="Theme" path="res://scenes/ui/tema.tres" id="9_tema"]
 [ext_resource type="PackedScene" path="res://scenes/ui/marcador_pueblo.tscn" id="10_marcador"]
 
@@ -59,71 +59,61 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_tema")
 
-[node name="Pueblo1" parent="Lienzo/Pueblos" instance=ExtResource("10_marcador")]
-layout_mode = 0
+[node name="Pueblo1" parent="Lienzo/Pueblos" unique_id=81655959 instance=ExtResource("10_marcador")]
 offset_left = 400.0
 offset_top = 469.0
 offset_right = 530.0
 offset_bottom = 629.0
 
-[node name="Pueblo2" parent="Lienzo/Pueblos" instance=ExtResource("10_marcador")]
-layout_mode = 0
+[node name="Pueblo2" parent="Lienzo/Pueblos" unique_id=225777422 instance=ExtResource("10_marcador")]
 offset_left = 556.0
 offset_top = 461.0
 offset_right = 686.0
 offset_bottom = 621.0
 
-[node name="Pueblo3" parent="Lienzo/Pueblos" instance=ExtResource("10_marcador")]
-layout_mode = 0
+[node name="Pueblo3" parent="Lienzo/Pueblos" unique_id=1162497235 instance=ExtResource("10_marcador")]
 offset_left = 793.0
 offset_top = 467.0
 offset_right = 923.0
 offset_bottom = 627.0
 
-[node name="Pueblo4" parent="Lienzo/Pueblos" instance=ExtResource("10_marcador")]
-layout_mode = 0
+[node name="Pueblo4" parent="Lienzo/Pueblos" unique_id=1858242095 instance=ExtResource("10_marcador")]
 offset_left = 980.0
 offset_top = 433.0
 offset_right = 1110.0
 offset_bottom = 593.0
 
-[node name="Pueblo5" parent="Lienzo/Pueblos" instance=ExtResource("10_marcador")]
-layout_mode = 0
+[node name="Pueblo5" parent="Lienzo/Pueblos" unique_id=1683974404 instance=ExtResource("10_marcador")]
 offset_left = 637.0
 offset_top = 283.0
 offset_right = 767.0
 offset_bottom = 443.0
 
-[node name="Pueblo6" parent="Lienzo/Pueblos" instance=ExtResource("10_marcador")]
-layout_mode = 0
+[node name="Pueblo6" parent="Lienzo/Pueblos" unique_id=729164069 instance=ExtResource("10_marcador")]
 offset_left = 427.0
 offset_top = 275.0
 offset_right = 557.0
 offset_bottom = 435.0
 
-[node name="Pueblo7" parent="Lienzo/Pueblos" instance=ExtResource("10_marcador")]
-layout_mode = 0
+[node name="Pueblo7" parent="Lienzo/Pueblos" unique_id=1288865087 instance=ExtResource("10_marcador")]
 offset_left = 320.0
 offset_top = 144.0
 offset_right = 450.0
 offset_bottom = 304.0
 
-[node name="Pueblo8" parent="Lienzo/Pueblos" instance=ExtResource("10_marcador")]
-layout_mode = 0
+[node name="Pueblo8" parent="Lienzo/Pueblos" unique_id=1637218225 instance=ExtResource("10_marcador")]
 offset_left = 488.0
 offset_top = 97.0
 offset_right = 618.0
 offset_bottom = 257.0
 
-[node name="Pueblo9" parent="Lienzo/Pueblos" instance=ExtResource("10_marcador")]
-layout_mode = 0
+[node name="Pueblo9" parent="Lienzo/Pueblos" unique_id=249655684 instance=ExtResource("10_marcador")]
 offset_left = 768.0
 offset_top = 101.0
 offset_right = 898.0
 offset_bottom = 261.0
 
-[node name="Pueblo10" parent="Lienzo/Pueblos" instance=ExtResource("10_marcador")]
-layout_mode = 0
+[node name="Pueblo10" parent="Lienzo/Pueblos" unique_id=1611189641 instance=ExtResource("10_marcador")]
 offset_left = 976.0
 offset_top = 112.0
 offset_right = 1106.0
@@ -142,7 +132,7 @@ icon = ExtResource("5_engranaje")
 icon_alignment = 1
 expand_icon = true
 
-[node name="Salir" type="Button" parent="."]
+[node name="Salir" type="Button" parent="." unique_id=1882857337]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -155,14 +145,14 @@ offset_right = -24.0
 offset_bottom = -24.0
 grow_horizontal = 0
 grow_vertical = 0
-mouse_default_cursor_shape = 2
 tooltip_text = "Salir del juego"
+mouse_default_cursor_shape = 2
 theme_type_variation = &"BotonRedondo"
 icon = ExtResource("6_salir")
-expand_icon = true
 icon_alignment = 1
+expand_icon = true
 
-[node name="Confirmacion" type="Control" parent="."]
+[node name="Confirmacion" type="Control" parent="." unique_id=642532839]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -171,7 +161,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Fondo" type="ColorRect" parent="Confirmacion"]
+[node name="Fondo" type="ColorRect" parent="Confirmacion" unique_id=187635265]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -180,7 +170,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.6)
 
-[node name="Panel" type="PanelContainer" parent="Confirmacion"]
+[node name="Panel" type="PanelContainer" parent="Confirmacion" unique_id=1901000888]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -195,43 +185,43 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_type_variation = &"PanelOscuro"
 
-[node name="Margen" type="MarginContainer" parent="Confirmacion/Panel"]
+[node name="Margen" type="MarginContainer" parent="Confirmacion/Panel" unique_id=1092523202]
 layout_mode = 2
 theme_override_constants/margin_left = 32
 theme_override_constants/margin_top = 28
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 28
 
-[node name="Contenido" type="VBoxContainer" parent="Confirmacion/Panel/Margen"]
+[node name="Contenido" type="VBoxContainer" parent="Confirmacion/Panel/Margen" unique_id=1057170342]
 layout_mode = 2
 theme_override_constants/separation = 18
 alignment = 1
 
-[node name="Titulo" type="Label" parent="Confirmacion/Panel/Margen/Contenido"]
+[node name="Titulo" type="Label" parent="Confirmacion/Panel/Margen/Contenido" unique_id=1089210348]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.95, 0.8, 1)
 theme_override_font_sizes/font_size = 40
 text = "¿Salir del juego?"
 horizontal_alignment = 1
 
-[node name="Botones" type="HBoxContainer" parent="Confirmacion/Panel/Margen/Contenido"]
+[node name="Botones" type="HBoxContainer" parent="Confirmacion/Panel/Margen/Contenido" unique_id=800374058]
 layout_mode = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="Si" type="Button" parent="Confirmacion/Panel/Margen/Contenido/Botones"]
+[node name="Si" type="Button" parent="Confirmacion/Panel/Margen/Contenido/Botones" unique_id=238915858]
 custom_minimum_size = Vector2(220, 60)
 layout_mode = 2
 theme_type_variation = &"BotonRojo"
 text = "Sí"
 
-[node name="No" type="Button" parent="Confirmacion/Panel/Margen/Contenido/Botones"]
+[node name="No" type="Button" parent="Confirmacion/Panel/Margen/Contenido/Botones" unique_id=456682350]
 custom_minimum_size = Vector2(220, 60)
 layout_mode = 2
 theme_type_variation = &"BotonVerde"
 text = "No"
 
-[node name="AvisoJefe" type="Control" parent="."]
+[node name="AvisoJefe" type="Control" parent="." unique_id=2055041226]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -240,7 +230,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Fondo" type="ColorRect" parent="AvisoJefe"]
+[node name="Fondo" type="ColorRect" parent="AvisoJefe" unique_id=1704996460]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -249,7 +239,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.6)
 
-[node name="Panel" type="PanelContainer" parent="AvisoJefe"]
+[node name="Panel" type="PanelContainer" parent="AvisoJefe" unique_id=1244277639]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -264,30 +254,30 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_type_variation = &"PanelOscuro"
 
-[node name="Margen" type="MarginContainer" parent="AvisoJefe/Panel"]
+[node name="Margen" type="MarginContainer" parent="AvisoJefe/Panel" unique_id=35037762]
 layout_mode = 2
 theme_override_constants/margin_left = 36
 theme_override_constants/margin_top = 28
 theme_override_constants/margin_right = 36
 theme_override_constants/margin_bottom = 28
 
-[node name="Contenido" type="VBoxContainer" parent="AvisoJefe/Panel/Margen"]
+[node name="Contenido" type="VBoxContainer" parent="AvisoJefe/Panel/Margen" unique_id=1143588683]
 layout_mode = 2
 theme_override_constants/separation = 18
 alignment = 1
 
-[node name="Titulo" type="Label" parent="AvisoJefe/Panel/Margen/Contenido"]
+[node name="Titulo" type="Label" parent="AvisoJefe/Panel/Margen/Contenido" unique_id=1551260501]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.75, 1, 1)
 theme_override_font_sizes/font_size = 30
 text = "Monstruo de Sombras"
 horizontal_alignment = 1
 
-[node name="Mensaje" type="HBoxContainer" parent="AvisoJefe/Panel/Margen/Contenido"]
+[node name="Mensaje" type="HBoxContainer" parent="AvisoJefe/Panel/Margen/Contenido" unique_id=1846149834]
 layout_mode = 2
 theme_override_constants/separation = 24
 
-[node name="Retrato" type="TextureRect" parent="AvisoJefe/Panel/Margen/Contenido/Mensaje"]
+[node name="Retrato" type="TextureRect" parent="AvisoJefe/Panel/Margen/Contenido/Mensaje" unique_id=1373172148]
 custom_minimum_size = Vector2(96, 96)
 layout_mode = 2
 size_flags_vertical = 4
@@ -295,18 +285,100 @@ texture = ExtResource("7_sombras")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Texto" type="Label" parent="AvisoJefe/Panel/Margen/Contenido/Mensaje"]
+[node name="Texto" type="Label" parent="AvisoJefe/Panel/Margen/Contenido/Mensaje" unique_id=1884689862]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 4
 theme_override_colors/font_color = Color(0.95, 0.92, 1, 1)
 theme_override_font_sizes/font_size = 32
 text = "¡Aún no estás listo para mí!"
 autowrap_mode = 2
 
-[node name="Aceptar" type="Button" parent="AvisoJefe/Panel/Margen/Contenido"]
+[node name="Aceptar" type="Button" parent="AvisoJefe/Panel/Margen/Contenido" unique_id=753145421]
 custom_minimum_size = Vector2(220, 60)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_type_variation = &"BotonVerde"
 text = "Aceptar"
+
+[node name="Tabla" type="Control" parent="." unique_id=950174261]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Fondo" type="ColorRect" parent="Tabla" unique_id=1958206121]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="Panel" type="PanelContainer" parent="Tabla" unique_id=1810810992]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -380.0
+offset_top = -250.0
+offset_right = 380.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"PanelOscuro"
+
+[node name="Margen" type="MarginContainer" parent="Tabla/Panel" unique_id=808412824]
+layout_mode = 2
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 28
+
+[node name="Contenido" type="VBoxContainer" parent="Tabla/Panel/Margen" unique_id=1835782933]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Titulo" type="Label" parent="Tabla/Panel/Margen/Contenido" unique_id=878615410]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.95, 0.8, 1)
+theme_override_font_sizes/font_size = 40
+text = "Tabla del 7"
+horizontal_alignment = 1
+
+[node name="Ayuda" type="Label" parent="Tabla/Panel/Margen/Contenido" unique_id=430178440]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.9, 1)
+theme_override_font_sizes/font_size = 22
+text = "Repasa la tabla antes de la batalla."
+horizontal_alignment = 1
+
+[node name="Filas" type="GridContainer" parent="Tabla/Panel/Margen/Contenido" unique_id=908916346]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 40
+theme_override_constants/v_separation = 8
+columns = 2
+
+[node name="Botones" type="HBoxContainer" parent="Tabla/Panel/Margen/Contenido" unique_id=911915903]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Aceptar" type="Button" parent="Tabla/Panel/Margen/Contenido/Botones" unique_id=1096830623]
+custom_minimum_size = Vector2(220, 60)
+layout_mode = 2
+theme_type_variation = &"BotonVerde"
+text = "Aceptar"
+
+[node name="Volver" type="Button" parent="Tabla/Panel/Margen/Contenido/Botones" unique_id=1990352460]
+custom_minimum_size = Vector2(220, 60)
+layout_mode = 2
+theme_type_variation = &"BotonRojo"
+text = "Volver"

@@ -41,9 +41,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -380.0
-offset_top = -280.0
+offset_top = -330.0
 offset_right = 380.0
-offset_bottom = 280.0
+offset_bottom = 330.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_type_variation = &"PanelOscuro"
@@ -51,19 +51,19 @@ theme_type_variation = &"PanelOscuro"
 [node name="Margen" type="MarginContainer" parent="Lienzo/Panel"]
 layout_mode = 2
 theme_override_constants/margin_left = 48
-theme_override_constants/margin_top = 36
+theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 48
-theme_override_constants/margin_bottom = 36
+theme_override_constants/margin_bottom = 24
 
 [node name="Contenido" type="VBoxContainer" parent="Lienzo/Panel/Margen"]
 layout_mode = 2
-theme_override_constants/separation = 18
+theme_override_constants/separation = 12
 alignment = 1
 
 [node name="Titulo" type="Label" parent="Lienzo/Panel/Margen/Contenido"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.95, 0.8, 1)
-theme_override_font_sizes/font_size = 52
+theme_override_font_sizes/font_size = 44
 text = "Opciones"
 horizontal_alignment = 1
 
@@ -73,11 +73,7 @@ theme_override_constants/separation = 10
 
 [node name="Activar" type="CheckButton" parent="Lienzo/Panel/Margen/Contenido/ControlTiempo"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.95, 0.92, 1, 1)
-theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
-theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
-theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 32
+theme_type_variation = &"OpcionAjuste"
 text = "Control de tiempo"
 
 [node name="Minutos" type="HSlider" parent="Lienzo/Panel/Margen/Contenido/ControlTiempo"]
@@ -95,7 +91,28 @@ theme_override_font_sizes/font_size = 28
 text = "20 minutos"
 horizontal_alignment = 1
 
-[node name="Separador" type="HSeparator" parent="Lienzo/Panel/Margen/Contenido"]
+[node name="SeparadorTiempo" type="HSeparator" parent="Lienzo/Panel/Margen/Contenido"]
+layout_mode = 2
+
+[node name="Sonido" type="CheckButton" parent="Lienzo/Panel/Margen/Contenido"]
+layout_mode = 2
+theme_type_variation = &"OpcionAjuste"
+text = "Sonido"
+
+[node name="Entrenamiento" type="CheckButton" parent="Lienzo/Panel/Margen/Contenido"]
+layout_mode = 2
+theme_type_variation = &"OpcionAjuste"
+text = "Modo entrenamiento"
+
+[node name="AyudaEntrenamiento" type="Label" parent="Lienzo/Panel/Margen/Contenido"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.9, 1)
+theme_override_font_sizes/font_size = 18
+text = "Antes de cada batalla, muestra la tabla del pueblo."
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="SeparadorAjustes" type="HSeparator" parent="Lienzo/Panel/Margen/Contenido"]
 layout_mode = 2
 
 [node name="Limpiar" type="Button" parent="Lienzo/Panel/Margen/Contenido"]

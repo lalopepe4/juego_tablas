@@ -37,8 +37,8 @@ hay un monstruo y una etiqueta:
 
 - **Conquistado:** el pueblo sigue cubierto por la oscuridad y puedes entrar
   a combatir.
-- **Liberado:** ya has derrotado a su monstruo. El botón queda desactivado y
-  el pueblo no vuelve a jugarse.
+- **Liberado:** ya has derrotado a su monstruo. Puedes volver a pulsarlo
+  para **repasar** su tabla sin alterar el progreso guardado.
 - **Bloqueado:** el **Pueblo 10** no se puede jugar hasta liberar los nueve
   pueblos.
 
@@ -64,6 +64,13 @@ justo lo que más te cuesta.
 En la esquina superior izquierda está el botón de **opciones** (la rueda
 dentada). Lo explico al final.
 
+### Modo entrenamiento
+
+Si activas el **Modo entrenamiento** en Opciones, al pulsar un secuaz aparece
+primero la **tabla de su pueblo** en un panel con el botón **Aceptar**. Al
+aceptar empieza la batalla; si prefieres no jugarla todavía, pulsa **Volver**.
+El jefe final no muestra tabla porque su batalla mezcla varias.
+
 En la esquina inferior derecha está el botón de **salir** del juego. Al pulsarlo
 aparece la pregunta **¿Salir del juego?** con los botones **Sí** y **No**: solo
 si pulsas **Sí** se cierra la aplicación.
@@ -75,7 +82,9 @@ si pulsas **Sí** se cierra la aplicación.
 Al entrar en un pueblo empieza el combate:
 
 - **Arriba:** dos barras de vida. A la izquierda la de Chispita y a la derecha
-  la del monstruo. Ambos empiezan con **100 / 100**.
+  la del monstruo. Ambos empiezan con **100 / 100**. En el centro se ve la tabla
+  actual y el progreso, por ejemplo `Tabla del 7 · 3/10`; en un repaso aparece
+  el prefijo `Repaso`.
 - **Centro:** una nube baja con una multiplicación de la tabla del pueblo y
   **tres opciones**. Solo una es correcta.
 - **Abajo a la izquierda:** el **botiquín médico**.
@@ -119,9 +128,9 @@ cuando lo cierras.
 - **Derrota:** si Chispita pierde toda su vida, el monstruo conserva el
   pueblo. Puedes volver al mapa y reintentar la batalla cuando quieras.
 
-## 4. Opciones y control de tiempo
+## 4. Opciones, sonido y control de tiempo
 
-![Pantalla de opciones con el control de tiempo y el borrado de progreso](Ilustraciones/screenshots/02_01_opciones.png)
+![Pantalla de opciones con el control de tiempo, el sonido, el modo entrenamiento y el borrado de progreso](Ilustraciones/screenshots/02_01_opciones.png)
 
 Pulsa la **rueda dentada** del mapa para abrir las opciones:
 
@@ -129,6 +138,9 @@ Pulsa la **rueda dentada** del mapa para abrir las opciones:
   minutos** con el deslizador. Cuando se cumple el tiempo, el juego se pausa
   y muestra un aviso para descansar. El botón **Entendido** cierra el aviso y
   reinicia la cuenta.
+- **Sonido:** apaga o enciende todo el audio del juego. Se guarda al instante.
+- **Modo entrenamiento:** si está activo, antes de cada batalla de secuaz
+  muestra la tabla del pueblo con un botón **Aceptar**.
 - **Limpiar Progreso:** borra todos los pueblos liberados y el historial de
   fallos que usa el jefe final, y vuelve a empezar desde el Pueblo 1. Pide
   confirmación antes de borrar.
@@ -143,6 +155,7 @@ El control de tiempo está desactivado por defecto y la duración inicial es de
 | -------------------------------- | ------------------------------------------------------ |
 | Pasar la introducción            | Botón **Continuar**                                    |
 | Entrar a un pueblo               | Pulsar el pueblo conquistado en el mapa                |
+| Repasar un pueblo liberado       | Pulsar el pueblo liberado en el mapa                   |
 | Responder una multiplicación     | Pulsar una de las tres opciones de la nube             |
 | Abrir el botiquín                | Pulsar el botiquín de abajo a la izquierda             |
 | Escribir la suma                 | Teclado numérico de la tapa del botiquín               |
@@ -150,6 +163,8 @@ El control de tiempo está desactivado por defecto y la duración inicial es de
 | Borrar y cerrar el botiquín      | Botón **Borrar**                                       |
 | Volver al mapa desde una batalla | Flecha de abajo a la derecha                           |
 | Abrir opciones                   | Rueda dentada de arriba a la izquierda                 |
+| Activar el modo entrenamiento    | Interruptor de la pantalla de opciones                 |
+| Apagar el sonido                 | Interruptor de la pantalla de opciones                 |
 | Enfrentar al jefe final          | Liberar los nueve pueblos y pulsar el Pueblo 10        |
 | Cerrar el juego                  | Botón de salir de abajo a la derecha del mapa y **Sí** |
 

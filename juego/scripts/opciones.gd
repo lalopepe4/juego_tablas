@@ -1,6 +1,7 @@
 extends Control
 
-## Pantalla de opciones: control de tiempo de uso y borrado del progreso.
+## Pantalla de opciones: control de tiempo, sonido, modo entrenamiento y
+## borrado del progreso.
 
 signal volver_solicitada
 
@@ -12,6 +13,8 @@ const ESPERA_GUARDADO := 0.4
 @onready var _etiqueta_minutos: Label = (
 	$Lienzo/Panel/Margen/Contenido/ControlTiempo/EtiquetaMinutos
 )
+@onready var _sonido: CheckButton = $Lienzo/Panel/Margen/Contenido/Sonido
+@onready var _entrenamiento: CheckButton = $Lienzo/Panel/Margen/Contenido/Entrenamiento
 @onready var _limpiar: Button = $Lienzo/Panel/Margen/Contenido/Limpiar
 @onready var _mensaje: Label = $Lienzo/Panel/Margen/Contenido/Mensaje
 @onready var _volver: Button = $Lienzo/Panel/Margen/Contenido/Volver
@@ -31,6 +34,8 @@ func _ready() -> void:
 	_minutos.max_value = ControlTiempo.MAX_MINUTOS
 	_activar.button_pressed = ControlTiempo.activo
 	_minutos.value = ControlTiempo.minutos
+	_sonido.button_pressed = Ajustes.sonido_activo
+	_entrenamiento.button_pressed = Ajustes.modo_entrenamiento
 	_actualizar_controles()
 	_guardado_diferido = Timer.new()
 	_guardado_diferido.one_shot = true
@@ -39,6 +44,8 @@ func _ready() -> void:
 	add_child(_guardado_diferido)
 	_activar.toggled.connect(_al_cambiar_activo)
 	_minutos.value_changed.connect(_al_cambiar_minutos)
+	_sonido.toggled.connect(_al_cambiar_sonido)
+	_entrenamiento.toggled.connect(_al_cambiar_entrenamiento)
 	_limpiar.pressed.connect(_al_pulsar_limpiar)
 	_volver.pressed.connect(_al_pulsar_volver)
 	_confirmar_si.pressed.connect(_al_confirmar_limpiar)
@@ -69,6 +76,14 @@ func _al_cambiar_minutos(valor: float) -> void:
 	ControlTiempo.configurar(_activar.button_pressed, int(valor))
 	_actualizar_controles()
 	_guardado_diferido.start()
+
+
+func _al_cambiar_sonido(activo: bool) -> void:
+	Ajustes.establecer_sonido(activo)
+
+
+func _al_cambiar_entrenamiento(activo: bool) -> void:
+	Ajustes.establecer_entrenamiento(activo)
 
 
 func _al_pulsar_limpiar() -> void:

@@ -1,6 +1,6 @@
 # Plan de refactorización
 
-Estado: **Fase 3 completada**.
+Estado: **Fase 4 completada** (teclado y mapa por datos quedan fuera de alcance).
 Última actualización: 2026-11-13.
 
 ## Objetivo
@@ -211,11 +211,64 @@ automáticas, sin cambiar el comportamiento visible del juego.
 
 ## Fase 4 — Producto
 
-- [ ] Mostrar la tabla actual y el progreso (por ejemplo, `3/10`) en batalla.
-- [ ] Permitir repasar pueblos ya liberados sin alterar el progreso.
-- [ ] Añadir control de volumen o mute.
-- [ ] Añadir soporte de teclado (`1/2/3`, `Enter`).
-- [ ] Valorar un mapa generado desde datos en vez de diez nodos manuales.
+- [x] Mostrar la tabla actual y el progreso (por ejemplo, `3/10`) en batalla.
+- [x] Permitir repasar pueblos ya liberados sin alterar el progreso.
+- [x] Añadir un toggle de sonido (mute global).
+- [x] Añadir el **Modo entrenamiento**: tabla del pueblo antes de la batalla.
+- [ ] Soporte de teclado (`1/2/3`, `Enter`) — fuera de alcance por ahora.
+- [ ] Mapa generado desde datos — descartado: las posiciones se ajustan a mano.
+
+### Detalle de la Fase 4
+
+- `juego/scripts/ajustes.gd` (autoload `Ajustes`): guarda `sonido_activo` y
+  `modo_entrenamiento` en `user://ajustes.cfg`, aplica el mute desde el bus
+  Master, valida los booleanos al cargar y permite cambiar la ruta en pruebas.
+- `opciones.tscn`/`opciones.gd`: nueva variación de tema `OpcionAjuste` para los
+  `CheckButton` y dos toggles, **Sonido** y **Modo entrenamiento**, con una
+  ayuda bajo el segundo. Guardan al instante y el panel crece a 760 × 677 para
+  que quepa todo.
+- `assets/ui/interruptor_apagado.svg` e `interruptor_encendido.svg`: iconos de
+  64 × 32 para `OpcionAjuste`, en lugar de los 32 × 16 por defecto, para que el
+  interruptor quede a la altura de la fuente de 32 px y de los botones.
+- `batalla_modelo.gd`: `total_preguntas()` y `preguntas_respondidas()` para
+  calcular el progreso desde las preguntas marcadas.
+- `batalla.gd`/`batalla.tscn`: nueva etiqueta `Lienzo/Progreso` con
+  `Tabla del X · n/10` (o `Jefe final · n/10`) y prefijo `Repaso · ` cuando
+  corresponde. La señal `batalla_terminada` incluye `repaso`; en un repaso no
+  se registran fallos, el mensaje de victoria es “¡Repaso completado!” y el
+  contador se actualiza también al ganar.
+- `mapa.gd`/`mapa.tscn`: los pueblos liberados vuelven a ser pulsables y
+  emiten `batalla_solicitada(pueblo_id, repaso)`. Su marcador cambia al icono
+  del monstruo derrotado (`monstruo_secuaz_derrotado.png` o
+  `monstruo_de_sombras_derrotado.png`) para distinguirlos de los conquistados.
+  Con el modo entrenamiento activo, pulsar un secuaz abre el popup `Tabla` con
+  las diez multiplicaciones del pueblo, `Aceptar` (empieza la batalla) y
+  `Volver`; el jefe se salta la tabla porque su batalla mezcla tablas. El botón
+  atrás cierra el popup.
+- `main.gd`: arranca la batalla con el flag `repaso` y solo llama a
+  `Progreso.liberar_pueblo()` si hay victoria y no es un repaso.
+- `Readme.md`: describe el repaso, el modo entrenamiento y el toggle de sonido.
+
+### Validación de la Fase 4
+
+- `./scripts/test_juego.sh`: 142 comprobaciones y 0 fallos.
+- `prueba_batalla.gd` cubre el progreso; `prueba_ajustes.gd` cubre valores por
+  defecto, guardado, mute del bus Master y datos inválidos; `prueba_navegacion.gd`
+  cubre repaso, iconos de pueblo liberado/conquistado, popup de entrenamiento y
+  los dos toggles de opciones.
+- Comprobado en headless que el panel de opciones (760 × 677) cabe en el lienzo
+  de 720, que el popup de tabla mide 760 × 500 con diez filas y que la etiqueta
+  de progreso (y = 8…46) no se solapa con la nube (y = 49). Los `CheckButton`
+  usan iconos de 64 × 32 (antes 32 × 16).
+- Diagnósticos del proyecto: sin errores ni avisos.
+
+### Pendiente inmediato de la Fase 4
+
+- Regenerar `Ilustraciones/screenshots/02_01_opciones.png` (ahora incluye los
+  toggles de sonido y entrenamiento) y añadir una captura de la tabla de
+  entrenamiento; conviene hacerlo con ventana, no en headless.
+- El soporte de teclado y el mapa por datos quedan fuera de esta fase por
+  decisión de producto.
 
 ## Registro de cambios
 
@@ -227,3 +280,9 @@ automáticas, sin cambiar el comportamiento visible del juego.
   guardado, botón atrás de Android y confirmación al abandonar la batalla.
 - 2026-11-13: se dejaron de versionar `JuegoChispita.apk` y su `.idsig`
   (`git rm --cached`); siguen en disco e ignorados.
+- 2026-11-13: Fase 4 completada: progreso en batalla, repaso de pueblos,
+  toggle de sonido y modo entrenamiento con la tabla del pueblo.
+- 2026-11-13: interruptores de la pantalla de opciones con iconos propios de
+  64 × 32.
+- 2026-11-13: los pueblos liberados muestran al monstruo derrotado en el mapa
+  para distinguirlos de los conquistados.

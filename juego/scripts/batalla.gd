@@ -8,7 +8,7 @@ extends Control
 ## animaciones, las poses, los sonidos y el botiquin viven en modulos aparte
 ## (`scripts/batalla/`).
 
-signal batalla_terminada(victoria: bool, pueblo_id: int)
+signal batalla_terminada(victoria: bool, pueblo_id: int, repaso: bool)
 signal volver_solicitada
 
 const CURACION_BOTIQUIN := 30
@@ -16,6 +16,8 @@ const PAUSA_TRAS_DANO := 0.5
 const PAUSA_FINAL := 0.4
 
 var pueblo_id := 0
+## true si la batalla es un repaso: no cambia el progreso guardado.
+var repaso := false
 
 var _batalla: Batalla
 var _heroe: Personaje
@@ -40,6 +42,7 @@ var _volver_antes := false
 @onready var _barra_heroe: Control = $Lienzo/Heroe
 @onready var _barra_monstruo: Control = $Lienzo/Monstruo
 @onready var _pregunta: Label = $Lienzo/Nube/Pregunta
+@onready var _progreso: Label = $Lienzo/Progreso
 @onready var _opciones: Array[Button] = [
 	$Lienzo/Opciones/Opcion1, $Lienzo/Opciones/Opcion2, $Lienzo/Opciones/Opcion3
 ]
@@ -100,6 +103,8 @@ func _preparar_escena() -> void:
 	_bloquear_opciones()
 	_habilitar_botiquin(false)
 	_mensaje.text = ""
+	_actualizar_progreso()
+	_progreso.modulate.a = 0.0
 
 
 func _al_cambiar_pregunta(pregunta: Pregunta) -> void:
@@ -116,6 +121,8 @@ func _al_cambiar_pregunta(pregunta: Pregunta) -> void:
 	for indice in _opciones.size():
 		_opciones[indice].text = pregunta.opciones[indice]
 	_mensaje.text = ""
+	_actualizar_progreso()
+	_progreso.modulate.a = 1.0
 
 	await _animador.entrar_nube()
 
@@ -149,7 +156,8 @@ func _al_cambiar_respuesta(
 	else:
 		_mensaje.text = "Fallaste. La respuesta era %s." % _batalla.pregunta.respuesta_literal
 		# El jefe elige sus preguntas con este historial; su propia batalla no cuenta.
-		if not _es_jefe:
+		# En un repaso tampoco se altera el progreso guardado.
+		if not _es_jefe and not repaso:
 			Progreso.registrar_fallo(_batalla.pregunta)
 
 	var atacante_lado := "heroe" if atacante == _heroe else "enemigo"
@@ -182,14 +190,18 @@ func _al_cambiar_ganador(ganador: Personaje) -> void:
 	_botiquin.ocultar_controles()
 
 	var victoria := ganador == _heroe
+	_actualizar_progreso()
 	_poner_pose("enemigo" if victoria else "heroe", "derrotado")
 	if victoria:
 		_sonidos.victoria(_es_jefe)
 	else:
 		_sonidos.derrota()
-	_mensaje.text = (
-		"¡Pueblo liberado!" if victoria else "Chispita se ha quedado sin fuerzas..."
-	)
+	if not victoria:
+		_mensaje.text = "Chispita se ha quedado sin fuerzas..."
+	elif repaso:
+		_mensaje.text = "¡Repaso completado!"
+	else:
+		_mensaje.text = "¡Pueblo liberado!"
 
 	_animador.ocultar_barras()
 
@@ -197,12 +209,25 @@ func _al_cambiar_ganador(ganador: Personaje) -> void:
 	_poner_pose("heroe" if victoria else "enemigo", "celebrando")
 	await _animador.celebrar_ganador(victoria)
 	await _animador.esperar(PAUSA_FINAL)
-	batalla_terminada.emit(victoria, pueblo_id)
+	batalla_terminada.emit(victoria, pueblo_id, repaso)
 
 
 func _actualizar_barras() -> void:
 	_barra_heroe.set_vida(_heroe.vida, Personaje.VIDA_MAXIMA)
 	_barra_monstruo.set_vida(_enemigo.vida, Personaje.VIDA_MAXIMA)
+
+
+func _actualizar_progreso() -> void:
+	var tabla := (
+		"Jefe final" if _es_jefe else "Tabla del %d" % Progreso.tabla_del_pueblo(pueblo_id)
+	)
+	var prefijo := "Repaso · " if repaso else ""
+	_progreso.text = "%s%s · %d/%d" % [
+		prefijo,
+		tabla,
+		_batalla.preguntas_respondidas(),
+		_batalla.total_preguntas(),
+	]
 
 
 func _poner_pose(lado: String, estado: String) -> void:

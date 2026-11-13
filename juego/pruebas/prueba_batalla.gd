@@ -13,6 +13,7 @@ func ejecutar() -> void:
 	_probar_respuestas_ignoradas()
 	_probar_ganador_por_vida()
 	_probar_ganador_sin_preguntas()
+	_probar_progreso()
 	_probar_personaje()
 
 
@@ -163,6 +164,23 @@ func _probar_ganador_sin_preguntas() -> void:
 	batalla.aplicar_dano()
 	batalla.avanzar()
 	comprobar("sin preguntas: gana el heroe", batalla.ganador == batalla.heroe)
+
+
+func _probar_progreso() -> void:
+	var batalla := _nueva()
+	batalla.iniciar()
+	igual("progreso: total de preguntas", 10, batalla.total_preguntas())
+	igual("progreso: cero respondidas al empezar", 0, batalla.preguntas_respondidas())
+
+	batalla.responder(batalla.pregunta.respuesta_literal)
+	batalla.aplicar_dano()
+	batalla.avanzar()
+	igual("progreso: un acierto suma", 1, batalla.preguntas_respondidas())
+
+	batalla.responder("999999")
+	batalla.aplicar_dano()
+	batalla.avanzar()
+	igual("progreso: un fallo no suma", 1, batalla.preguntas_respondidas())
 
 
 func _probar_personaje() -> void:
