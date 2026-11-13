@@ -15,12 +15,20 @@ const TAMANO_LIENZO := Vector2(1280.0, 720.0)
 @onready var _lienzo: Control = $Lienzo
 @onready var _pueblos: Control = $Lienzo/Pueblos
 @onready var _opciones: Button = $Opciones
+@onready var _salir: Button = $Salir
+@onready var _confirmacion_salir: Control = $Confirmacion
+@onready var _confirmar_salir: Button = $Confirmacion/Panel/Margen/Contenido/Botones/Si
+@onready var _cancelar_salir: Button = $Confirmacion/Panel/Margen/Contenido/Botones/No
 
 
 func _ready() -> void:
 	_ajustar_lienzo()
 	get_viewport().size_changed.connect(_ajustar_lienzo)
 	_opciones.pressed.connect(_al_pulsar_opciones)
+	_salir.pressed.connect(_al_pulsar_salir)
+	_confirmar_salir.pressed.connect(_al_confirmar_salir)
+	_cancelar_salir.pressed.connect(_cerrar_confirmacion)
+	_confirmacion_salir.visible = false
 	for pueblo_id in Progreso.TOTAL_PUEBLOS:
 		var boton := _obtener_boton(pueblo_id)
 		boton.pressed.connect(_al_pulsar_pueblo.bind(pueblo_id))
@@ -67,3 +75,17 @@ func _al_pulsar_pueblo(pueblo_id: int) -> void:
 
 func _al_pulsar_opciones() -> void:
 	opciones_solicitada.emit()
+
+
+## El boton de salir solo abre la confirmacion: cerrar el juego requiere
+## pulsar "Si", asi una pulsacion accidental no cierra la partida.
+func _al_pulsar_salir() -> void:
+	_confirmacion_salir.visible = true
+
+
+func _cerrar_confirmacion() -> void:
+	_confirmacion_salir.visible = false
+
+
+func _al_confirmar_salir() -> void:
+	get_tree().quit()
