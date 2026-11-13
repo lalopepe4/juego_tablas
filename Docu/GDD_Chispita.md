@@ -18,7 +18,7 @@ Chispita es un tierno unicornio con crines y cola de colores del arcoíris que u
 
 ## 3. Estructura y Progresión del Juego
 
-• Mapa General: Muestra los diez pueblos unidos por un camino. Al inicio, todos tienen monstruos. A medida que Chispita derrota a los jefes, el pueblo se ilumina y se libera, desbloqueando el acceso al siguiente.
+• Mapa General: Muestra los diez pueblos unidos por un camino. Los nueve primeros están defendidos por los secuaces y repasan las tablas del 2 al 10. El Pueblo 10 está ocupado por el Monstruo de la Sombra y solo se desbloquea cuando Chispita ha liberado los nueve pueblos. Al derrotar a un secuaz, el pueblo se ilumina y queda liberado.
 
 • Modo Aventura / Viaje: El héroe avanza por el camino hasta llegar al pueblo objetivo para iniciar la batalla.
 
@@ -30,7 +30,7 @@ En la parte superior se muestran las barras de vida (HP al 100%) tanto de Chispi
 
 ### Mecánica Principal (Preguntas de Multiplicación):
 
-Una nube desciende al centro del ring mostrando la pregunta de la tabla (10 preguntas por cada tabla/secuaz). Y se ofrecen tres opciones numéricas como posibles respuestas.
+Una nube desciende al centro del ring mostrando la pregunta de la tabla (10 preguntas por cada tabla/secuaz, de la del 2 a la del 10). Y se ofrecen tres opciones numéricas como posibles respuestas.
 
 Si acierta: Chispita lanza un rayo mágico desde su cuerno, restando vida al monstruo.
 
@@ -42,9 +42,13 @@ Chispita puede usar un botiquín en cualquier momento de la batalla.
 
 Para activarlo, debe resolver un reto de suma de tres cifras introduciendo el resultado en un teclado numérico integrado en la tapa del botiquín.
 
+### El jefe final
+
+El Monstruo de la Sombra no repasa una tabla fija: pregunta las diez multiplicaciones que más ha fallado Chispita. De cada tabla se toman las dos con más fallos (si no hay suficientes, se completan al azar) y, de esas dieciocho candidatas, se eligen las diez con más fallos. Así la última batalla es un repaso personalizado de lo que más cuesta.
+
 ### Victoria
 
-Al responder correctamente las 10 preguntas sombra del secuaz, el monstruo es derrotado, el pueblo se libera y se regresa al mapa general.
+Al responder correctamente las 10 preguntas del secuaz (o del jefe final), el monstruo es derrotado, el pueblo se libera y se regresa al mapa general.
 
 ### Derrota
 
@@ -71,4 +75,4 @@ Si control de tiempo está habilitado:
 En cualquier momento, el usuario podría querer limpiar su progreso para volver a empezar el juego.
 
 Propuesta de controles a usar:
-Button "Limpiar Progreso" que al presionarse, limpia el progreso del juego.
+Button "Limpiar Progreso" que al presionarse, borra los pueblos liberados y el historial de fallos que usa el jefe final.

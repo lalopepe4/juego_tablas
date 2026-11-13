@@ -25,6 +25,12 @@ var respuesta_literal: String:
 		return str(respuesta)
 
 
+## Identifica la multiplicacion para guardar sus fallos en el progreso.
+var clave: String:
+	get:
+		return "%d x %d" % [multiplicando, multiplicador]
+
+
 var pregunta_literal: String:
 	get:
 		return "%d × %d" % [multiplicando, multiplicador]

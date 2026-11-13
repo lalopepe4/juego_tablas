@@ -16,12 +16,12 @@ por pueblo.
 ## Cómo se juega
 
 1. **Mapa general.** Se muestran los diez pueblos unidos por el camino, cada uno
-   con su monstruo. Al derrotar a un jefe, el pueblo se ilumina y se desbloquea
-   el siguiente.
+   con su monstruo. Al derrotar a un secuaz, el pueblo se ilumina; el jefe final
+   solo se desbloquea al liberar los nueve pueblos.
 2. **Modo batalla.** Al llegar a un pueblo, Chispita y el monstruo empiezan con el
    100 % de vida, visible en la parte superior de la pantalla.
 3. **Preguntas de multiplicación.** Una nube desciende al centro del ring con la
-   pregunta de la tabla y tres opciones numéricas.
+   pregunta de la tabla (del 2 al 10) y tres opciones numéricas.
     - **Acierto:** Chispita lanza un rayo mágico desde su cuerno y resta vida al
       monstruo.
     - **Fallo:** el monstruo muestra la respuesta correcta y ataca con sombra,
@@ -30,8 +30,10 @@ por pueblo.
    resolver una suma de tres cifras e introducir el resultado en el teclado
    numérico de la tapa del botiquín, como una calculadora.
 5. **Victoria y derrota.** Al responder correctamente las diez preguntas del
-   secuaz, el monstruo cae y el pueblo queda libre. Si Chispita pierde toda su
-   vida, el monstruo conserva el control del pueblo.
+   secuaz o del jefe final, el monstruo cae y el pueblo queda libre. Si Chispita
+   pierde toda su vida, el monstruo conserva el control del pueblo.
+6. **Jefe final.** El Monstruo de Sombras pregunta las diez multiplicaciones que
+   más ha fallado Chispita, elegidas entre las dos más falladas de cada tabla.
 
 Además, la pantalla del mapa incluye un botón de opciones (rueda dentada) con
 **control de tiempo** (alarma de uso entre 15 y 30 minutos) y **reset de

@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://culbpp0w0m3bf" path="res://assets/escenarios/mapa_reino_unicornio_fondo_borroso.png" id="4_fondo_borroso"]
 [ext_resource type="Texture2D" uid="uid://dl6ov6t87ira8" path="res://assets/ui/engranaje.svg" id="5_engranaje"]
 [ext_resource type="Texture2D" uid="uid://cad5kydk2m3t7" path="res://assets/ui/salir.svg" id="6_salir"]
+[ext_resource type="Texture2D" uid="uid://c1y8hydj4643b" path="res://assets/personajes/monstruo_de_sombras_frente.png" id="7_sombras"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_engranaje_normal"]
 bg_color = Color(0.1, 0.08, 0.15, 0.45)
@@ -437,3 +438,90 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_verde_hover")
 theme_override_styles/normal = SubResource("StyleBoxFlat_verde")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_verde_pressed")
 text = "No"
+
+[node name="AvisoJefe" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Fondo" type="ColorRect" parent="AvisoJefe"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="Panel" type="PanelContainer" parent="AvisoJefe"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -380.0
+offset_top = -170.0
+offset_right = 380.0
+offset_bottom = 170.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="Margen" type="MarginContainer" parent="AvisoJefe/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 28
+
+[node name="Contenido" type="VBoxContainer" parent="AvisoJefe/Panel/Margen"]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="Titulo" type="Label" parent="AvisoJefe/Panel/Margen/Contenido"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.75, 1, 1)
+theme_override_font_sizes/font_size = 30
+text = "Monstruo de Sombras"
+horizontal_alignment = 1
+
+[node name="Mensaje" type="HBoxContainer" parent="AvisoJefe/Panel/Margen/Contenido"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="Retrato" type="TextureRect" parent="AvisoJefe/Panel/Margen/Contenido/Mensaje"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("7_sombras")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Texto" type="Label" parent="AvisoJefe/Panel/Margen/Contenido/Mensaje"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.95, 0.92, 1, 1)
+theme_override_font_sizes/font_size = 32
+text = "¡Aún no estás listo para mí!"
+autowrap_mode = 2
+
+[node name="Aceptar" type="Button" parent="AvisoJefe/Panel/Margen/Contenido"]
+custom_minimum_size = Vector2(220, 60)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/focus = SubResource("StyleBoxEmpty_focus")
+theme_override_styles/hover = SubResource("StyleBoxFlat_verde_hover")
+theme_override_styles/normal = SubResource("StyleBoxFlat_verde")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_verde_pressed")
+text = "Aceptar"

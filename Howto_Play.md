@@ -39,14 +39,27 @@ hay un monstruo y una etiqueta:
   a combatir.
 - **Liberado:** ya has derrotado a su monstruo. El botón queda desactivado y
   el pueblo no vuelve a jugarse.
+- **Bloqueado:** el **Pueblo 10** no se puede jugar hasta liberar los nueve
+  pueblos.
 
-Cada pueblo repasa una tabla de multiplicar: el **Pueblo 1** trabaja la tabla
-del 1, el **Pueblo 2** la del 2, y así hasta el **Pueblo 10**, donde espera el
-propio **Monstruo de Sombras**. Los otros nueve pueblos están defendidos por
-sus secuaces.
+Cada pueblo de secuaz repasa una tabla de multiplicar: el **Pueblo 1** trabaja
+la tabla del **2**, el **Pueblo 2** la del **3**, y así hasta el **Pueblo 9**,
+que repasa la del **10**. En el **Pueblo 10** espera el propio **Monstruo de
+Sombras**.
 
 Puedes entrar en cualquier pueblo que siga conquistado. Lo más cómodo es ir
-en orden del 1 al 10, porque cada uno repasa una tabla distinta.
+en orden del 1 al 9, porque cada uno repasa una tabla distinta.
+
+El **Monstruo de Sombras** está bloqueado hasta que liberes los nueve pueblos.
+Si pulsas su pueblo antes de tiempo, te dirá que aún no estás listo.
+
+### El jefe final
+
+Cuando liberas el Pueblo 9 se desbloquea el Pueblo 10. El Monstruo de Sombras
+no repasa una tabla fija: pregunta **diez multiplicaciones elegidas entre las
+que más has fallado**. De cada tabla se toman las dos más falladas y, de esas
+dieciocho candidatas, se quedan las diez peores. Así la última batalla repasa
+justo lo que más te cuesta.
 
 En la esquina superior izquierda está el botón de **opciones** (la rueda
 dentada). Lo explico al final.
@@ -116,8 +129,9 @@ Pulsa la **rueda dentada** del mapa para abrir las opciones:
   minutos** con el deslizador. Cuando se cumple el tiempo, el juego se pausa
   y muestra un aviso para descansar. El botón **Entendido** cierra el aviso y
   reinicia la cuenta.
-- **Limpiar Progreso:** borra todos los pueblos liberados y vuelve a empezar
-  desde el Pueblo 1. Pide confirmación antes de borrar.
+- **Limpiar Progreso:** borra todos los pueblos liberados y el historial de
+  fallos que usa el jefe final, y vuelve a empezar desde el Pueblo 1. Pide
+  confirmación antes de borrar.
 - **Volver:** regresa al mapa sin cambiar nada.
 
 El control de tiempo está desactivado por defecto y la duración inicial es de
@@ -136,6 +150,7 @@ El control de tiempo está desactivado por defecto y la duración inicial es de
 | Borrar y cerrar el botiquín      | Botón **Borrar**                                       |
 | Volver al mapa desde una batalla | Flecha de abajo a la derecha                           |
 | Abrir opciones                   | Rueda dentada de arriba a la izquierda                 |
+| Enfrentar al jefe final          | Liberar los nueve pueblos y pulsar el Pueblo 10        |
 | Cerrar el juego                  | Botón de salir de abajo a la derecha del mapa y **Sí** |
 
 ## Trucos para las tablas

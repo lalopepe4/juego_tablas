@@ -134,11 +134,15 @@ func _ready() -> void:
 	_sonido_ataque = _crear_reproductor("SonidoAtaque")
 	_sonido_final = _crear_reproductor("SonidoFinal")
 	_rng.randomize()
-	var tabla := clampi(pueblo_id + 1, 1, Progreso.TOTAL_PUEBLOS)
-	_pueblo = Pueblo.new(tabla)
+	if pueblo_id == Progreso.PUEBLO_JEFE:
+		_pueblo = Pueblo.jefe(
+			SelectorJefe.seleccionar(Progreso.tablas_secuaces(), Progreso.fallos, _rng)
+		)
+	else:
+		_pueblo = Pueblo.de_tabla(Progreso.tabla_del_pueblo(pueblo_id))
 	_heroe = Personaje.new("Chispita")
 	_enemigo = Personaje.new(
-		"Monstruo de Sombras" if pueblo_id == Progreso.TOTAL_PUEBLOS - 1 else "Secuaz"
+		"Monstruo de Sombras" if pueblo_id == Progreso.PUEBLO_JEFE else "Secuaz"
 	)
 	_batalla = Batalla.new(_heroe, _enemigo, _pueblo)
 
@@ -288,6 +292,9 @@ func _al_cambiar_respuesta(
 	else:
 		_reproducir_sonido(_sonido_respuesta, SONIDO_RESPUESTA_INCORRECTA)
 		_mensaje.text = "Fallaste. La respuesta era %s." % _batalla.pregunta.respuesta_literal
+		# El jefe elige sus preguntas con este historial; su propia batalla no cuenta.
+		if pueblo_id != Progreso.PUEBLO_JEFE:
+			Progreso.registrar_fallo(_batalla.pregunta)
 
 	var atacante_lado := "heroe" if atacante == _heroe else "enemigo"
 	var defensor_lado := "heroe" if defensor == _heroe else "enemigo"
@@ -323,7 +330,7 @@ func _al_cambiar_ganador(ganador: Personaje) -> void:
 		_reproducir_sonido(
 			_sonido_final,
 			SONIDO_VICTORIA_FINAL
-			if pueblo_id == Progreso.TOTAL_PUEBLOS - 1
+			if pueblo_id == Progreso.PUEBLO_JEFE
 			else SONIDO_VICTORIA_SECUACES
 		)
 	else:
@@ -385,7 +392,7 @@ func _animar_ataque(atacante: Personaje) -> void:
 	if not es_heroe:
 		sonido_ataque = (
 			SONIDO_ATAQUE_SOMBRAS
-			if pueblo_id == Progreso.TOTAL_PUEBLOS - 1
+			if pueblo_id == Progreso.PUEBLO_JEFE
 			else SONIDO_ATAQUE_SECUAZ
 		)
 	_reproducir_sonido(_sonido_ataque, sonido_ataque)
@@ -527,7 +534,7 @@ func _poner_pose(lado: String, estado: String) -> void:
 		personaje = "heroe"
 	else:
 		sprite = _sprite_monstruo
-		personaje = "sombras" if pueblo_id == Progreso.TOTAL_PUEBLOS - 1 else "secuaz"
+		personaje = "sombras" if pueblo_id == Progreso.PUEBLO_JEFE else "secuaz"
 	var poses: Dictionary = TEXTURAS[personaje]
 	sprite.texture = poses.get(estado, poses["base"])
 
